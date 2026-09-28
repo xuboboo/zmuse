@@ -34,7 +34,7 @@ export function BackgroundUpdates() {
         </View>
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel="Dismiss background update"
+          accessibilityLabel="关闭此更新"
           disabled={busy}
           onPress={() => void dismiss()}
           hitSlop={10}

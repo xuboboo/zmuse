@@ -49,6 +49,11 @@ export interface Config {
   computerEnabled?: boolean;
   computerImage?: string;
   computerDeploymentId?: string;
+  desktopEnabled?: boolean;
+  desktopImage?: string;
+  desktopPort?: number;
+  desktopScreen?: string;
+  desktopDeploymentId?: string;
   allowedOrigins: string[];
 }
 
@@ -61,6 +66,13 @@ export const intelligenceKeyRequiredMessage =
 export function required(name: string, message: string, value = process.env[name]): string {
   if (!value?.trim()) throw new Error(message);
   return value.trim();
+}
+function parsePort(raw?: string): number | undefined {
+  if (raw === undefined || raw.trim() === "") return undefined;
+  const port = Number(raw);
+  if (!Number.isInteger(port) || port < 1024 || port > 65535)
+    throw new Error("DESKTOP_PORT must be an integer between 1024 and 65535");
+  return port;
 }
 
 export function assertApiDeploymentConfig(
@@ -115,6 +127,11 @@ export function readConfig(): Config {
     computerEnabled: process.env.COMPUTER_ENABLED === "true",
     computerImage: process.env.COMPUTER_IMAGE ?? "openmuse-computer:local",
     computerDeploymentId: process.env.COMPUTER_DEPLOYMENT_ID,
+    desktopEnabled: process.env.DESKTOP_ENABLED === "true",
+    desktopImage: process.env.DESKTOP_IMAGE ?? "openmuse-desktop:local",
+    desktopPort: parsePort(process.env.DESKTOP_PORT) ?? 6080,
+    desktopScreen: process.env.DESKTOP_SCREEN ?? "1600x900x24",
+    desktopDeploymentId: process.env.DESKTOP_DEPLOYMENT_ID,
     allowedOrigins: (
       process.env.ALLOWED_ORIGINS ?? "http://localhost:8081,http://127.0.0.1:8081"
     ).split(","),

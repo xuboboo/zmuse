@@ -10,7 +10,8 @@
       "!**/ios",
       "!**/android",
       "!**/.openmuse",
-      "!**/artifacts"
+      "!**/artifacts",
+      "!**/.mimosa"
     ]
   },
   "formatter": { "enabled": true, "indentStyle": "space", "lineWidth": 100 },

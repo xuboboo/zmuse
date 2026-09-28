@@ -11,3 +11,13 @@ apps/mobile/android/
 .DS_Store
 *.tsbuildinfo
 artifacts/
+
+# Added by CopilotKit CLI: credential files, which must never be committed.
+.env.*
+!.env.example
+
+# OpenMuse 本机运行产物
+.copilotkit/
+apps/desktop-app/logs/
+apps/desktop-app/node_modules/
+.mimosa/

@@ -1,0 +1,16 @@
+{
+  "policies": {
+    "DisableAppUpdate": true,
+    "DisableTelemetry": true,
+    "DisableDefaultBrowserAgent": true,
+    "OverrideFirstRunPage": "",
+    "OverrideUpgradePage": "",
+    "Homepage": "https://www.baidu.com",
+    "StartPage": "homepage",
+    "DisplayBookmarksToolbar": false,
+    "SearchSuggestEnabled": true,
+    "Extensions": {
+      "Uninstall": []
+    }
+  }
+}

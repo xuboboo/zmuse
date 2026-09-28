@@ -43,7 +43,7 @@ export function WorkspaceTools() {
   });
   useRenderTool({
     name: "search_mail",
-    description: "Show the agent checking the mailbox",
+    description: "查看智能体检查邮箱",
     parameters: displayParameters,
     render: ({ result, status }) => (
       <MailToolCard search result={result} loading={status !== "complete"} />
@@ -51,7 +51,7 @@ export function WorkspaceTools() {
   });
   useRenderTool({
     name: "read_mail_thread",
-    description: "Show the email the agent read",
+    description: "查看智能体读过的邮件",
     parameters: displayParameters,
     render: ({ result, status }) => (
       <MailToolCard result={result} loading={status !== "complete"} />
@@ -59,7 +59,7 @@ export function WorkspaceTools() {
   });
   useRenderTool({
     name: "browse_web",
-    description: "Follow the agent as it reads a webpage",
+    description: "跟随智能体阅读网页",
     parameters: displayParameters,
     render: ({ args, result, status }) => (
       <BrowserToolCard url={args.url} result={result} loading={status !== "complete"} />
@@ -67,7 +67,7 @@ export function WorkspaceTools() {
   });
   useRenderTool({
     name: "delegate_task",
-    description: "Display delegated work",
+    description: "查看委托的工作",
     parameters: displayParameters,
     render: ({ result, status }) => (
       <ServerToolCard name="Task" result={result} loading={status !== "complete"} />
@@ -75,15 +75,15 @@ export function WorkspaceTools() {
   });
   useRenderTool({
     name: "agent_status",
-    description: "Display saved agent progress",
+    description: "查看智能体进度",
     parameters: displayParameters,
     render: ({ result, status }) => (
-      <ServerToolCard name="Agent progress" result={result} loading={status !== "complete"} />
+      <ServerToolCard name="智能体进度" result={result} loading={status !== "complete"} />
     ),
   });
   useRenderTool({
     name: "create_goal",
-    description: "Display a saved goal",
+    description: "查看已存目标",
     parameters: displayParameters,
     render: ({ result, status }) => (
       <ServerToolCard name="Goal" result={result} loading={status !== "complete"} />
@@ -91,18 +91,18 @@ export function WorkspaceTools() {
   });
   useRenderTool({
     name: "watch_page",
-    description: "Display a saved page watch",
+    description: "查看已存的网页监控",
     parameters: displayParameters,
     render: ({ result, status }) => (
-      <ServerToolCard name="Tracking" result={result} loading={status !== "complete"} />
+      <ServerToolCard name="追踪" result={result} loading={status !== "complete"} />
     ),
   });
   useRenderTool({
     name: "remember_fact",
-    description: "Display saved personal context",
+    description: "查看个人上下文",
     parameters: displayParameters,
     render: ({ result, status }) => (
-      <ServerToolCard name="Memory" result={result} loading={status !== "complete"} />
+      <ServerToolCard name="记忆" result={result} loading={status !== "complete"} />
     ),
   });
   return null;
@@ -143,19 +143,13 @@ function ServerToolCard({
       {parsed.success && parsed.data.error ? (
         <ErrorNotice error={parsed.data.error} />
       ) : (
-        <Text style={s.muted}>
-          {loading ? "Waiting for the server." : "Open the workspace to see the saved result."}
-        </Text>
+        <Text style={s.muted}>{loading ? "等待服务器响应。" : "打开工作区查看已保存的结果。"}</Text>
       )}
       <Button
         small
         onPress={() =>
           navigate(
-            name === "Goal" || name === "Tracking"
-              ? "goals"
-              : name === "Memory"
-                ? "apps"
-                : "activity",
+            name === "Goal" || name === "追踪" ? "goals" : name === "记忆" ? "apps" : "activity",
           )
         }
       >
@@ -247,7 +241,7 @@ export function ChatScreen({
   const run = useCallback(
     async (message?: QueuedMessage) => {
       if (runLock.current || agent.isRunning || !isReady || !loaded)
-        throw new Error("The conversation is not ready yet.");
+        throw new Error("对话尚未就绪。");
       runLock.current = true;
       setBusy(true);
       setError("");
@@ -385,23 +379,22 @@ export function ChatScreen({
                 maxWidth: 350,
               }}
             >
-              A little help. A lot more room for life.
+              少操点心，多留点时间给生活。
             </Text>
             <Text style={[s.muted, { maxWidth: 320, textAlign: "center", lineHeight: 23 }]}>
-              Tell me what’s on your mind. I can make a plan, work with your apps, and use my
-              computer to help.
+              说出你的想法：我来做计划、操作应用、用我的电脑帮你把事情办成。
             </Text>
             <View style={{ width: "100%", maxWidth: 360, marginTop: 14, gap: 8 }}>
               {[
                 {
-                  text: "Find cool things on Hacker News",
+                  text: "去 Hacker News 找点有意思的东西",
                   action: () => enqueue("Check out Hacker News for cool stuff"),
                 },
                 {
-                  text: "Summarize copilotkit.ai",
+                  text: "总结 copilotkit.ai",
                   action: () => enqueue("Summarize copilotkit.ai"),
                 },
-                { text: "Keep an eye on a website", action: () => navigate("goals") },
+                { text: "帮我盯着一个网页", action: () => navigate("goals") },
               ].map((item) => (
                 <Button key={item.text} onPress={item.action}>
                   {item.text}
@@ -475,7 +468,7 @@ export function ChatScreen({
                 style={{ alignSelf: "flex-start", marginTop: 6 }}
                 onPress={() => setShowResults(!showResults)}
               >
-                {showResults ? "Hide recent results" : "Recent results"}
+                {showResults ? "收起最近结果" : "最近结果"}
               </Button>
             )}
             {showResults && (
@@ -512,7 +505,7 @@ export function ChatScreen({
         {(!richThreads || selection.id === mainId) && <BackgroundUpdates />}
         {(busy || agent.isRunning) && (
           <View
-            accessibilityLabel="Agent is working"
+            accessibilityLabel="智能体工作中"
             style={[
               s.row,
               {
@@ -587,7 +580,7 @@ export function ChatScreen({
         {!!outbox.pending.length && (
           <View style={{ padding: 12, gap: 6 }}>
             <Text style={s.small}>
-              {outbox.paused ? "Messages on hold" : "Up next"} · Keep the app open until sent
+              {outbox.paused ? "排队中的消息" : "Up next"} · Keep the app open until sent
             </Text>
             {outbox.pending.map((message) => (
               <View key={message.id} style={[s.row, { gap: 8 }]}>
@@ -702,7 +695,7 @@ export function ChatScreen({
           <View style={[s.row, { gap: 7, alignItems: "flex-end" }]}>
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel="Attach a document"
+              accessibilityLabel="附加文档"
               accessibilityState={{ expanded: picking }}
               onPress={() => setPicking(!picking)}
               style={({ pressed }) => ({
@@ -719,7 +712,7 @@ export function ChatScreen({
               </Text>
             </Pressable>
             <TextInput
-              accessibilityLabel="Message OpenMuse"
+              accessibilityLabel="给 OpenMuse 发消息"
               value={draft}
               onChangeText={setDraft}
               onContentSizeChange={(event) =>
@@ -727,12 +720,12 @@ export function ChatScreen({
               }
               placeholder={
                 !isReady
-                  ? "Connecting…"
+                  ? "连接中…"
                   : !loaded
                     ? historyError
-                      ? "Conversation unavailable"
-                      : "Loading conversation…"
-                    : "Message…"
+                      ? "对话不可用"
+                      : "对话加载中…"
+                    : "输入消息…"
               }
               placeholderTextColor="#949B9F"
               selectionColor={colors.blueDark}
@@ -768,7 +761,7 @@ export function ChatScreen({
             />
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel={replying ? "Stop reply" : "Send message"}
+              accessibilityLabel={replying ? "停止回复" : "发送消息"}
               disabled={!replying && (!draft.trim() || !loaded || !isReady)}
               onPress={replying ? () => void stop() : send}
               style={({ pressed }) => ({

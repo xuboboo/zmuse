@@ -4,6 +4,7 @@ import {
   ActivityIndicator,
   Image,
   Modal,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -15,35 +16,55 @@ import {
   type ViewStyle,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+
+// Web-only font stack: CJK-friendly system fonts. Native builds keep the
+// platform default because fontFamily there accepts a single family only.
+const cjkFonts = Platform.select({
+  web: '-apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif',
+  default: undefined,
+});
 export const colors = {
-  canvas: "#FCFCFC",
+  canvas: "#F6F7F9",
   card: "#FFFFFF",
-  text: "#11191C",
-  muted: "#697176",
-  line: "#EEEEF0",
-  blue: "#C8E7FF",
-  blueDark: "#1473C8",
-  sky: "#EDF7FD",
-  green: "#E3F3E8",
-  lavender: "#F0EEFA",
-  orange: "#FDF0DF",
-  danger: "#AA4A45",
+  text: "#1A1F26",
+  muted: "#5E6A73",
+  line: "#E8EBEF",
+  blue: "#DCE6FD",
+  blueDark: "#3056C8",
+  sky: "#EEF3FE",
+  green: "#E4F4EA",
+  lavender: "#EFF0FA",
+  orange: "#FBF0E1",
+  danger: "#B0473F",
 };
 export const s = StyleSheet.create({
   row: { flexDirection: "row", alignItems: "center" },
   between: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
-  text: { color: colors.text, fontSize: 15, lineHeight: 23 },
-  muted: { color: colors.muted, fontSize: 14, lineHeight: 21 },
-  small: { color: colors.muted, fontSize: 11, lineHeight: 17 },
+  text: { color: colors.text, fontSize: 15, lineHeight: 23, fontFamily: cjkFonts },
+  muted: { color: colors.muted, fontSize: 14, lineHeight: 21, fontFamily: cjkFonts },
+  small: { color: colors.muted, fontSize: 11, lineHeight: 17, fontFamily: cjkFonts },
   label: {
     color: colors.muted,
     fontSize: 10,
     fontWeight: "700",
     letterSpacing: 1.4,
     textTransform: "uppercase",
+    fontFamily: cjkFonts,
   },
-  title: { color: colors.text, fontSize: 23, fontWeight: "600", letterSpacing: -0.7 },
-  heading: { color: colors.text, fontSize: 16, fontWeight: "600", letterSpacing: -0.25 },
+  title: {
+    color: colors.text,
+    fontSize: 23,
+    fontWeight: "600",
+    letterSpacing: -0.7,
+    fontFamily: cjkFonts,
+  },
+  heading: {
+    color: colors.text,
+    fontSize: 16,
+    fontWeight: "600",
+    letterSpacing: -0.25,
+    fontFamily: cjkFonts,
+  },
   card: {
     backgroundColor: colors.card,
     borderRadius: 23,

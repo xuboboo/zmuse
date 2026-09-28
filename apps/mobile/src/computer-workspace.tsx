@@ -132,10 +132,10 @@ export function LinuxWorkspace({ tab }: { tab: "Terminal" | "Files" }) {
                 : snapshot?.status === "stopped"
                   ? "Stopped · your files are saved"
                   : snapshot?.status === "unconfigured"
-                    ? "Set up the computer to get started"
+                    ? "先启动电脑即可开始"
                     : snapshot?.status === "error"
-                      ? "Connection needs attention"
-                      : "Connecting…"}
+                      ? "连接需要处理"
+                      : "连接中…"}
             </Text>
           </View>
           {!snapshot && !error && <ActivityIndicator color={colors.blueDark} />}
@@ -187,7 +187,7 @@ export function LinuxWorkspace({ tab }: { tab: "Terminal" | "Files" }) {
                   TERMINAL
                 </Text>
                 <Field
-                  label="Working directory"
+                  label="工作目录"
                   value={cwd}
                   onChangeText={setCwd}
                   autoCapitalize="none"
@@ -195,7 +195,7 @@ export function LinuxWorkspace({ tab }: { tab: "Terminal" | "Files" }) {
                   style={{ fontFamily: mono }}
                 />
                 <Field
-                  label="Command"
+                  label="命令"
                   value={command}
                   onChangeText={setCommand}
                   placeholder="pwd"
@@ -249,7 +249,7 @@ export function LinuxWorkspace({ tab }: { tab: "Terminal" | "Files" }) {
             {snapshot.commands.length === 0 ? (
               <Empty
                 icon={Terminal}
-                title="Ready for your first command"
+                title="等待你的第一条命令"
                 detail="Run scripts, work with files, or ask your agent to create something here."
               />
             ) : (
@@ -260,7 +260,7 @@ export function LinuxWorkspace({ tab }: { tab: "Terminal" | "Files" }) {
             )}
             {snapshot.commands.length > 5 && (
               <Button small onPress={() => setShowHistory(!showHistory)}>
-                {showHistory ? "Show recent commands" : "Earlier commands"}
+                {showHistory ? "显示最近命令" : "历史命令"}
               </Button>
             )}
           </View>
@@ -331,7 +331,7 @@ function CommandReceipt({ run }: { run: ComputerCommand }) {
       )}
       {!!(run.stdout || run.stderr) && (
         <Button small onPress={() => setExpanded(!expanded)}>
-          {expanded ? "Hide output" : "Show output"}
+          {expanded ? "收起输出" : "显示输出"}
         </Button>
       )}
     </Card>
@@ -410,7 +410,7 @@ function ComputerFiles({ running, active }: { running: boolean; active: boolean 
         path: `${path}/${file.name.replace(/[\\/]/g, "_")}`,
       });
       setImporting(false);
-      setNotice("Document copied to your computer.");
+      setNotice("文档已复制到电脑。");
       setRetry((value) => value + 1);
     } catch (e) {
       setError(message(e));
@@ -446,7 +446,7 @@ function ComputerFiles({ running, active }: { running: boolean; active: boolean 
             ? { ...current, saved: sent.text, savedPath: sent.path }
             : current,
         );
-      setNotice("File saved to your computer.");
+      setNotice("文件已保存到电脑。");
       setRetry((value) => value + 1);
     } catch (e) {
       setError(message(e));
@@ -485,7 +485,7 @@ function ComputerFiles({ running, active }: { running: boolean; active: boolean 
       {editor ? (
         <>
           <Field
-            label="File path"
+            label="文件路径"
             value={editor.path}
             onChangeText={(value) => setEditor({ ...editor, path: value })}
             autoCorrect={false}
@@ -493,7 +493,7 @@ function ComputerFiles({ running, active }: { running: boolean; active: boolean 
             style={{ fontFamily: mono }}
           />
           <Field
-            label="File contents"
+            label="文件内容"
             value={editor.text}
             onChangeText={(value) => setEditor({ ...editor, text: value })}
             multiline
@@ -522,7 +522,7 @@ function ComputerFiles({ running, active }: { running: boolean; active: boolean 
                 setNotice("");
               }}
             >
-              {dirty ? "Discard edits" : "Back to files"}
+              {dirty ? "放弃修改" : "返回文件"}
             </Button>
           </View>
         </>
@@ -577,7 +577,7 @@ function ComputerFiles({ running, active }: { running: boolean; active: boolean 
               icon={Upload}
               onPress={() => setImporting(!importing)}
             >
-              {importing ? "Hide documents" : "Copy a document here"}
+              {importing ? "收起文档" : "把文档复制到这里"}
             </Button>
           </View>
           {importing && (
@@ -602,7 +602,7 @@ function ComputerFiles({ running, active }: { running: boolean; active: boolean 
           {folder !== undefined && (
             <Card style={{ gap: 8 }}>
               <Field
-                label="Folder name"
+                label="文件夹名"
                 value={folder}
                 onChangeText={setFolder}
                 autoCapitalize="none"
@@ -632,7 +632,7 @@ function ComputerFiles({ running, active }: { running: boolean; active: boolean 
                 title={entry.name}
                 detail={
                   entry.type === "directory"
-                    ? "Folder"
+                    ? "文件夹"
                     : entry.type === "symlink"
                       ? "Symbolic link"
                       : `${Math.max(1, Math.ceil(entry.size / 1024))} KB`
@@ -655,7 +655,7 @@ function ComputerFiles({ running, active }: { running: boolean; active: boolean 
             directory.entries.length === 0 && (
               <Empty
                 icon={Folder}
-                title="A little space to create"
+                title="动手创造的小空间"
                 detail="Add a file here, or ask your agent to make one in its workspace."
               />
             )}

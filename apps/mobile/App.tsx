@@ -43,28 +43,28 @@ import { Button, Card, colors, ErrorNotice, Field, IconButton, Mascot, s } from 
 import { type Detail, useWorkspace, WorkspaceContext } from "./src/workspace";
 
 const nav: { id: Section; label: string; icon: LucideIcon }[] = [
-  { id: "chat", label: "Chat", icon: MessageCircle },
-  { id: "activity", label: "Activity", icon: PanelsTopLeft },
-  { id: "ideas", label: "Ideas", icon: Lightbulb },
-  { id: "goals", label: "Goals", icon: SquareCheck },
-  { id: "apps", label: "Apps", icon: Shapes },
+  { id: "chat", label: "对话", icon: MessageCircle },
+  { id: "activity", label: "动态", icon: PanelsTopLeft },
+  { id: "ideas", label: "想法", icon: Lightbulb },
+  { id: "goals", label: "目标", icon: SquareCheck },
+  { id: "apps", label: "应用", icon: Shapes },
 ];
 const titles: Partial<Record<Section, { title: string; subtitle: string }>> = {
-  activity: { title: "Activity", subtitle: "Plans, progress, decisions and results." },
-  ideas: { title: "Ideas", subtitle: "Useful next steps, grounded in your world." },
+  activity: { title: "动态", subtitle: "计划、进度、决定与结果。" },
+  ideas: { title: "想法", subtitle: "基于你的世界，给出有用的下一步。" },
   goals: {
-    title: "Goals",
-    subtitle: "Longer-term goals and things to keep an eye on.",
+    title: "目标",
+    subtitle: "长期目标，以及值得持续关注的事。",
   },
   apps: {
-    title: "Apps",
-    subtitle: "Connections, capabilities and what your agent remembers.",
+    title: "应用",
+    subtitle: "连接、能力，以及智能体记住的事。",
   },
-  connections: { title: "Apps", subtitle: "Connections and capabilities." },
-  mail: { title: "Mail", subtitle: "The conversations behind your work." },
-  calendar: { title: "Calendar", subtitle: "Time for what matters." },
-  browser: { title: "Browser", subtitle: "Your connected browsing sessions." },
-  files: { title: "Files", subtitle: "Documents, forms and filled copies." },
+  connections: { title: "应用", subtitle: "连接与能力。" },
+  mail: { title: "邮件", subtitle: "工作背后的往来对话。" },
+  calendar: { title: "日历", subtitle: "把时间留给重要的事。" },
+  browser: { title: "浏览器", subtitle: "你连接过的浏览会话。" },
+  files: { title: "文件", subtitle: "文档、表单与填写好的副本。" },
 };
 export default function App() {
   const [token, setToken] = useState("");
@@ -120,11 +120,11 @@ export default function App() {
               <Card style={{ width: "100%" }}>
                 <ErrorNotice error={error} />
                 <Field
-                  label="Workspace access key"
+                  label="工作区访问口令"
                   value={accessKey}
                   onChangeText={setAccessKey}
                   secureTextEntry
-                  placeholder="Required for a live workspace"
+                  placeholder="正式工作区必填"
                 />
                 <Button primary onPress={() => void connect(accessKey || undefined)}>
                   Open workspace
@@ -264,13 +264,13 @@ function WorkspaceShell({
   const agentName = data?.identity.name || "OpenMuse";
   const status = activeTask
     ? activeTask.status === "waiting_approval"
-      ? `Ready to review · ${activeTask.title}`
+      ? `待你审阅 · ${activeTask.title}`
       : activeTask.status === "waiting_input"
-        ? `Needs your input · ${activeTask.title}`
+        ? `等你补充信息 · ${activeTask.title}`
         : activeTask.plan.find((step) => step.status === "running")?.title || activeTask.title
     : data?.tasks.some((task) => task.status === "queued")
-      ? "Picking up your next task…"
-      : "Here when you need me";
+      ? "正在处理你的下一个任务…"
+      : "随时为你待命";
   const title = titles[section] || titles.apps;
   const Screen =
     section === "mail"
@@ -302,21 +302,28 @@ function WorkspaceShell({
             }}
           >
             <View style={{ position: "absolute", left: 0, top: 16 }}>
-              <IconButton
-                icon={Menu}
-                label="Open conversations and menu"
-                onPress={() => setThreadsOpen(true)}
-              />
+              <IconButton icon={Menu} label="打开会话与菜单" onPress={() => setThreadsOpen(true)} />
             </View>
-            <View style={{ alignItems: "center", gap: 1 }}>
+            {/* The centered column is shrunk to its content (alignSelf center) so
+                its box cannot overlap the menu / notification buttons beside it;
+                pointerEvents none + auto keeps the cascade safe on web too. */}
+            <View
+              style={{
+                alignItems: "center",
+                gap: 1,
+                alignSelf: "center",
+                pointerEvents: "none",
+              }}
+            >
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel={`Open ${agentName} activity and approvals`}
+                accessibilityLabel={`${agentName} 的动态与审批`}
                 onPress={() => navigate("activity")}
                 style={({ pressed }) => ({
                   alignItems: "center",
                   maxWidth: "70%",
                   opacity: pressed ? 0.65 : 1,
+                  pointerEvents: "auto",
                 })}
               >
                 <Mascot size={desktop ? 58 : 49} variant={data?.identity.avatar} />
@@ -493,7 +500,7 @@ function WorkspaceShell({
               <Text style={{ color: "#FFF", fontSize: 13, flexShrink: 1 }}>{toast}</Text>
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel="Dismiss notification"
+                accessibilityLabel="关闭通知"
                 onPress={clearToast}
               >
                 <X size={16} color="#FFF" />

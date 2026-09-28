@@ -1,0 +1,13 @@
+{
+  "name": "openmuse-desktop-app",
+  "version": "0.1.0",
+  "private": true,
+  "description": "OpenMuse 国产版 Windows 桌面壳：一键托管 API、浏览器 worker 与中文 Web 界面",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^33.2.0"
+  }
+}

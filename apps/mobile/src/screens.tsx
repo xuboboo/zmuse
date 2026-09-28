@@ -93,7 +93,7 @@ export function TodayScreen() {
         <View style={{ flex: 1, gap: 15, zIndex: 1 }}>
           <View style={[s.row, { gap: 7 }]}>
             <Sparkles size={13} color={colors.blueDark} />
-            <Text style={[s.label, { color: colors.blueDark }]}>A little clarity, every day</Text>
+            <Text style={[s.label, { color: colors.blueDark }]}>每天多一点清晰</Text>
           </View>
           <Text
             style={{
@@ -107,12 +107,12 @@ export function TodayScreen() {
             Your day, with a little{"\n"}more room to breathe.
           </Text>
           <Text style={[s.muted, { maxWidth: 420, color: "#617680" }]}>
-            {events.length ? `${events.length} things on your calendar` : "Your calendar has room"}
+            {events.length ? `今天有 ${events.length} 项日程` : "今天日程从容"}
             {unread.length ? `, ${unread.length} unread emails` : ""}.{"\n"}Let’s make space for
             what matters.
           </Text>
           <Button
-            onPress={() => ask("Help me plan my day")}
+            onPress={() => ask("帮我规划今天")}
             icon={Sparkles}
             primary
             style={{ alignSelf: "flex-start", marginTop: 5 }}
@@ -184,7 +184,7 @@ export function TodayScreen() {
       <View style={{ flexDirection: "row", gap: 13, flexWrap: "wrap" }}>
         {[
           {
-            label: "UNREAD EMAILS",
+            label: "未读邮件",
             value: unread.length,
             note: "A fresh look at your inbox",
             icon: Mail,
@@ -192,17 +192,17 @@ export function TodayScreen() {
             tint: colors.sky,
           },
           {
-            label: "ON THE CALENDAR",
+            label: "今日日程",
             value: events.length,
-            note: "Make room for your priorities",
+            note: "为优先级腾出空间",
             icon: CalendarDays,
             section: "calendar" as const,
             tint: colors.green,
           },
           {
-            label: "WAITING FOR YOU",
+            label: "等你处理",
             value: pending.length,
-            note: "Your review keeps things moving",
+            note: "你的审阅让事情持续推进",
             icon: ShieldCheck,
             section: "activity" as const,
             tint: colors.lavender,
@@ -236,19 +236,11 @@ export function TodayScreen() {
       </View>
       <View style={{ flexDirection: wide ? "row" : "column", gap: 22 }}>
         <Card style={{ flex: 1 }}>
-          <SectionHeading
-            title="On your calendar"
-            action="Full calendar"
-            onPress={() => navigate("calendar")}
-          />
+          <SectionHeading title="今日日程" action="完整日历" onPress={() => navigate("calendar")} />
           {events.length ? (
             events.slice(0, 3).map((e, i) => <AgendaRow key={e.id} event={e} index={i} />)
           ) : (
-            <Empty
-              icon={CalendarDays}
-              title="Some breathing room"
-              detail="No events scheduled today."
-            />
+            <Empty icon={CalendarDays} title="留白的时刻" detail="今天没有安排。" />
           )}
           <Pressable
             onPress={() => open({ type: "event" })}
@@ -269,8 +261,8 @@ export function TodayScreen() {
         </Card>
         <Card style={{ flex: 1 }}>
           <SectionHeading
-            title="From your inbox"
-            action="Open mail"
+            title="来自你的收件箱"
+            action="打开邮件"
             onPress={() => navigate("mail")}
           />
           {w.mail.length ? (
@@ -311,7 +303,7 @@ export function TodayScreen() {
           ) : (
             <Empty
               icon={Inbox}
-              title="Inbox is quiet"
+              title="收件箱很安静"
               detail="Connect Google to bring your messages here."
             />
           )}
@@ -319,15 +311,11 @@ export function TodayScreen() {
       </View>
       <View style={{ flexDirection: wide ? "row" : "column", gap: 22 }}>
         <Card style={{ flex: 1, backgroundColor: "#F0F0E7" }}>
-          <SectionHeading title="A hand with the little things" />
+          <SectionHeading title="小事也帮得上忙" />
           <Text style={[s.muted, { marginBottom: 15 }]}>
             Start with a thought. We’ll take it from there.
           </Text>
-          {[
-            "What needs my attention today?",
-            "Help me catch up on my inbox",
-            "Show my recent documents",
-          ].map((prompt) => (
+          {["今天有什么需要我关注？", "帮我处理收件箱", "看看我最近的文档"].map((prompt) => (
             <Pressable
               key={prompt}
               onPress={() => ask(prompt)}
@@ -343,7 +331,7 @@ export function TodayScreen() {
         </Card>
         <Card style={{ flex: 1 }}>
           <SectionHeading
-            title={pending.length ? "Ready for your review" : "Recent activity"}
+            title={pending.length ? "等你审阅" : "最近动态"}
             action="View all"
             onPress={() => navigate("activity")}
           />
@@ -422,7 +410,7 @@ export function AgendaRow({
     >
       <View style={{ width: 65 }}>
         <Text style={[s.text, { fontSize: 11 }]}>
-          {e.allDay ? "All day" : timeLabel(e.start, e.timeZone)}
+          {e.allDay ? "全天" : timeLabel(e.start, e.timeZone)}
         </Text>
         {!e.allDay && (
           <Text style={[s.small, { fontSize: 10 }]}>{timeLabel(e.end, e.timeZone)}</Text>
@@ -439,7 +427,7 @@ export function AgendaRow({
       <View style={{ flex: 1, gap: 3 }}>
         <Text style={[s.text, { fontSize: 13, fontWeight: "500" }]}>{e.title}</Text>
         <Text numberOfLines={1} style={[s.small, { fontSize: 11 }]}>
-          {e.location || (e.attendees.length ? `${e.attendees.length} attendees` : "Time for you")}
+          {e.location || (e.attendees.length ? `${e.attendees.length} 位参与者` : "属于你的时间")}
         </Text>
       </View>
       <ChevronRight size={14} color={colors.muted} />
@@ -486,8 +474,8 @@ export function MailScreen() {
         >
           <Search size={16} color={colors.muted} />
           <TextInput
-            accessibilityLabel="Search mail"
-            placeholder="Search your inbox"
+            accessibilityLabel="搜索邮件"
+            placeholder="搜索你的收件箱"
             placeholderTextColor={colors.muted}
             value={query}
             onChangeText={setQuery}
@@ -523,11 +511,7 @@ export function MailScreen() {
               />
             ))
           ) : (
-            <Empty
-              icon={Mail}
-              title="A fresh page"
-              detail="Messages you save as drafts will be here when you’re ready."
-            />
+            <Empty icon={Mail} title="全新的一页" detail="你保存的草稿会在这里等你回来。" />
           )
         ) : items.length ? (
           items.map((m, i) => (
@@ -568,10 +552,10 @@ export function MailScreen() {
         ) : (
           <Empty
             icon={Inbox}
-            title={query ? "No matching messages" : "Nothing in your inbox"}
+            title={query ? "没有匹配的邮件" : "收件箱暂无内容"}
             detail={
               query
-                ? "Try a different name or subject."
+                ? "换个姓名或主题试试。"
                 : "Connect Google in Connections to read your mail here."
             }
           />
@@ -683,12 +667,12 @@ export function CalendarScreen() {
           </Text>
           <IconButton
             icon={ChevronLeft}
-            label="Previous week"
+            label="上一周"
             onPress={() => setDate(plusDays(date, -7))}
           />
           <IconButton
             icon={ChevronRight}
-            label="Next week"
+            label="下一周"
             onPress={() => setDate(plusDays(date, 7))}
           />
         </View>
@@ -767,7 +751,7 @@ export function CalendarScreen() {
         <View style={[s.between, { gap: 10, flexWrap: "wrap" }]}>
           <Text style={s.heading}>
             {all
-              ? "The next 30 days"
+              ? "未来 30 天"
               : dateLabel(`${date}T12:00:00`, { weekday: "long", month: "long", day: "numeric" })}
           </Text>
           <Button small onPress={() => setAll(!all)}>
@@ -775,7 +759,7 @@ export function CalendarScreen() {
           </Button>
         </View>
         <Text style={[s.small, { marginTop: 7, marginBottom: 13 }]}>
-          {selected?.name || "Your calendar"} · {zone}. Events show their own time zone.
+          {selected?.name || "你的日历"} · {zone}. Events show their own time zone.
         </Text>
         <ErrorNotice error={error} />
         {!!error && (
@@ -800,7 +784,7 @@ export function CalendarScreen() {
           !error && (
             <Empty
               icon={CalendarDays}
-              title="A little open space"
+              title="留一点空隙"
               detail={
                 all
                   ? "There’s nothing scheduled for the next 30 days."
@@ -850,7 +834,7 @@ export function BrowserScreen() {
         </View>
         <View style={[s.row, { gap: 10 }]}>
           <TextInput
-            accessibilityLabel="Website address"
+            accessibilityLabel="网址"
             value={url}
             onChangeText={setUrl}
             onSubmitEditing={() => void create()}
@@ -872,7 +856,7 @@ export function BrowserScreen() {
         <ErrorNotice error={error} />
       </Card>
       <Card>
-        <SectionHeading title="Browser sessions" />
+        <SectionHeading title="浏览会话" />
         {w.browsers.length ? (
           w.browsers.map((b) => (
             <Pressable
@@ -890,7 +874,7 @@ export function BrowserScreen() {
                   <Globe2 size={20} color={colors.blueDark} />
                 </View>
                 <View style={{ flex: 1, gap: 4 }}>
-                  <Text style={s.heading}>{b.title || "Browser session"}</Text>
+                  <Text style={s.heading}>{b.title || "浏览会话"}</Text>
                   <Text style={s.muted} numberOfLines={1}>
                     {b.url}
                   </Text>
@@ -915,7 +899,7 @@ export function BrowserScreen() {
         ) : (
           <Empty
             icon={Globe2}
-            title="Start with a website"
+            title="从一个网页开始"
             detail="Open a session above to keep your browsing together. Live previews appear when the browser worker is configured."
           />
         )}
@@ -954,7 +938,7 @@ export function FilesScreen() {
         });
         const payload = JSON.parse(result.body);
         if (result.status < 200 || result.status >= 300)
-          throw new Error(payload.error || "Could not import this PDF.");
+          throw new Error(payload.error || "无法导入这份 PDF。");
         artifact = payload;
       }
       await refresh();
@@ -1046,7 +1030,7 @@ export function FilesScreen() {
         <Card>
           <Empty
             icon={FileText}
-            title="Your documents live here"
+            title="你的文档都在这里"
             detail="Import a PDF or open a mail attachment to read, fill supported form fields, and share a copy."
           />
         </Card>
@@ -1071,7 +1055,7 @@ export function ActivityScreen() {
       </View>
       {actions.length > 0 && (
         <Card>
-          <SectionHeading title="Your actions" />
+          <SectionHeading title="你的操作" />
           {actions.map((a) => (
             <Pressable
               key={a.id}
@@ -1118,7 +1102,7 @@ export function ActivityScreen() {
       )}
       {filter === "all" && (
         <Card>
-          <SectionHeading title="Workspace timeline" />
+          <SectionHeading title="工作区时间线" />
           {w.activity.length ? (
             w.activity.map((a, i) => (
               <View
@@ -1152,8 +1136,8 @@ export function ActivityScreen() {
           ) : (
             <Empty
               icon={Clock3}
-              title="The beginning of something lighter"
-              detail="Your actions and their results will be recorded here."
+              title="轻量工作方式的起点"
+              detail="你的操作与结果都会记录在这里。"
             />
           )}
         </Card>
@@ -1162,7 +1146,7 @@ export function ActivityScreen() {
         <Card>
           <Empty
             icon={ShieldCheck}
-            title="You’re all caught up"
+            title="都处理完了"
             detail="When an email or calendar change needs your approval, it will appear here."
           />
         </Card>
@@ -1202,7 +1186,7 @@ export function ConnectionsScreen({ query = "" }: { query?: string }) {
     try {
       await api.request("/api/google/disconnect", {});
       await refresh();
-      notify("Google disconnected.");
+      notify("已断开 Google 连接。");
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {
@@ -1223,7 +1207,7 @@ export function ConnectionsScreen({ query = "" }: { query?: string }) {
     },
     {
       id: "browser",
-      name: "Agent computer",
+      name: "智能电脑",
       icon: Globe2,
       color: "#1987CF",
       connected: w.connections.some((c) => c.id === "browser" && c.status === "connected"),
@@ -1246,11 +1230,7 @@ export function ConnectionsScreen({ query = "" }: { query?: string }) {
         return (
           <View key={String(isConnected)} style={{ gap: 8 }}>
             <Text style={[s.small, { marginLeft: 12 }]}>
-              {isConnected
-                ? w.mode === "sample"
-                  ? "Your connections"
-                  : "Connected"
-                : "Available integrations"}
+              {isConnected ? (w.mode === "sample" ? "你的连接" : "Connected") : "可用集成"}
             </Text>
             <View style={{ paddingHorizontal: 16, borderRadius: 23, backgroundColor: "#F3F4F5" }}>
               {group.map((row, index) => (
@@ -1308,7 +1288,7 @@ export function ConnectionsScreen({ query = "" }: { query?: string }) {
       {!rows.length && <Text style={s.muted}>No matching connectors.</Text>}
       {selected && (
         <Sheet
-          title={selected === "google" ? "Google connections" : "OpenBot"}
+          title={selected === "google" ? "Google 连接" : "OpenBot"}
           subtitle={selected === "google" ? google?.account : "A computer for your agent"}
           onClose={() => setSelected(undefined)}
         >
@@ -1337,21 +1317,21 @@ export function ConnectionsScreen({ query = "" }: { query?: string }) {
               )}
               <SettingsLine
                 label="Environment"
-                value={w.mode === "sample" ? "Local · example data" : "Live workspace"}
+                value={w.mode === "sample" ? "本地 · 示例数据" : "正式工作区"}
               />
               <SettingsLine
                 label="Assistant"
                 value={
                   w.runtime.provider === "sample"
-                    ? "Guided workflows"
+                    ? "引导式工作流"
                     : w.runtime.configured
-                      ? "Model connected"
-                      : "Model not configured"
+                      ? "模型已连接"
+                      : "模型未配置"
                 }
               />
               <SettingsLine
                 label="Rich Threads"
-                value={w.runtime.richThreads ? "CopilotKit Intelligence" : "Not connected"}
+                value={w.runtime.richThreads ? "CopilotKit Intelligence" : "未连接"}
               />
               <Button
                 small
@@ -1397,10 +1377,10 @@ function capabilityLabel(value: string) {
   const names: Record<string, string> = {
     "gmail.readonly": "Read Gmail",
     "gmail.send": "Send Gmail",
-    "calendar.events.readonly": "Read calendar events",
-    "calendar.calendarlist.readonly": "Read calendar list",
-    "calendar.events": "Manage calendar events",
-    "calendar.readonly": "Read calendars",
+    "calendar.events.readonly": "读取日历事件",
+    "calendar.calendarlist.readonly": "读取日历列表",
+    "calendar.events": "管理日历事件",
+    "calendar.readonly": "读取日历",
   };
   return names[scope] || scope;
 }

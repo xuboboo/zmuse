@@ -71,7 +71,7 @@ export function Details({ detail }: { detail: Detail }) {
   if (detail.type === "review") return <ReviewDetail initial={detail.action} />;
   if (detail.type === "browser") return <BrowserDetail initial={detail.browser} />;
   return (
-    <Sheet title="Your workspace" subtitle="A little room for everything." onClose={close}>
+    <Sheet title="你的工作区" subtitle="一切，从容安放。" onClose={close}>
       {[
         { section: "mail" as const, title: "Mail", icon: MailIcon },
         { section: "calendar" as const, title: "Calendar", icon: CalendarDays },
@@ -177,7 +177,7 @@ function MailDetail({ mail: m }: { mail: Mail }) {
                 icon={FileText}
                 onPress={() => void importAttachment(id)}
               >
-                {decodeURIComponent(id.split(":").slice(2).join(":")) || "Open attachment"}
+                {decodeURIComponent(id.split(":").slice(2).join(":")) || "打开附件"}
               </Button>
             );
           })}
@@ -257,7 +257,7 @@ function EmailEditor({ draft }: { draft?: Partial<EmailDraft> & { id?: string } 
           ...(draft?.id ? { id: draft.id } : {}),
         });
         await refresh();
-        notify("Draft saved in OpenMuse.");
+        notify("草稿已保存在 OpenMuse。");
         close();
       }
     } catch (e) {
@@ -268,7 +268,7 @@ function EmailEditor({ draft }: { draft?: Partial<EmailDraft> & { id?: string } 
   }
   return (
     <Sheet
-      title={draft?.threadId ? "Write a reply" : "A new message"}
+      title={draft?.threadId ? "写回复" : "新邮件"}
       subtitle={`From ${w.profile.email} · saved privately in OpenMuse`}
       onClose={close}
     >
@@ -286,7 +286,7 @@ function EmailEditor({ draft }: { draft?: Partial<EmailDraft> & { id?: string } 
             label="Cc"
             value={cc}
             onChangeText={setCc}
-            placeholder="Optional"
+            placeholder="可选"
             autoCapitalize="none"
           />
         </View>
@@ -295,23 +295,23 @@ function EmailEditor({ draft }: { draft?: Partial<EmailDraft> & { id?: string } 
             label="Bcc"
             value={bcc}
             onChangeText={setBcc}
-            placeholder="Optional"
+            placeholder="可选"
             autoCapitalize="none"
           />
         </View>
       </View>
       <Field
-        label="Subject"
+        label="主题"
         value={subject}
         onChangeText={setSubject}
         placeholder="What’s on your mind?"
       />
       <Field
-        label="Message"
+        label="正文"
         value={body}
         onChangeText={setBody}
         multiline
-        placeholder="Start your message…"
+        placeholder="开始输入内容…"
         style={{ minHeight: 210 }}
       />
       {w.files.length > 0 && (
@@ -437,20 +437,18 @@ function EventEditor({
   }
   return (
     <Sheet
-      title={e ? "Make a little time" : "Something to look forward to"}
-      subtitle={
-        e ? "Edit this event, then review your changes." : "Create an event in your calendar."
-      }
+      title={e ? "留一点时间" : "值得期待的事"}
+      subtitle={e ? "编辑该事件，然后确认修改。" : "在你的日历中创建事件。"}
       onClose={close}
     >
       <Field
-        label="Event title"
+        label="事件标题"
         value={title}
         onChangeText={setTitle}
-        placeholder="What are you making time for?"
+        placeholder="为什么事情腾时间？"
       />
       <CheckRow
-        label="All-day event"
+        label="全天事件"
         checked={allDay}
         onPress={() => {
           try {
@@ -472,7 +470,7 @@ function EventEditor({
         }}
       />
       <DateTimeEditor
-        label="Starts"
+        label="开始时间"
         value={start}
         onChange={setStart}
         timeZone={zone}
@@ -484,30 +482,25 @@ function EventEditor({
           The end date is the day after the last day of your event.
         </Text>
       )}
+      <Field label="时区" value={zone} onChangeText={setZone} placeholder="America/Los_Angeles" />
       <Field
-        label="Time zone"
-        value={zone}
-        onChangeText={setZone}
-        placeholder="America/Los_Angeles"
-      />
-      <Field
-        label="Location or meeting link"
+        label="地点或会议链接"
         value={location}
         onChangeText={setLocation}
-        placeholder="Optional"
+        placeholder="可选"
       />
       <Field
-        label="Attendees"
+        label="参与者"
         value={attendees}
         onChangeText={setAttendees}
-        placeholder="Email addresses, separated by commas"
+        placeholder="邮箱地址，用逗号分隔"
       />
       <Field
         label="Notes"
         value={description}
         onChangeText={setDescription}
         multiline
-        placeholder="Anything else to keep in mind?"
+        placeholder="还有什么要留意的？"
       />
       {!!conflicts.length && (
         <Card style={{ backgroundColor: colors.orange, padding: 16, marginBottom: 16 }}>
@@ -589,10 +582,10 @@ function ReviewDetail({ initial }: { initial: ActionProposal }) {
   const email = action.kind === "email.send";
   return (
     <Sheet
-      title={pending ? "One last look" : action.title}
+      title={pending ? "最后确认" : action.title}
       subtitle={
         w.mode === "sample"
-          ? "This action stays in your local workspace."
+          ? "此操作仅保存在本地工作区。"
           : "Review this exact action before it changes your connected account."
       }
       onClose={close}
@@ -610,13 +603,13 @@ function ReviewDetail({ initial }: { initial: ActionProposal }) {
         </Chip>
       </View>
       <Card style={{ gap: 13 }}>
-        <ReviewLine label="Account" value={action.account || w.profile.email} />
+        <ReviewLine label="账户" value={action.account || w.profile.email} />
         {email ? (
           <>
             <ReviewLine label="To" value={arrayText(d.to)} />
             <ReviewLine label="Cc" value={arrayText(d.cc) || "None"} />
             <ReviewLine label="Bcc" value={arrayText(d.bcc) || "None"} />
-            <ReviewLine label="Subject" value={String(d.subject || "")} />
+            <ReviewLine label="主题" value={String(d.subject || "")} />
             <View style={s.divider} />
             <Text selectable style={[s.text, { lineHeight: 25 }]}>
               {String(d.body || "")}
@@ -642,7 +635,7 @@ function ReviewDetail({ initial }: { initial: ActionProposal }) {
             {action.kind !== "calendar.delete" && (
               <>
                 <ReviewLine
-                  label="Starts"
+                  label="开始时间"
                   value={
                     d.allDay
                       ? String(d.start || "")
@@ -657,17 +650,17 @@ function ReviewDetail({ initial }: { initial: ActionProposal }) {
                       : `${dateLabel(String(d.end || ""), { year: "numeric", month: "short", day: "numeric", timeZone: String(d.timeZone || "UTC") })} · ${timeLabel(String(d.end || ""), String(d.timeZone || "UTC"))}`
                   }
                 />
-                <ReviewLine label="Time zone" value={String(d.timeZone || "")} />
-                <ReviewLine label="All day" value={d.allDay ? "Yes" : "No"} />
-                <ReviewLine label="Location" value={String(d.location || "None")} />
-                <ReviewLine label="Attendees" value={arrayText(d.attendees) || "Just you"} />
+                <ReviewLine label="时区" value={String(d.timeZone || "")} />
+                <ReviewLine label="全天" value={d.allDay ? "Yes" : "No"} />
+                <ReviewLine label="地点" value={String(d.location || "None")} />
+                <ReviewLine label="参与者" value={arrayText(d.attendees) || "只有你"} />
                 <ReviewLine label="Notes" value={String(d.description || "None")} />
               </>
             )}
             <ReviewLine label="Calendar" value={String(d.calendarId || "primary")} />
             <Text style={s.small}>
               {action.kind === "calendar.delete"
-                ? "This removes the event and may notify its attendees."
+                ? "将删除该事件，并可能通知参与者。"
                 : "Attendees may receive an invitation or update from your connected calendar."}
             </Text>
           </>
@@ -697,11 +690,7 @@ function ReviewDetail({ initial }: { initial: ActionProposal }) {
           </Text>
           <View style={[s.row, { gap: 10, flexWrap: "wrap" }]}>
             <Button primary icon={Check} busy={busy} onPress={() => void decide("approve")}>
-              {w.mode === "sample"
-                ? "Approve locally"
-                : email
-                  ? "Approve & send"
-                  : "Approve change"}
+              {w.mode === "sample" ? "本地批准" : email ? "Approve & send" : "批准修改"}
             </Button>
             {action.kind !== "calendar.delete" && (
               <Button icon={Edit3} disabled={busy} onPress={() => void edit()}>
@@ -775,7 +764,7 @@ function FileDetail({ file: f }: { file: Artifact }) {
       });
       if (await Sharing.isAvailableAsync())
         await Sharing.shareAsync(target, { mimeType: "application/pdf", UTI: "com.adobe.pdf" });
-      else throw new Error("Sharing is not available on this device.");
+      else throw new Error("此设备不支持分享。");
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     }
@@ -790,7 +779,7 @@ function FileDetail({ file: f }: { file: Artifact }) {
       <PdfReader url={url} token={api.token} pageCount={f.pageCount} />
       <View style={[s.row, { gap: 10, marginVertical: 18, flexWrap: "wrap" }]}>
         <Button icon={Download} onPress={() => void share()}>
-          {Platform.OS === "web" ? "Open / download" : "Save or share"}
+          {Platform.OS === "web" ? "Open / download" : "保存或分享"}
         </Button>
         <Button
           icon={Send}
@@ -801,7 +790,7 @@ function FileDetail({ file: f }: { file: Artifact }) {
       </View>
       {f.fields && f.fields.length > 0 && (
         <Card>
-          <SectionHeading title="Fill this form" />
+          <SectionHeading title="填写此表单" />
           <Text style={[s.muted, { marginBottom: 18 }]}>
             Add your details below. Saving creates a new copy and keeps the original intact.
           </Text>
@@ -889,7 +878,7 @@ function BrowserDetail({ initial }: { initial: BrowserSession }) {
       notify(
         files.length
           ? `${files.length} PDF download${files.length === 1 ? "" : "s"} added to Files.`
-          : "No new PDF downloads in this session.",
+          : "本次会话没有新的 PDF 下载。",
       );
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
@@ -926,7 +915,7 @@ function BrowserDetail({ initial }: { initial: BrowserSession }) {
       <View style={[s.row, { gap: 10, marginBottom: 16 }]}>
         <View style={{ flex: 1 }}>
           <Field
-            label="Website address"
+            label="网址"
             value={url}
             onChangeText={setUrl}
             autoCapitalize="none"
@@ -935,7 +924,11 @@ function BrowserDetail({ initial }: { initial: BrowserSession }) {
           />
         </View>
         <Button primary busy={busy} disabled={loading || !url.trim()} onPress={() => void mutate()}>
-          {browser.status === "closed" ? "Reopen" : browser.status === "error" ? "Reconnect" : "Go"}
+          {browser.status === "closed"
+            ? "重新打开"
+            : browser.status === "error"
+              ? "重新连接"
+              : "Go"}
         </Button>
       </View>
       <ErrorNotice error={error} />
@@ -961,13 +954,11 @@ function BrowserDetail({ initial }: { initial: BrowserSession }) {
       ) : (
         <Empty
           icon={Globe2}
-          title={
-            browser.status === "closed" ? "This session is closed" : "Preview is not available"
-          }
+          title={browser.status === "closed" ? "会话已关闭" : "预览不可用"}
           detail={
             browser.status === "closed"
               ? "Your profile and downloads are saved. Reopen to continue where you left off."
-              : "Reconnect to continue with your saved browser profile."
+              : "重新连接以继续使用保存的浏览器配置。"
           }
         />
       )}
