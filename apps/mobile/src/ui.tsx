@@ -20,22 +20,22 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 // Web-only font stack: CJK-friendly system fonts. Native builds keep the
 // platform default because fontFamily there accepts a single family only.
 const cjkFonts = Platform.select({
-  web: '-apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif',
+  web: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif',
   default: undefined,
 });
 export const colors = {
-  canvas: "#F6F7F9",
+  canvas: "#F5F5F7",
   card: "#FFFFFF",
-  text: "#1A1F26",
-  muted: "#5E6A73",
-  line: "#E8EBEF",
-  blue: "#DCE6FD",
-  blueDark: "#3056C8",
-  sky: "#EEF3FE",
-  green: "#E4F4EA",
-  lavender: "#EFF0FA",
-  orange: "#FBF0E1",
-  danger: "#B0473F",
+  text: "#1D1D1F",
+  muted: "#6E6E73",
+  line: "#E6E6EA",
+  blue: "#E3EDFD",
+  blueDark: "#0071E3",
+  sky: "#F2F8FF",
+  green: "#E6F4EA",
+  lavender: "#F2F1FB",
+  orange: "#FDF1E3",
+  danger: "#D70015",
 };
 export const s = StyleSheet.create({
   row: { flexDirection: "row", alignItems: "center" },
@@ -67,10 +67,15 @@ export const s = StyleSheet.create({
   },
   card: {
     backgroundColor: colors.card,
-    borderRadius: 23,
-    borderWidth: 0,
-    borderColor: colors.line,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: "rgba(0,0,0,0.045)",
     padding: 20,
+    boxShadow: "0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.05)",
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.05,
+    shadowRadius: 12,
   },
   divider: { height: 1, backgroundColor: colors.line, marginVertical: 18 },
   input: {
@@ -123,14 +128,19 @@ export const s = StyleSheet.create({
     padding: 20,
   },
   sheet: {
-    backgroundColor: colors.canvas,
-    borderRadius: 26,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 22,
     width: "100%",
     maxWidth: 790,
     maxHeight: "94%",
     overflow: "hidden",
     borderWidth: 1,
-    borderColor: colors.line,
+    borderColor: "rgba(0,0,0,0.06)",
+    boxShadow: "0 24px 80px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.06)",
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 24 },
+    shadowOpacity: 0.18,
+    shadowRadius: 40,
   },
 });
 export function Button({

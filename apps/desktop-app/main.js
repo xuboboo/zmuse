@@ -2,7 +2,7 @@
 // 1. 启动并守护 API(8787) 与浏览器 worker(8790) 子进程
 // 2. 本地静态服务中文 Web 界面(8081)，与 API 的 CORS 白名单一致
 // 3. 健康检查通过后开窗；窗口关闭缩到托盘（后台任务继续），托盘退出才真正停止
-const { app, BrowserWindow, Tray, Menu, nativeImage } = require("electron");
+const { app, BrowserWindow, Tray, Menu, nativeImage, ipcMain } = require("electron");
 const { spawn } = require("node:child_process");
 const { createServer } = require("node:http");
 const { appendFile, mkdir } = require("node:fs/promises");
@@ -223,10 +223,18 @@ function createWindow() {
     icon: path.join(__dirname, "icon.ico"),
     width: 1440,
     height: 900,
-    backgroundColor: "#F6F7F9",
+    minWidth: 960,
+    minHeight: 640,
+    backgroundColor: "#F5F5F7",
     title: "ZMuse",
     autoHideMenuBar: true,
-    webPreferences: { contextIsolation: true, nodeIntegration: false },
+    // macOS 风格：隐藏原生标题栏，窗口控制由界面内的红绿灯按钮经 IPC 驱动。
+    titleBarStyle: "hidden",
+    webPreferences: {
+      contextIsolation: true,
+      nodeIntegration: false,
+      preload: path.join(__dirname, "preload.js"),
+    },
   });
   mainWindow.loadURL(`http://127.0.0.1:${WEB_PORT}`);
   mainWindow.on("close", (event) => {
@@ -265,6 +273,14 @@ const gotLock = app.requestSingleInstanceLock();
 if (!gotLock) {
   app.quit();
 } else {
+  // macOS 风格红绿灯按钮的 IPC 后端。
+  ipcMain.on("win:minimize", () => mainWindow?.minimize());
+  ipcMain.on("win:toggle-maximize", () => {
+    if (!mainWindow) return;
+    if (mainWindow.isMaximized()) mainWindow.unmaximize();
+    else mainWindow.maximize();
+  });
+  ipcMain.on("win:hide", () => mainWindow?.hide());
   app.on("second-instance", () => mainWindow?.show());
   app.whenReady().then(async () => {
     try {
