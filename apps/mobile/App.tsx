@@ -37,10 +37,10 @@ import { ChatScreen, WorkspaceTools } from "./src/chat";
 import { ComputerEntry } from "./src/computer";
 import { ComputerDraftProvider } from "./src/computer-drafts";
 import { Details } from "./src/details";
+import { AppToolbar } from "./src/macos-titlebar";
 import { BrowserScreen, CalendarScreen, FilesScreen, MailScreen } from "./src/screens";
 import { ThreadsProvider, ThreadsSheet, useMuseThread } from "./src/threads";
 import { Button, Card, colors, ErrorNotice, Field, IconButton, Mascot, s } from "./src/ui";
-import { WindowTitlebar } from "./src/window-titlebar";
 import { type Detail, useWorkspace, WorkspaceContext } from "./src/workspace";
 
 const nav: { id: Section; label: string; icon: LucideIcon }[] = [
@@ -258,20 +258,6 @@ function WorkspaceShell({
   const pending =
     (data?.notifications.filter((n) => !n.read).length || 0) +
     workspace.actions.filter((a) => a.status === "awaiting_review").length;
-  const activeTask =
-    data?.tasks.find(
-      (task) => task.status === "waiting_approval" || task.status === "waiting_input",
-    ) || data?.tasks.find((task) => task.status === "running");
-  const agentName = data?.identity.name || "ZMuse";
-  const status = activeTask
-    ? activeTask.status === "waiting_approval"
-      ? `待你审阅 · ${activeTask.title}`
-      : activeTask.status === "waiting_input"
-        ? `等你补充信息 · ${activeTask.title}`
-        : activeTask.plan.find((step) => step.status === "running")?.title || activeTask.title
-    : data?.tasks.some((task) => task.status === "queued")
-      ? "正在处理你的下一个任务…"
-      : "随时为你待命";
   const title = titles[section] || titles.apps;
   const Screen =
     section === "mail"
@@ -294,64 +280,17 @@ function WorkspaceShell({
     <>
       <WorkspaceTools />
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.canvas }} edges={["top", "bottom"]}>
-        <WindowTitlebar title="ZMuse" />
-        <View style={{ flex: 1, width: "100%", maxWidth: 760, alignSelf: "center" }}>
-          <View
-            style={{
-              height: desktop ? 146 : 122,
-              paddingTop: desktop ? 14 : 2,
-              marginHorizontal: 20,
-            }}
-          >
-            <View style={{ position: "absolute", left: 0, top: 16 }}>
-              <IconButton icon={Menu} label="打开会话与菜单" onPress={() => setThreadsOpen(true)} />
-            </View>
-            {/* The centered column is shrunk to its content (alignSelf center) so
-                its box cannot overlap the menu / notification buttons beside it;
-                pointerEvents none + auto keeps the cascade safe on web too. */}
-            <View
-              style={{
-                alignItems: "center",
-                gap: 1,
-                alignSelf: "center",
-                pointerEvents: "none",
-              }}
-            >
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={`${agentName} 的动态与审批`}
-                onPress={() => navigate("activity")}
-                style={({ pressed }) => ({
-                  alignItems: "center",
-                  maxWidth: "70%",
-                  opacity: pressed ? 0.65 : 1,
-                  pointerEvents: "auto",
-                })}
-              >
-                <Mascot size={desktop ? 58 : 49} variant={data?.identity.avatar} />
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontWeight: "600",
-                    color: colors.text,
-                    letterSpacing: -0.4,
-                  }}
-                >
-                  {agentName}
-                </Text>
-                <Text
-                  numberOfLines={1}
-                  style={{ fontSize: 11, color: colors.muted, marginBottom: 6 }}
-                >
-                  {status}
-                </Text>
-              </Pressable>
+        <AppToolbar
+          title="ZMuse"
+          left={
+            <IconButton icon={Menu} label="打开会话与菜单" onPress={() => setThreadsOpen(true)} />
+          }
+          right={
+            <>
               {section === "chat" && <ComputerEntry />}
-            </View>
-            <View style={{ position: "absolute", right: 0, top: 16 }}>
               <IconButton
                 icon={Bell}
-                label={`Notifications, ${pending} unread or pending`}
+                label={`通知，${pending} 条未读或待处理`}
                 onPress={() => open({ type: "notifications" })}
               />
               {pending > 0 && (
@@ -368,8 +307,10 @@ function WorkspaceShell({
                   }}
                 />
               )}
-            </View>
-          </View>
+            </>
+          }
+        />
+        <View style={{ flex: 1, width: "100%", maxWidth: 760, alignSelf: "center" }}>
           <View style={{ flex: 1, minHeight: 0 }}>
             {section !== "chat" && (
               <ScrollView

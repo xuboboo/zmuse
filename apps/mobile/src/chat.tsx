@@ -30,7 +30,7 @@ import { runConversationTurn } from "./conversation-run";
 import { MailToolCard } from "./mail-tool-card";
 import { FileThreadCard, TaskThreadCard } from "./thread-artifacts";
 import { type Selection, useMuseThread } from "./threads";
-import { Button, Card, CheckRow, colors, ErrorNotice, s } from "./ui";
+import { Button, Card, CheckRow, colors, ErrorNotice, Mascot, s } from "./ui";
 import { useWorkspace } from "./workspace";
 
 const displayParameters = z.record(z.string(), z.unknown());
@@ -370,6 +370,7 @@ export function ChatScreen({
               gap: 15,
             }}
           >
+            <Mascot size={76} />
             <Text
               style={{
                 fontSize: 28,
