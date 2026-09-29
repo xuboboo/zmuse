@@ -10,7 +10,7 @@ import {
   SquareCheck,
 } from "lucide-react-native";
 import type { ReactNode } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 import { colors } from "./ui";
 
 const I = ({ C, color }: { C: LucideIcon; color: string }) => <C size={18} color={color} />;
@@ -185,6 +185,26 @@ export function ZSidebar({
         paddingBottom: 12,
       }}
     >
+      {/* 品牌锚点：Logo + 产品名 */}
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 8,
+          paddingHorizontal: 6,
+          paddingTop: 6,
+          paddingBottom: 12,
+        }}
+      >
+        <Image
+          source={require("../assets/zmuse-icon.png")}
+          style={{ width: 30, height: 30, borderRadius: 8 }}
+          accessible={false}
+        />
+        <Text style={{ fontSize: 17, fontWeight: "800", color: colors.text, letterSpacing: -0.3 }}>
+          ZMuse
+        </Text>
+      </View>
       <Pressable
         accessibilityRole="button"
         accessibilityLabel="新建对话"

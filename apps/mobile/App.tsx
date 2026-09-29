@@ -263,7 +263,7 @@ function WorkspaceShell({
     <>
       <WorkspaceTools />
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.canvas }} edges={["top", "bottom"]}>
-        <AppToolbar title="ZMuse" />
+        <AppToolbar title={title?.title ?? "ZMuse"} />
         <View style={{ flex: 1, flexDirection: "row" }}>
           <ZSidebar
             section={section}

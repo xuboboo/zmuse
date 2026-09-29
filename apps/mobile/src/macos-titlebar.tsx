@@ -1,6 +1,6 @@
 import { Minus, Square, X } from "lucide-react-native";
 import { type ReactNode, useEffect, useState } from "react";
-import { Image, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 
 interface WindowControls {
   minimize: () => void;
@@ -112,12 +112,7 @@ export function AppToolbar({
             gap: 7,
           }}
         >
-          <Image
-            source={require("../assets/zmuse-icon.png")}
-            style={{ width: 22, height: 22, borderRadius: 6 }}
-            accessible={false}
-          />
-          <Text style={{ fontSize: 15, fontWeight: "700", color: "#1D1D1F" }}>{title}</Text>
+          <Text style={{ fontSize: 14, fontWeight: "600", color: "#1D1D1F" }}>{title}</Text>
         </View>
         <View style={{ flex: 1 }} />
         <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>{right}</View>
