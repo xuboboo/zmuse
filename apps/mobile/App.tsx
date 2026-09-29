@@ -264,7 +264,15 @@ function WorkspaceShell({
     <>
       <WorkspaceTools />
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.canvas }} edges={["top", "bottom"]}>
-        <AppToolbar title={title?.title ?? "ZMuse"} />
+        <AppToolbar
+          title={
+            section === "chat"
+              ? selection.id === mainId
+                ? "主对话"
+                : "侧聊"
+              : (title?.title ?? "ZMuse")
+          }
+        />
         <View style={{ flex: 1, flexDirection: "row" }}>
           <ZSidebar
             section={section}
@@ -356,11 +364,6 @@ function WorkspaceShell({
                     ) : threadsLoading ? (
                       <ActivityIndicator color={colors.blueDark} />
                     ) : null}
-                    {!threadsLoading && selection.id !== mainId && (
-                      <Text style={[s.small, { textAlign: "center", marginBottom: 8 }]}>
-                        Side chat
-                      </Text>
-                    )}
                     {visited.map((thread) => (
                       <View
                         key={thread.id}
