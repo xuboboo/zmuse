@@ -28,7 +28,7 @@ pnpm build:server              # API 产物
 pnpm build:web                 # 中文界面产物（apps/mobile/dist/web）
 ```
 
-双击仓库根目录的 **启动OpenMuse.cmd**（或 `cd apps/desktop-app && npx electron .`）。
+双击仓库根目录的 **StartOpenMuse.cmd**（或 `cd apps/desktop-app && npx electron .`）。
 
 桌面壳会自动：拉起 API 与浏览器 worker、在本机 8081 端口伺服中文界面并开窗；
 关窗缩到托盘（后台任务继续）；子进程崩溃 3 秒内自动重启（自愈守护）；
