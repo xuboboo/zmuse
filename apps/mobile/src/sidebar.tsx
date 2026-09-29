@@ -6,7 +6,6 @@ import {
   MessageCircle,
   PanelsTopLeft,
   Plus,
-  Settings2,
   Shapes,
   SquareCheck,
 } from "lucide-react-native";
@@ -212,7 +211,7 @@ export function ZSidebar({
         <Row key={item.key} item={item} />
       ))}
       <View style={{ flex: 1 }} />
-      <GroupLabel text="设备与会话" />
+      <GroupLabel text="设备" />
       {computer}
       <Row
         item={{
@@ -220,15 +219,6 @@ export function ZSidebar({
           label: "会话管理",
           C: MessageCircle,
           onPress: manageThreads,
-        }}
-      />
-      <Row
-        item={{
-          key: "settings",
-          label: "应用与设置",
-          C: Settings2,
-          active: section === "apps",
-          onPress: () => navigate("apps"),
         }}
       />
     </View>
