@@ -4,11 +4,13 @@
 
 **一个拥有图形化云桌面、真实浏览器和 Linux 终端的中文个人智能体。单用户 v1，开箱即用。**
 
+![ZMuse Windows 桌面程序 · 真实浏览委托](docs/screenshots/00-hero-windows-delegate.png)
+
+*实机画面：Windows 桌面程序里一句"Check out Hacker News for cool stuff"——智能体的真实浏览器正在读 Hacker News，内嵌画面实时可见，随时接管。*
+
 [界面预览](#-界面预览) · [快速启动](#-快速启动) · [架构](#%EF%B8%8F-架构) · [与上游的差异](#-与上游-openmuse-的差异) · [路线图](#-路线图)
 
 基于 [CopilotKit/OpenMuse](https://github.com/CopilotKit/OpenMuse)（MIT）深度改造 · 继承 MIT 协议
-
-![首页](docs/screenshots/01-home-zh.png)
 
 </div>
 
