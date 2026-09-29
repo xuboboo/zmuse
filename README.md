@@ -1,6 +1,6 @@
 <div align="center">
 
-# ZMuse · 国产版个人智能体工作台
+<img src="docs/brand/zmuse-banner.png" alt="ZMuse — 国产版个人智能体工作台" width="640">
 
 **一个拥有图形化云桌面、真实浏览器和 Linux 终端的中文个人智能体。单用户 v1，开箱即用。**
 

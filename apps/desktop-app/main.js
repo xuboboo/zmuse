@@ -6,7 +6,7 @@ const { app, BrowserWindow, Tray, Menu, nativeImage } = require("electron");
 const { spawn } = require("node:child_process");
 const { createServer } = require("node:http");
 const { appendFile, mkdir } = require("node:fs/promises");
-const { createReadStream, existsSync, readdirSync } = require("node:fs");
+const { createReadStream, existsSync } = require("node:fs");
 const http = require("node:http");
 const path = require("node:path");
 
@@ -220,6 +220,7 @@ function serveWeb() {
 
 function createWindow() {
   mainWindow = new BrowserWindow({
+    icon: path.join(__dirname, "icon.ico"),
     width: 1440,
     height: 900,
     backgroundColor: "#F6F7F9",
@@ -239,13 +240,7 @@ function createWindow() {
 
 function createTray() {
   try {
-    const assetsDir = path.join(WEB_DIR, "assets");
-    const png = existsSync(assetsDir)
-      ? readdirSync(assetsDir).find((f) => f.startsWith("capybara") && f.endsWith(".png"))
-      : undefined;
-    const icon = png
-      ? nativeImage.createFromPath(path.join(assetsDir, png)).resize({ width: 16, height: 16 })
-      : nativeImage.createEmpty();
+    const icon = nativeImage.createFromPath(path.join(__dirname, "tray.png"));
     tray = new Tray(icon);
     tray.setToolTip("ZMuse — 后台任务运行中");
     tray.setContextMenu(
