@@ -743,6 +743,9 @@ export function ChatScreen({
                 paddingHorizontal: 2,
                 paddingTop: 10,
                 paddingBottom: 10,
+                outlineWidth: 0,
+                outlineStyle: "solid",
+                outlineColor: "transparent",
               }}
               multiline
               editable

@@ -17,6 +17,15 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+// Web 端全局压制浏览器默认焦点描边（Chromium 橄榄黄 ring）；
+// 焦点状态由各容器自身的样式反馈承载（阴影/边框）。
+if (Platform.OS === "web" && typeof document !== "undefined") {
+  const reset = document.createElement("style");
+  reset.textContent =
+    "textarea:focus,input:focus,textarea:focus-visible,input:focus-visible{outline:none;box-shadow:none}";
+  document.head.appendChild(reset);
+}
+
 // Web-only font stack: CJK-friendly system fonts. Native builds keep the
 // platform default because fontFamily there accepts a single family only.
 const cjkFonts = Platform.select({
