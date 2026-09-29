@@ -21,6 +21,12 @@ eval "$(dbus-launch --sh-syntax --exit-with-session)" 2>/dev/null || true
 startxfce4 &
 XFCE_PID=$!
 
+# 中文输入法：fcitx5 拼音，Ctrl+Space 切换（经 noVNC 键盘事件透传可用）。
+if command -v fcitx5 > /dev/null 2>&1; then
+  fcitx5 -d > /tmp/fcitx5.log 2>&1
+  FCITX_PID=$!
+fi
+
 x11vnc -display "$DISPLAY" -rfbport "$VNC_PORT" -forever -shared -nopw \
   -noxdamage -repeat -xkb > /tmp/x11vnc.log 2>&1 &
 VNC_PID=$!
@@ -30,12 +36,12 @@ websockify --web /usr/share/novnc "$NOVNC_PORT" "localhost:$VNC_PORT" \
 NOVNC_PID=$!
 
 term() {
-  kill "$NOVNC_PID" "$VNC_PID" "$XFCE_PID" "$XVFB_PID" 2>/dev/null || true
+  kill "$NOVNC_PID" "$VNC_PID" "$FCITX_PID" "$XFCE_PID" "$XVFB_PID" 2>/dev/null || true
   wait 2>/dev/null || true
 }
 trap term INT TERM
 
-wait -n "$XVFB_PID" "$XFCE_PID" "$VNC_PID" "$NOVNC_PID"
+wait -n "$XVFB_PID" "$XFCE_PID" "$FCITX_PID" "$VNC_PID" "$NOVNC_PID"
 EXIT=$?
 term
 exit "$EXIT"

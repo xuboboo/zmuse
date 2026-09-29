@@ -11,6 +11,9 @@ RUN apt-get update \
         xfce4-terminal \
         dbus-x11 \
         firefox-esr \
+        fcitx5 \
+        fcitx5-chinese-addons \
+        fcitx5-frontend-gtk3 \
         websockify \
         novnc \
         fonts-noto-cjk \
@@ -37,7 +40,9 @@ COPY policies.json /usr/lib/firefox-esr/distribution/policies.json
 COPY start-desktop.sh /opt/openmuse/start-desktop.sh
 RUN chmod 0555 /opt/openmuse/start-desktop.sh
 
-ENV HOME=/home/openmuse DISPLAY=:1 SCREEN_SIZE=1600x900x24 VNC_PORT=5900 NOVNC_PORT=6080
+ENV HOME=/home/openmuse DISPLAY=:1 SCREEN_SIZE=1600x900x24 VNC_PORT=5900 NOVNC_PORT=6080 \
+    GTK_IM_MODULE=fcitx QT_IM_MODULE=fcitx XMODIFIERS=@im=fcitx \
+    INPUT_METHOD=fcitx GLFW_IM_MODULE=ibus
 EXPOSE 6080
 USER 1000:1000
 WORKDIR /workspace
