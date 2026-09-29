@@ -1,42 +1,65 @@
 <div align="center">
 
-<img src="docs/brand/zmuse-banner.png" alt="ZMuse — 国产版个人智能体工作台" width="640">
+<img src="docs/brand/zmuse-banner.png" alt="ZMuse" width="600">
 
-**一个拥有图形化云桌面、真实浏览器和 Linux 终端的中文个人智能体。单用户 v1，开箱即用。**
+**一个拥有图形化云桌面、真实浏览器和 Linux 终端的中文个人智能体。**
 
-![ZMuse Windows 桌面程序 · 真实浏览委托](docs/screenshots/00-hero-windows-delegate.png)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+![Status](https://img.shields.io/badge/status-v1.0%20%E5%8D%95%E7%94%A8%E6%88%B7%E7%89%88-0071E3.svg)
+![Platform](https://img.shields.io/badge/platform-Windows-0078D4.svg)
+![Built on](https://img.shields.io/badge/built%20on-OpenMuse-8A63F4.svg)
 
-*实机画面：Windows 桌面程序里一句"Check out Hacker News for cool stuff"——智能体的真实浏览器正在读 Hacker News，内嵌画面实时可见，随时接管。*
-
-[界面预览](#-界面预览) · [快速启动](#-快速启动) · [架构](#%EF%B8%8F-架构) · [与上游的差异](#-与上游-openmuse-的差异) · [路线图](#-路线图)
-
-基于 [CopilotKit/OpenMuse](https://github.com/CopilotKit/OpenMuse)（MIT）深度改造 · 继承 MIT 协议
+[快速开始](#-快速开始) · [界面一览](#%EF%B8%8F-界面一览) · [架构](#%EF%B8%8F-架构) · [安全与隐私](#-安全与隐私) · [路线图](#%EF%B8%8F-路线图)
 
 </div>
 
-## 这是什么
+---
 
-ZMuse 把"个人智能体"从聊天框变成了一台**真正能干活的电脑**：
+<div align="center">
 
-- 💬 **中文对话委托** —— 接入任意 OpenAI 兼容模型（含国内中转），说出需求即可
-- 🌐 **真实浏览器** —— 智能体用真实 Chromium 打开网页干活，画面内嵌对话流，随时可接管
-- 🖥️ **图形化云桌面**（本版本核心增量）—— 应用内直接操作一个完整 Linux 桌面：Xfce4 + Firefox，中文环境，可上网
-- ⌨️ **Linux 终端 + 文件工作区** —— 有界命令、持久化 `/workspace`，与桌面环境相互独立
-- 📋 **持久任务引擎** —— 计划、断点、SQL 租约，进程崩溃后可恢复；敏感动作（发邮件、改日历）必须人工审批
-- 🎯 **目标与监控** —— 定时盯网页变化/文字出现/价格阈值，告警去重入箱
-- 📄 **文档流水线** —— 邮件附件 → PDF 表单填写 → 回复草稿 → 审阅发送
+<img src="docs/screenshots/00-hero-windows-delegate.png" alt="ZMuse 实机：真实浏览委托" width="880">
 
-| Windows 桌面程序 | 真实浏览委托 | 图形化云桌面 |
-| --- | --- | --- |
-| ![Windows 桌面程序](docs/screenshots/02-windows-app.png) | ![真实浏览委托](docs/screenshots/03-browse-delegation.png) | ![图形化云桌面](docs/screenshots/04-cloud-desktop.png) |
+*实机画面：一句 "Check out Hacker News for cool stuff" —— 智能体的真实浏览器正在读 Hacker News，画面实时可见，随时接管。*
 
-| 会话菜单 | 委托任务 |
+</div>
+
+## ✨ ZMuse 是什么
+
+ZMuse 把"AI 聊天框"升级成"**会干活的电脑**"。你说目标，它规划并执行：
+
+- **🌐 真实浏览** —— 智能体用真实 Chromium 打开网页搜集信息，过程内嵌对话流，随时接管
+- **🖥️ 图形化云桌面** —— 应用内直接操作完整 Linux 桌面（Xfce + Firefox，中文环境，可上网）
+- **⌨️ Linux 终端 + 文件工作区** —— 有界命令、持久化工作区，浏览器与终端相互隔离
+- **📋 委托而非等待** —— 任务后台持久执行：计划、断点、租约、崩溃恢复
+- **✋ 人工审批** —— 发邮件、改日历等敏感动作必须逐条确认
+- **🎯 目标监控** —— 定时盯网页变化 / 文字出现 / 价格阈值
+
+## 🖼️ 界面一览
+
+| 图形化云桌面（应用内实时操作） | 真实浏览委托（Hacker News 实测） |
 | --- | --- |
-| ![会话菜单](docs/screenshots/05-conversations-menu.png) | ![委托任务](docs/screenshots/06-delegate.png) |
+| <img src="docs/screenshots/04-cloud-desktop.png" width="400"> | <img src="docs/screenshots/03-browse-delegation.png" width="400"> |
 
-> 以上全部为真机截图：模型真实调用、浏览器真实浏览、桌面真实运行。
+| 会话管理 | 委托任务 |
+| --- | --- |
+| <img src="docs/screenshots/05-conversations-menu.png" width="400"> | <img src="docs/screenshots/06-delegate.png" width="400"> |
 
-## 🚀 快速启动
+<details>
+<summary><b>更多界面</b>（点击展开）</summary>
+
+| 中文首页 | Windows 桌面程序全窗 |
+| --- | --- |
+| <img src="docs/screenshots/01-home.png" width="400"> | <img src="docs/screenshots/02-windows-app.png" width="400"> |
+
+</details>
+
+## 🚀 快速开始
+
+### 前置要求
+
+- Windows 10/11 · Node.js 22+ · pnpm 10+ · Docker Desktop
+- 一个 CopilotKit Intelligence 项目密钥（[获取](https://github.com/CopilotKit/OpenMuse)）
+- 任意 OpenAI 兼容模型密钥（海外直连或国内中转均可）
 
 ### 方式 A：Windows 桌面程序（推荐）
 
@@ -49,18 +72,11 @@ docker build -t openmuse-computer:local apps/computer
 docker build -t openmuse-desktop:local  apps/desktop
 ```
 
-配置 `.env`（复制 `.env.example`，最少需要三项）：
+复制 `.env.example` 为 `.env` 并填入密钥，然后双击 **`StartOpenMuse.cmd`**：
 
-```dotenv
-CPK_INTELLIGENCE_API_KEY=   # CopilotKit Intelligence 项目密钥（对话持久化，必填）
-AGENT_BACKEND=model
-MODEL=openai/你的模型id      # 任意 OpenAI 兼容端点，国内中转亦可
-OPENAI_API_KEY=sk-xxx
-# OPENAI_BASE_URL=https://你的中转/v1
-```
-
-双击 **`StartOpenMuse.cmd`** —— 桌面窗口自动打开，后端全部由它托管：
-关窗缩到托盘（后台任务不停）、子进程崩溃 3 秒自愈、托盘退出走优雅关停。
+- 自动拉起 API、浏览器 worker 与中文界面
+- 关窗缩到托盘，后台任务继续；子进程崩溃 3 秒自愈
+- 托盘退出走优雅关停，不伤数据
 
 ### 方式 B：开发三件套
 
@@ -70,20 +86,25 @@ pnpm dev:browser    # 浏览器 worker 8790
 pnpm dev:web        # Web 8081
 ```
 
-首次使用建议跑一遍体检：`bash artifacts/e2e/post-key-check.sh`（6 项全过即就绪）。
-
 ## 🏗️ 架构
 
 ```text
-Windows 桌面程序（Electron，进程编排 + 托盘 + 自愈守护）
+Windows 桌面程序（Electron：进程编排 + 托盘 + 自愈守护）
   └── 中文 Web 界面（8081，Electron 内嵌伺服）
         └── API + 持久任务引擎（Hono + CopilotKit Runtime，8787）
               ├── 浏览器 worker（8790，真实 Chromium，可接管）
               ├── 图形化桌面容器（Xfce4 + Firefox，noVNC 仅回环，随用随启）
               ├── Linux 终端/文件容器（禁网，命令 30s 上限，/workspace 持久）
               └── 审批流：发邮件 / 改日历必须人工确认
-模型：任意 OpenAI 兼容端点（含国内中转）
+模型：任意 OpenAI 兼容端点（海外直连或国内中转）
 ```
+
+## 🔒 安全与隐私
+
+- 凭据只进 `.env`（gitignore），仓库内无任何密钥
+- 图形桌面与 noVNC 仅绑定本机回环；终端容器禁网、非 root、只读根文件系统
+- 敏感动作零自动执行：发邮件 / 改日历 / 删事件必须逐条审批
+- 单用户部署（共享访问口令模式），非多租户认证系统
 
 ## 📦 与上游 OpenMuse 的差异
 
@@ -97,24 +118,17 @@ Windows 桌面程序（Electron，进程编排 + 托盘 + 自愈守护）
 
 继承上游全部能力：持久任务、审批流、目标监控、文档流水线、AG-UI 协议。
 
-## 🔒 安全与隐私
-
-- 凭据只进 `.env`（gitignore），仓库内无任何密钥
-- 图形桌面与 noVNC 仅绑定本机回环；Linux 终端容器禁网、非 root、只读根文件系统
-- 敏感动作零自动执行：发邮件/改日历/删事件必须逐条审批
-- 单用户部署（共享访问口令模式），非多租户认证系统
-
 ## 🗺️ 路线图
 
-1. 会话持久化本地化：用本地 thread store 替换对 CopilotKit 云的唯一外部依赖
-2. 多用户 VM 编排与配额
-3. 国产模型直连预设（通义 / 智谱 / DeepSeek）
-4. 桌面内输入法、分辨率自适应、音频
+- [ ] 会话持久化本地化：用本地 thread store 替换对 CopilotKit 云的唯一外部依赖
+- [ ] 多用户 VM 编排与配额
+- [ ] 国产模型直连预设（通义 / 智谱 / DeepSeek）
+- [ ] 桌面内输入法、分辨率自适应、音频
 
 ## 🙏 致谢
 
-- [CopilotKit/OpenMuse](https://github.com/CopilotKit/OpenMuse) —— 上游项目，MIT 协议。ZMuse 的任务引擎、审批流、AG-UI 集成均基于它
-- [CopilotKit](https://github.com/CopilotKit/CopilotKit) —— React Native/AG-UI 运行时
+- [CopilotKit/OpenMuse](https://github.com/CopilotKit/OpenMuse) —— 上游项目（MIT）。ZMuse 的任务引擎、审批流、AG-UI 集成均基于它
+- [CopilotKit](https://github.com/CopilotKit/CopilotKit) —— React Native / AG-UI 运行时
 - [noVNC](https://github.com/novnc/noVNC)、[Xfce](https://xfce.org/) —— 图形化桌面基础
 
 ## 📄 协议
