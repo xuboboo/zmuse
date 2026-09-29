@@ -378,7 +378,7 @@ export function ChatScreen({
                 maxWidth: 350,
               }}
             >
-              少操点心，多留点时间给生活。
+              欢迎使用 ZMuse
             </Text>
             <Text style={[s.muted, { maxWidth: 320, textAlign: "center", lineHeight: 23 }]}>
               说出你的想法：我来做计划、操作应用、用我的电脑帮你把事情办成。

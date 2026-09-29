@@ -16,7 +16,7 @@
     },
     "web": {
       "bundler": "metro",
-      "name": "ZMuse — 少操点心，多留点时间给生活。"
+      "name": "ZMuse"
     },
     "plugins": [
       "expo-document-picker",
