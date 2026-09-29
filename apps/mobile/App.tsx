@@ -272,7 +272,7 @@ function WorkspaceShell({
             computer={section === "chat" ? <ComputerEntry /> : null}
             manageThreads={() => setThreadsOpen(true)}
           />
-          <View style={{ flex: 1, maxWidth: 760, alignSelf: "center" }}>
+          <View style={{ flex: 1, minWidth: 0 }}>
             <View
               style={{
                 height: 46,
@@ -312,6 +312,9 @@ function WorkspaceShell({
                   contentContainerStyle={{
                     paddingHorizontal: desktop ? 42 : 22,
                     paddingBottom: 28,
+                    maxWidth: 900,
+                    width: "100%",
+                    alignSelf: "center",
                   }}
                   keyboardShouldPersistTaps="handled"
                 >
@@ -334,6 +337,9 @@ function WorkspaceShell({
                   display: section === "chat" ? "flex" : "none",
                   flex: 1,
                   paddingHorizontal: desktop ? 42 : 17,
+                  width: "100%",
+                  maxWidth: 900,
+                  alignSelf: "center",
                 }}
               >
                 <AgentStatus />
