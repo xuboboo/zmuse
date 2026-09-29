@@ -2,8 +2,6 @@ import { Minus, Square, X } from "lucide-react-native";
 import { type ReactNode, useEffect, useState } from "react";
 import { Image, Pressable, Text, View } from "react-native";
 
-const isElectron = () => hasWindowControls();
-
 interface WindowControls {
   minimize: () => void;
   toggleMaximize: () => void;
@@ -21,7 +19,7 @@ function controls(): WindowControls | undefined {
 // 桌面程序判定：preload 注入的窗口控制桥存在即为桌面端
 // （Electron 44 的 UA 已不含 Electron 标识，UA 检测不可靠）。
 function hasWindowControls(): boolean {
-  return !!window.zmuseWindow;
+  return typeof window !== "undefined" && !!window.zmuseWindow;
 }
 
 // 拖拽层通过 ref 注入 -webkit-app-region（react-native-web 不认识该样式键）。
@@ -29,8 +27,7 @@ function applyAppRegion(el: Element | null, region: "drag" | "no-drag") {
   el?.setAttribute("style", `${el.getAttribute("style") ?? ""};-webkit-app-region:${region}`);
 }
 
-// Windows 用户习惯：控制组固定在右上角贴边，顺序 最小化/最大化/关闭，
-// 关闭键悬停变系统红 #E81123 + 白叉；整条标题栏可拖拽，按钮自身禁拖拽。
+// Windows 窗口控制按钮：46px 宽全高命中区；关闭键悬停系统红 #E81123 + 白叉。
 function CaptionButton({
   label,
   hoverBackground,
@@ -55,7 +52,7 @@ function CaptionButton({
       ref={(el) => applyAppRegion(el as unknown as Element, "no-drag")}
       style={{
         width: 46,
-        height: 54,
+        height: "100%",
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: hovered ? hoverBackground : "transparent",
@@ -67,9 +64,9 @@ function CaptionButton({
 }
 
 /**
- * 顶部一体化工具栏（Windows 布局 + 精致质感）：
- * [☰菜单] —— 居中 Logo+ZMuse —— [电脑状态徽章] [🔔] | [− □ ✕ 右上角贴边]
- * 整条可拖拽；交互元素覆盖在拖拽层之上。
+ * 顶部一体化工具栏（Windows 布局 + 精致质感）。
+ * 层级：拖拽层(absolute 铺满) 在底，内容层(relative zIndex 10) 在上可点。
+ * [☰菜单] —— 居中 Logo+ZMuse —— [电脑状态徽章] [🔔] || [− □ ✕ 右上角贴边]
  */
 export function AppToolbar({
   title = "ZMuse",
@@ -82,17 +79,61 @@ export function AppToolbar({
 }) {
   const [electron, setElectron] = useState(false);
   useEffect(() => {
-    setElectron(isElectron());
+    setElectron(hasWindowControls());
   }, []);
   return (
-    <View style={{ height: 54, justifyContent: "center", backgroundColor: "transparent" }}>
-      {/* 拖拽层：铺满整条，位于交互元素之下 */}
+    <View style={{ height: 54, justifyContent: "center" }}>
+      {/* 拖拽层：铺满整条；内容层 relative+zIndex 压在其上，按钮可点 */}
       <View
         ref={(el) => applyAppRegion(el as unknown as Element, "drag")}
         style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 0 }}
       />
+      <View
+        style={{
+          position: "relative",
+          zIndex: 10,
+          flexDirection: "row",
+          alignItems: "center",
+          height: 54,
+          paddingLeft: electron ? 14 : 18,
+          paddingRight: electron ? 10 : 18,
+        }}
+      >
+        {left}
+        <View
+          pointerEvents="none"
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 150,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 7,
+          }}
+        >
+          <Image
+            source={require("../assets/zmuse-icon.png")}
+            style={{ width: 22, height: 22, borderRadius: 6 }}
+            accessible={false}
+          />
+          <Text style={{ fontSize: 15, fontWeight: "700", color: "#1D1D1F" }}>{title}</Text>
+        </View>
+        <View style={{ flex: 1 }} />
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>{right}</View>
+      </View>
+      {/* Windows 控制组：绝对定位右上角贴边（在拖拽层之上，no-drag 可点） */}
       {electron && (
-        <View style={{ position: "absolute", right: 0, top: 0, bottom: 0, flexDirection: "row" }}>
+        <View
+          style={{
+            position: "absolute",
+            right: 0,
+            top: 0,
+            bottom: 0,
+            flexDirection: "row",
+            zIndex: 20,
+          }}
+        >
           <CaptionButton
             label="最小化"
             hoverBackground="rgba(0,0,0,0.06)"
@@ -114,38 +155,6 @@ export function AppToolbar({
           />
         </View>
       )}
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          paddingLeft: electron ? 14 : 18,
-          paddingRight: electron ? 150 : 14,
-          gap: 10,
-        }}
-      >
-        {left}
-        <View
-          pointerEvents="none"
-          style={{
-            position: "absolute",
-            left: 0,
-            right: electron ? 150 : 0,
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 7,
-          }}
-        >
-          <Image
-            source={require("../assets/zmuse-icon.png")}
-            style={{ width: 22, height: 22, borderRadius: 6 }}
-            accessible={false}
-          />
-          <Text style={{ fontSize: 15, fontWeight: "700", color: "#1D1D1F" }}>{title}</Text>
-        </View>
-        <View style={{ flex: 1 }} />
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>{right}</View>
-      </View>
     </View>
   );
 }

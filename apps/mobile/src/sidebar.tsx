@@ -1,5 +1,4 @@
 import {
-  Bell,
   CalendarDays,
   FileText,
   Lightbulb,
@@ -232,18 +231,6 @@ export function ZSidebar({
           onPress: () => navigate("apps"),
         }}
       />
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          gap: 8,
-          paddingHorizontal: 12,
-          marginTop: 10,
-        }}
-      >
-        <Bell size={15} color={colors.muted} />
-        <Text style={{ fontSize: 12, color: colors.muted }}>通知在右上角</Text>
-      </View>
     </View>
   );
 }
