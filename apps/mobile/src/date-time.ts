@@ -22,13 +22,13 @@ export function localDateTime(value: string, timeZone: string): { date: string; 
 /** Resolve a local wall-clock time, rejecting gaps at daylight-saving transitions. */
 export function zonedInstant(date: string, time: string, timeZone: string): string {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !/^\d{2}:\d{2}$/.test(time))
-    throw new Error("Enter a complete date and time.");
+    throw new Error("请输入完整的日期和时间。");
   const desired = Date.parse(`${date}T${time}:00Z`);
   if (
     !Number.isFinite(desired) ||
     new Date(desired).toISOString().slice(0, 16) !== `${date}T${time}`
   )
-    throw new Error("Choose a valid date and time.");
+    throw new Error("请输入有效的日期和时间。");
   let candidate = desired;
   for (let pass = 0; pass < 4; pass++) {
     const local = localDateTime(new Date(candidate).toISOString(), timeZone);
@@ -37,7 +37,7 @@ export function zonedInstant(date: string, time: string, timeZone: string): stri
     if (delta === 0) return new Date(candidate).toISOString();
     candidate += delta;
   }
-  throw new Error("This time does not exist in the selected time zone. Choose another time.");
+  throw new Error("所选时区中不存在这个时间，请换一个时间。");
 }
 
 /** Only fully serialized instants may reset a date editor's local text. */

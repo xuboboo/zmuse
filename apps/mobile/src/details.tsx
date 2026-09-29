@@ -40,7 +40,9 @@ import DateTimeEditor from "./DateTimeEditor";
 import { localDateTime, zonedInstant } from "./date-time";
 import PdfReader from "./PdfReader";
 import {
+  actionStatusLabel,
   Button,
+  browserStatusLabel,
   Card,
   CheckRow,
   Chip,
@@ -73,12 +75,12 @@ export function Details({ detail }: { detail: Detail }) {
   return (
     <Sheet title="你的工作区" subtitle="一切，从容安放。" onClose={close}>
       {[
-        { section: "mail" as const, title: "Mail", icon: MailIcon },
-        { section: "calendar" as const, title: "Calendar", icon: CalendarDays },
-        { section: "browser" as const, title: "Browser", icon: Globe2 },
-        { section: "files" as const, title: "Files", icon: FileText },
-        { section: "activity" as const, title: "Activity", icon: Clock3 },
-        { section: "connections" as const, title: "Connections", icon: ShieldCheck },
+        { section: "mail" as const, title: "邮件", icon: MailIcon },
+        { section: "calendar" as const, title: "日历", icon: CalendarDays },
+        { section: "browser" as const, title: "浏览器", icon: Globe2 },
+        { section: "files" as const, title: "文件", icon: FileText },
+        { section: "activity" as const, title: "动态", icon: Clock3 },
+        { section: "connections" as const, title: "连接", icon: ShieldCheck },
       ].map((item) => (
         <LinkRow
           key={item.section}
@@ -133,15 +135,11 @@ function MailDetail({ mail: m }: { mail: Mail }) {
     };
   }, [api, m.threadId, retry]);
   return (
-    <Sheet
-      title={m.subject}
-      subtitle={`${thread.length} message${thread.length === 1 ? "" : "s"} in this conversation`}
-      onClose={close}
-    >
+    <Sheet title={m.subject} subtitle={`${thread.length} 封邮件`} onClose={close}>
       {loading && (
         <View style={[s.row, { gap: 10, paddingBottom: 20 }]}>
           <ActivityIndicator color={colors.blueDark} />
-          <Text style={s.muted}>Loading the conversation…</Text>
+          <Text style={s.muted}>正在加载会话…</Text>
         </View>
       )}
       {thread.map((message) => (
@@ -150,7 +148,7 @@ function MailDetail({ mail: m }: { mail: Mail }) {
             <View style={{ gap: 4, flex: 1 }}>
               <Text style={s.heading}>{message.sender}</Text>
               <Text style={s.small}>{message.from}</Text>
-              <Text style={s.small}>To: {message.to.join(", ")}</Text>
+              <Text style={s.small}>收件人：{message.to.join("、")}</Text>
             </View>
             <Text style={s.small}>
               {dateLabel(message.date)} · {timeLabel(message.date)}
@@ -166,7 +164,7 @@ function MailDetail({ mail: m }: { mail: Mail }) {
               <LinkRow
                 key={id}
                 title={file.name}
-                detail={`${file.pageCount} pages · PDF attachment`}
+                detail={`${file.pageCount} 页 · PDF 附件`}
                 icon={FileText}
                 onPress={() => open({ type: "file", file })}
               />
@@ -184,7 +182,7 @@ function MailDetail({ mail: m }: { mail: Mail }) {
         </Card>
       ))}
       <ErrorNotice error={error} />
-      {!!error && <Button onPress={() => setRetry(retry + 1)}>Reload conversation</Button>}
+      {!!error && <Button onPress={() => setRetry(retry + 1)}>重新加载会话</Button>}
       <Button
         primary
         icon={Reply}
@@ -205,7 +203,7 @@ function MailDetail({ mail: m }: { mail: Mail }) {
           })
         }
       >
-        Write a reply
+        写回复
       </Button>
     </Sheet>
   );
@@ -269,11 +267,11 @@ function EmailEditor({ draft }: { draft?: Partial<EmailDraft> & { id?: string } 
   return (
     <Sheet
       title={draft?.threadId ? "写回复" : "新邮件"}
-      subtitle={`From ${w.profile.email} · saved privately in ZMuse`}
+      subtitle={`来自 ${w.profile.email} · 私密保存在 ZMuse`}
       onClose={close}
     >
       <Field
-        label="To"
+        label="收件人"
         value={to}
         onChangeText={setTo}
         placeholder="person@example.com"
@@ -283,7 +281,7 @@ function EmailEditor({ draft }: { draft?: Partial<EmailDraft> & { id?: string } 
       <View style={{ flexDirection: "row", gap: 16 }}>
         <View style={{ flex: 1 }}>
           <Field
-            label="Cc"
+            label="抄送"
             value={cc}
             onChangeText={setCc}
             placeholder="可选"
@@ -292,7 +290,7 @@ function EmailEditor({ draft }: { draft?: Partial<EmailDraft> & { id?: string } 
         </View>
         <View style={{ flex: 1 }}>
           <Field
-            label="Bcc"
+            label="密送"
             value={bcc}
             onChangeText={setBcc}
             placeholder="可选"
@@ -300,12 +298,7 @@ function EmailEditor({ draft }: { draft?: Partial<EmailDraft> & { id?: string } 
           />
         </View>
       </View>
-      <Field
-        label="主题"
-        value={subject}
-        onChangeText={setSubject}
-        placeholder="What’s on your mind?"
-      />
+      <Field label="主题" value={subject} onChangeText={setSubject} placeholder="想写点什么？" />
       <Field
         label="正文"
         value={body}
@@ -316,7 +309,7 @@ function EmailEditor({ draft }: { draft?: Partial<EmailDraft> & { id?: string } 
       />
       {w.files.length > 0 && (
         <Card style={{ padding: 16, marginBottom: 18 }}>
-          <Text style={[s.heading, { fontSize: 13, marginBottom: 5 }]}>Attachments</Text>
+          <Text style={[s.heading, { fontSize: 13, marginBottom: 5 }]}>附件</Text>
           {w.files.map((f) => (
             <CheckRow
               key={f.id}
@@ -342,7 +335,7 @@ function EmailEditor({ draft }: { draft?: Partial<EmailDraft> & { id?: string } 
           disabled={!!busy}
           onPress={() => void save(true)}
         >
-          Review email
+          审阅邮件
         </Button>
         <Button
           icon={Save}
@@ -350,12 +343,10 @@ function EmailEditor({ draft }: { draft?: Partial<EmailDraft> & { id?: string } 
           disabled={!!busy}
           onPress={() => void save(false)}
         >
-          Save draft
+          保存草稿
         </Button>
       </View>
-      <Text style={[s.small, { marginTop: 13 }]}>
-        You’ll review the exact recipients, message, and attachments before anything is sent.
-      </Text>
+      <Text style={[s.small, { marginTop: 13 }]}>发送前，你可以核对收件人、正文与附件。</Text>
     </Sheet>
   );
 }
@@ -476,11 +467,15 @@ function EventEditor({
         timeZone={zone}
         allDay={allDay}
       />
-      <DateTimeEditor label="Ends" value={end} onChange={setEnd} timeZone={zone} allDay={allDay} />
+      <DateTimeEditor
+        label="结束时间"
+        value={end}
+        onChange={setEnd}
+        timeZone={zone}
+        allDay={allDay}
+      />
       {allDay && (
-        <Text style={[s.small, { marginBottom: 15 }]}>
-          The end date is the day after the last day of your event.
-        </Text>
+        <Text style={[s.small, { marginBottom: 15 }]}>结束日期是事件最后一天的次日。</Text>
       )}
       <Field label="时区" value={zone} onChangeText={setZone} placeholder="America/Los_Angeles" />
       <Field
@@ -496,7 +491,7 @@ function EventEditor({
         placeholder="邮箱地址，用逗号分隔"
       />
       <Field
-        label="Notes"
+        label="备注"
         value={description}
         onChangeText={setDescription}
         multiline
@@ -504,7 +499,7 @@ function EventEditor({
       />
       {!!conflicts.length && (
         <Card style={{ backgroundColor: colors.orange, padding: 16, marginBottom: 16 }}>
-          <Text style={s.heading}>This time overlaps</Text>
+          <Text style={s.heading}>时间有冲突</Text>
           {conflicts.map((c) => (
             <Text key={c.id} style={s.muted}>
               {c.title} · {timeLabel(c.start, c.timeZone)}–{timeLabel(c.end, c.timeZone)}
@@ -515,11 +510,11 @@ function EventEditor({
       <ErrorNotice error={error} />
       <View style={[s.row, { gap: 10, flexWrap: "wrap" }]}>
         <Button primary icon={ShieldCheck} busy={busy} onPress={() => void propose()}>
-          Review {e ? "changes" : "event"}
+          {e ? "审阅修改" : "审阅事件"}
         </Button>
         {e && (
           <Button icon={Trash2} disabled={busy} danger onPress={() => void propose(true)}>
-            Review deletion
+            审阅删除
           </Button>
         )}
       </View>
@@ -563,7 +558,7 @@ function ReviewDetail({ initial }: { initial: ActionProposal }) {
         if (action.kind === "calendar.update") {
           const eventId = action.data.eventId;
           if (typeof eventId !== "string" || !eventId)
-            throw new Error("The event reference is missing. Open the event in Calendar again.");
+            throw new Error("缺少事件引用，请在日历中重新打开该事件。");
           next = { type: "event", event: { ...draft, id: eventId } };
         } else next = { type: "event", draft };
       }
@@ -584,9 +579,7 @@ function ReviewDetail({ initial }: { initial: ActionProposal }) {
     <Sheet
       title={pending ? "最后确认" : action.title}
       subtitle={
-        w.mode === "sample"
-          ? "此操作仅保存在本地工作区。"
-          : "Review this exact action before it changes your connected account."
+        w.mode === "sample" ? "此操作仅保存在本地工作区。" : "在更改已连接账户前，请核对这一操作。"
       }
       onClose={close}
     >
@@ -599,39 +592,39 @@ function ReviewDetail({ initial }: { initial: ActionProposal }) {
           <Text style={s.small}>{action.kind.replace(".", " · ")}</Text>
         </View>
         <Chip tint={pending ? colors.lavender : colors.green}>
-          {action.status.replace(/_/g, " ")}
+          {actionStatusLabel(action.status)}
         </Chip>
       </View>
       <Card style={{ gap: 13 }}>
         <ReviewLine label="账户" value={action.account || w.profile.email} />
         {email ? (
           <>
-            <ReviewLine label="To" value={arrayText(d.to)} />
-            <ReviewLine label="Cc" value={arrayText(d.cc) || "None"} />
-            <ReviewLine label="Bcc" value={arrayText(d.bcc) || "None"} />
+            <ReviewLine label="收件人" value={arrayText(d.to)} />
+            <ReviewLine label="抄送" value={arrayText(d.cc) || "无"} />
+            <ReviewLine label="密送" value={arrayText(d.bcc) || "无"} />
             <ReviewLine label="主题" value={String(d.subject || "")} />
             <View style={s.divider} />
             <Text selectable style={[s.text, { lineHeight: 25 }]}>
               {String(d.body || "")}
             </Text>
             <View style={s.divider} />
-            <Text style={s.label}>Attachments</Text>
+            <Text style={s.label}>附件</Text>
             {Array.isArray(d.attachmentIds) && d.attachmentIds.length ? (
               d.attachmentIds.map((id) => {
                 const file = w.files.find((f) => f.id === id);
                 return (
                   <Text key={String(id)} style={s.text}>
-                    {file?.name || String(id)} · version {String(id).slice(-8)}
+                    {file?.name || String(id)} · 版本 {String(id).slice(-8)}
                   </Text>
                 );
               })
             ) : (
-              <Text style={s.muted}>No attachments</Text>
+              <Text style={s.muted}>无附件</Text>
             )}
           </>
         ) : (
           <>
-            <ReviewLine label="Event" value={String(d.title || "")} />
+            <ReviewLine label="事件" value={String(d.title || "")} />
             {action.kind !== "calendar.delete" && (
               <>
                 <ReviewLine
@@ -643,25 +636,25 @@ function ReviewDetail({ initial }: { initial: ActionProposal }) {
                   }
                 />
                 <ReviewLine
-                  label="Ends"
+                  label="结束时间"
                   value={
                     d.allDay
-                      ? `${String(d.end || "")} (exclusive)`
+                      ? `${String(d.end || "")}（不含当天）`
                       : `${dateLabel(String(d.end || ""), { year: "numeric", month: "short", day: "numeric", timeZone: String(d.timeZone || "UTC") })} · ${timeLabel(String(d.end || ""), String(d.timeZone || "UTC"))}`
                   }
                 />
                 <ReviewLine label="时区" value={String(d.timeZone || "")} />
-                <ReviewLine label="全天" value={d.allDay ? "Yes" : "No"} />
-                <ReviewLine label="地点" value={String(d.location || "None")} />
+                <ReviewLine label="全天" value={d.allDay ? "是" : "否"} />
+                <ReviewLine label="地点" value={String(d.location || "无")} />
                 <ReviewLine label="参与者" value={arrayText(d.attendees) || "只有你"} />
-                <ReviewLine label="Notes" value={String(d.description || "None")} />
+                <ReviewLine label="备注" value={String(d.description || "无")} />
               </>
             )}
-            <ReviewLine label="Calendar" value={String(d.calendarId || "primary")} />
+            <ReviewLine label="日历" value={String(d.calendarId || "primary")} />
             <Text style={s.small}>
               {action.kind === "calendar.delete"
                 ? "将删除该事件，并可能通知参与者。"
-                : "Attendees may receive an invitation or update from your connected calendar."}
+                : "参与者可能会收到你日历发出的邀请或更新。"}
             </Text>
           </>
         )}
@@ -677,7 +670,7 @@ function ReviewDetail({ initial }: { initial: ActionProposal }) {
       {pending ? (
         <>
           <Text style={[s.small, { marginVertical: 17 }]}>
-            Review expires{" "}
+            审阅将于{" "}
             {new Date(action.expiresAt).toLocaleString(undefined, {
               year: "numeric",
               month: "short",
@@ -685,26 +678,26 @@ function ReviewDetail({ initial }: { initial: ActionProposal }) {
               hour: "numeric",
               minute: "2-digit",
               timeZoneName: "short",
-            })}
-            . Your approval applies only to the details shown above.
+            })}{" "}
+            过期。批准仅适用于上面显示的内容。
           </Text>
           <View style={[s.row, { gap: 10, flexWrap: "wrap" }]}>
             <Button primary icon={Check} busy={busy} onPress={() => void decide("approve")}>
-              {w.mode === "sample" ? "本地批准" : email ? "Approve & send" : "批准修改"}
+              {w.mode === "sample" ? "本地批准" : email ? "批准并发送" : "批准修改"}
             </Button>
             {action.kind !== "calendar.delete" && (
               <Button icon={Edit3} disabled={busy} onPress={() => void edit()}>
-                Edit details
+                编辑内容
               </Button>
             )}
             <Button icon={X} disabled={busy} onPress={() => void decide("deny")}>
-              Don’t proceed
+              暂不执行
             </Button>
           </View>
         </>
       ) : (
         <Button style={{ alignSelf: "flex-start", marginTop: 19 }} onPress={close}>
-          Done
+          完成
         </Button>
       )}
     </Sheet>
@@ -772,32 +765,32 @@ function FileDetail({ file: f }: { file: Artifact }) {
   return (
     <Sheet
       title={f.name}
-      subtitle={`${f.pageCount} pages · ${Math.max(1, Math.round(f.size / 1024))} KB · ${f.source}`}
+      subtitle={`${f.pageCount} 页 · ${Math.max(1, Math.round(f.size / 1024))} KB · ${f.source}`}
       onClose={close}
       wide
     >
       <PdfReader url={url} token={api.token} pageCount={f.pageCount} />
       <View style={[s.row, { gap: 10, marginVertical: 18, flexWrap: "wrap" }]}>
         <Button icon={Download} onPress={() => void share()}>
-          {Platform.OS === "web" ? "Open / download" : "保存或分享"}
+          {Platform.OS === "web" ? "打开 / 下载" : "保存或分享"}
         </Button>
         <Button
           icon={Send}
           onPress={() => open({ type: "email", draft: { attachmentIds: [f.id] } })}
         >
-          Attach to email
+          作为邮件附件
         </Button>
       </View>
       {f.fields && f.fields.length > 0 && (
         <Card>
           <SectionHeading title="填写此表单" />
           <Text style={[s.muted, { marginBottom: 18 }]}>
-            Add your details below. Saving creates a new copy and keeps the original intact.
+            在下方填写内容。保存会生成新副本，原文件保持不变。
           </Text>
           {f.fields.map((field) =>
             field.type === "unsupported" ? (
               <Text key={field.name} style={s.muted}>
-                {field.name} · this field type is not supported
+                {field.name} · 暂不支持该字段类型
               </Text>
             ) : field.type === "checkbox" ? (
               <CheckRow
@@ -816,14 +809,14 @@ function FileDetail({ file: f }: { file: Artifact }) {
             ),
           )}
           <Button primary icon={Save} busy={busy} onPress={() => void fill()}>
-            Save filled copy
+            保存填写后的副本
           </Button>
         </Card>
       )}
       <ErrorNotice error={error} />
       <Text style={[s.small, { marginTop: 15 }]}>
-        Added {dateLabel(f.createdAt)}
-        {f.parentId ? " · filled copy" : ""}
+        添加于 {dateLabel(f.createdAt)}
+        {f.parentId ? " · 填写后的副本" : ""}
       </Text>
     </Sheet>
   );
@@ -877,7 +870,7 @@ function BrowserDetail({ initial }: { initial: BrowserSession }) {
       const files = result.files;
       notify(
         files.length
-          ? `${files.length} PDF download${files.length === 1 ? "" : "s"} added to Files.`
+          ? `已将 ${files.length} 个 PDF 下载添加到文件。`
           : "本次会话没有新的 PDF 下载。",
       );
     } catch (e) {
@@ -908,7 +901,7 @@ function BrowserDetail({ initial }: { initial: BrowserSession }) {
   return (
     <Sheet
       title={browserSite(browser.url)}
-      subtitle={`${browser.status} · updated ${timeLabel(browser.updatedAt)}`}
+      subtitle={`${browserStatusLabel(browser.status)} · 更新于 ${timeLabel(browser.updatedAt)}`}
       onClose={close}
       wide
     >
@@ -928,18 +921,18 @@ function BrowserDetail({ initial }: { initial: BrowserSession }) {
             ? "重新打开"
             : browser.status === "error"
               ? "重新连接"
-              : "Go"}
+              : "前往"}
         </Button>
       </View>
       <ErrorNotice error={error} />
       {loading ? (
         <View style={[s.row, { gap: 10, paddingVertical: 24 }]}>
           {error ? (
-            <Button onPress={() => setRetry(retry + 1)}>Retry connection</Button>
+            <Button onPress={() => setRetry(retry + 1)}>重试连接</Button>
           ) : (
             <>
               <ActivityIndicator color={colors.blueDark} />
-              <Text style={s.muted}>Connecting to your browser…</Text>
+              <Text style={s.muted}>正在连接浏览器…</Text>
             </>
           )}
         </View>
@@ -957,7 +950,7 @@ function BrowserDetail({ initial }: { initial: BrowserSession }) {
           title={browser.status === "closed" ? "会话已关闭" : "预览不可用"}
           detail={
             browser.status === "closed"
-              ? "Your profile and downloads are saved. Reopen to continue where you left off."
+              ? "配置与下载已保存。重新打开即可从上次继续。"
               : "重新连接以继续使用保存的浏览器配置。"
           }
         />
@@ -968,22 +961,22 @@ function BrowserDetail({ initial }: { initial: BrowserSession }) {
             icon={ExternalLink}
             onPress={() => void Linking.openURL(api.url(browser.consoleUrl || ""))}
           >
-            Open browser in a window
+            在窗口中打开浏览器
           </Button>
         )}
         {!loading && (
           <Button icon={RotateCw} disabled={busy} onPress={() => setRetry(retry + 1)}>
-            Refresh connection
+            刷新连接
           </Button>
         )}
         {!loading && browser.status !== "closed" && (
           <Button icon={Download} busy={busy} onPress={() => void importDownloads()}>
-            Import PDF downloads
+            导入 PDF 下载
           </Button>
         )}
         {!loading && browser.status !== "closed" && (
           <Button icon={X} danger busy={busy} onPress={() => void mutate(true)}>
-            Close session
+            关闭会话
           </Button>
         )}
       </View>

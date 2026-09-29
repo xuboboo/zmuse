@@ -141,7 +141,7 @@ export function ThreadsSheet({ onClose }: { onClose: () => void }) {
           <>
             <ErrorNotice error={mainError} />
             {mainError ? (
-              <Button onPress={retry}>Retry main chat</Button>
+              <Button onPress={retry}>重试主对话</Button>
             ) : (
               <ActivityIndicator color={colors.blueDark} />
             )}
@@ -212,7 +212,7 @@ export function ThreadsSheet({ onClose }: { onClose: () => void }) {
                 >
                   <Pressable
                     accessibilityRole="button"
-                    accessibilityLabel={`Open conversation: ${thread.name || "未命名会话"}`}
+                    accessibilityLabel={`打开对话：${thread.name || "未命名会话"}`}
                     accessibilityState={{ selected: selection.id === thread.id }}
                     onPress={() => {
                       select({ id: thread.id, existing: true });
@@ -264,15 +264,13 @@ export function ThreadsSheet({ onClose }: { onClose: () => void }) {
                 (thread) => thread.id !== mainId && thread.archived === archived,
               ) && (
                 <Text style={s.muted}>
-                  {archived
-                    ? "没有已归档的会话。"
-                    : "Keep a separate topic here. Your main chat is always available."}
+                  {archived ? "没有已归档的会话。" : "在这里保留一个独立话题。主对话始终可用。"}
                 </Text>
               )}
             <ErrorNotice error={threads.fetchMoreError?.message} />
             {threads.hasMoreThreads && (
               <Button small busy={threads.isFetchingMoreThreads} onPress={threads.fetchMoreThreads}>
-                Load more conversations
+                加载更多会话
               </Button>
             )}
             <Text style={s.small}>侧聊拥有各自独立的对话上下文；智能体的长期记忆是共享的。</Text>
@@ -288,9 +286,7 @@ export function ThreadsSheet({ onClose }: { onClose: () => void }) {
                 onClose();
               }}
             />
-            <Text style={s.muted}>
-              Your conversation is saved in this workspace. You can manage connections in Apps.
-            </Text>
+            <Text style={s.muted}>对话保存在本工作区。可在「应用」中管理连接。</Text>
           </>
         )}
         <View style={s.divider} />

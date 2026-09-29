@@ -37,6 +37,6 @@ export interface WorkspaceContextValue {
 export const WorkspaceContext = createContext<WorkspaceContextValue | null>(null);
 export function useWorkspace() {
   const context = useContext(WorkspaceContext);
-  if (!context) throw new Error("Workspace is unavailable");
+  if (!context) throw new Error("工作区暂不可用");
   return context;
 }

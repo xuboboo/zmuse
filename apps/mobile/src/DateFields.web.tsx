@@ -24,9 +24,9 @@ export default function DateFields({ label, date, time, allDay, onChange }: Date
   return (
     <View style={{ flexDirection: "row", gap: 12, marginBottom: 16 }}>
       <View style={{ flex: 1.2, gap: 7 }}>
-        <Text style={[s.small, { fontWeight: "600", color: colors.text }]}>{label} date</Text>
+        <Text style={[s.small, { fontWeight: "600", color: colors.text }]}>{label}（日期）</Text>
         <input
-          aria-label={`${label} date`}
+          aria-label={`${label}日期`}
           type="date"
           value={date}
           onChange={(e) => onChange(e.target.value, time)}
@@ -35,9 +35,9 @@ export default function DateFields({ label, date, time, allDay, onChange }: Date
       </View>
       {!allDay && (
         <View style={{ flex: 1, gap: 7 }}>
-          <Text style={[s.small, { fontWeight: "600", color: colors.text }]}>{label} time</Text>
+          <Text style={[s.small, { fontWeight: "600", color: colors.text }]}>{label}（时间）</Text>
           <input
-            aria-label={`${label} time`}
+            aria-label={`${label}时间`}
             type="time"
             value={time}
             onChange={(e) => onChange(date, e.target.value)}

@@ -92,6 +92,6 @@ export function AgentWorkspaceProvider({ children }: { children: ReactNode }) {
 }
 export function useAgentWorkspace() {
   const context = useContext(AgentContext);
-  if (!context) throw new Error("Agent workspace is unavailable");
+  if (!context) throw new Error("智能体工作区暂不可用");
   return context;
 }

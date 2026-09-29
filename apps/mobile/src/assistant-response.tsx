@@ -30,7 +30,7 @@ const rules: RenderRules = {
   ),
   image: (node) => (
     <Text key={node.key} selectable style={{ color: colors.muted }}>
-      {node.attributes.alt ? `[Image: ${node.attributes.alt}]` : "[Image]"}
+      {node.attributes.alt ? `[图片：${node.attributes.alt}]` : "[图片]"}
     </Text>
   ),
   code_block: renderCodeBlock,

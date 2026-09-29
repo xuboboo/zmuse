@@ -50,7 +50,7 @@ export function MailToolCard({
           <Mail size={16} color={colors.muted} />
         )}
         <Text style={s.muted}>
-          {!active ? "Mail reading paused" : search ? "Checking your inbox…" : "Reading the email…"}
+          {!active ? "邮件读取已暂停" : search ? "正在检查收件箱…" : "正在读取邮件…"}
         </Text>
       </View>
     );
@@ -58,16 +58,13 @@ export function MailToolCard({
     const parsed = z
       .object({ matches: z.array(z.object({ id: z.string() })), truncated: z.boolean() })
       .safeParse(value);
-    if (!parsed.success)
-      return <ErrorNotice error="The mailbox did not return readable results." />;
+    if (!parsed.success) return <ErrorNotice error="邮箱没有返回可读结果。" />;
     const count = parsed.data.matches.length;
     return (
       <View style={[s.row, { gap: 9, padding: 12 }]}>
         <Search size={16} color={colors.muted} />
         <Text style={s.muted}>
-          {count
-            ? `Found ${parsed.data.truncated ? "at least " : ""}${count} ${count === 1 ? "email" : "emails"}`
-            : "No matching emails"}
+          {count ? `找到${parsed.data.truncated ? "至少 " : ""}${count} 封邮件` : "没有匹配的邮件"}
         </Text>
       </View>
     );
@@ -75,9 +72,9 @@ export function MailToolCard({
   const parsed = z
     .object({ messages: z.array(messageSchema), truncated: z.boolean() })
     .safeParse(value);
-  if (!parsed.success) return <ErrorNotice error="The email could not be displayed." />;
+  if (!parsed.success) return <ErrorNotice error="无法显示这封邮件。" />;
   const message = parsed.data.messages.at(-1);
-  if (!message) return <Text style={s.muted}>No messages in this thread.</Text>;
+  if (!message) return <Text style={s.muted}>该会话中没有邮件。</Text>;
   return (
     <Card
       style={{ padding: 18, gap: 14, backgroundColor: "#F0EFF2", maxWidth: 440, width: "100%" }}
@@ -88,21 +85,16 @@ export function MailToolCard({
         </View>
         <View style={{ flex: 1 }}>
           <Text style={[s.text, { fontWeight: "600" }]}>{message.sender}</Text>
-          <Text style={s.small}>
-            Email ·{" "}
-            {parsed.data.messages.length === 1
-              ? "1 message"
-              : `${parsed.data.messages.length} messages`}
-          </Text>
+          <Text style={s.small}>邮件 · {parsed.data.messages.length} 封</Text>
         </View>
       </View>
       <Text style={s.heading}>{message.subject}</Text>
       <Text style={s.muted} numberOfLines={3}>
         {message.body}
       </Text>
-      {parsed.data.truncated && <Text style={s.small}>Showing an excerpt of this thread.</Text>}
+      {parsed.data.truncated && <Text style={s.small}>仅显示该会话的摘要。</Text>}
       <Button small icon={Mail} onPress={() => open({ type: "mail", mail: message })}>
-        Open email
+        打开邮件
       </Button>
     </Card>
   );

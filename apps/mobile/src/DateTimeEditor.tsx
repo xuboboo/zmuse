@@ -29,7 +29,7 @@ export default function DateTimeEditor({
         setTime(local.time);
       }
     } catch {
-      setError("Choose a valid time zone.");
+      setError("请输入有效的时区。");
     }
   }, [value, timeZone, allDay]);
   function change(nextDate: string, nextTime: string) {

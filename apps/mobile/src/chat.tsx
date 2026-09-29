@@ -70,7 +70,7 @@ export function WorkspaceTools() {
     description: "查看委托的工作",
     parameters: displayParameters,
     render: ({ result, status }) => (
-      <ServerToolCard name="Task" result={result} loading={status !== "complete"} />
+      <ServerToolCard name="任务" result={result} loading={status !== "complete"} />
     ),
   });
   useRenderTool({
@@ -86,7 +86,7 @@ export function WorkspaceTools() {
     description: "查看已存目标",
     parameters: displayParameters,
     render: ({ result, status }) => (
-      <ServerToolCard name="Goal" result={result} loading={status !== "complete"} />
+      <ServerToolCard name="目标" result={result} loading={status !== "complete"} />
     ),
   });
   useRenderTool({
@@ -139,7 +139,7 @@ function ServerToolCard({
   if (task) return <TaskThreadCard task={task} />;
   return (
     <Card style={{ padding: 16, gap: 10 }}>
-      <Text style={s.heading}>{loading ? `Saving ${name.toLowerCase()}…` : name}</Text>
+      <Text style={s.heading}>{loading ? `正在保存${name}…` : name}</Text>
       {parsed.success && parsed.data.error ? (
         <ErrorNotice error={parsed.data.error} />
       ) : (
@@ -149,11 +149,11 @@ function ServerToolCard({
         small
         onPress={() =>
           navigate(
-            name === "Goal" || name === "追踪" ? "goals" : name === "记忆" ? "apps" : "activity",
+            name === "目标" || name === "追踪" ? "goals" : name === "记忆" ? "apps" : "activity",
           )
         }
       >
-        View {name.toLowerCase()}
+        查看{name}
       </Button>
     </Card>
   );
@@ -222,7 +222,7 @@ export function ChatScreen({
         if (active) {
           setLoaded(false);
           setHistoryError(
-            `Could not load conversation. Your saved messages have not been changed. ${e instanceof Error ? e.message : String(e)}`,
+            `无法加载对话。已保存的消息未被改动。${e instanceof Error ? e.message : String(e)}`,
           );
         }
       }
@@ -258,9 +258,7 @@ export function ChatScreen({
           await saveHistory();
         } catch (e) {
           queue.pause();
-          setSaveError(
-            `Conversation could not be saved: ${e instanceof Error ? e.message : String(e)}`,
-          );
+          setSaveError(`对话保存失败：${e instanceof Error ? e.message : String(e)}`);
         } finally {
           runLock.current = false;
           setBusy(false);
@@ -304,7 +302,7 @@ export function ChatScreen({
     try {
       await copilotkit.stopAgent({ agent });
     } catch (e) {
-      setError(`Could not stop response: ${e instanceof Error ? e.message : String(e)}`);
+      setError(`无法停止回复：${e instanceof Error ? e.message : String(e)}`);
     }
   }
   function send() {
@@ -355,7 +353,7 @@ export function ChatScreen({
           <>
             <ErrorNotice error={historyError} />
             <Button onPress={() => setHistoryAttempt((attempt) => attempt + 1)}>
-              Retry loading conversation
+              重试加载对话
             </Button>
           </>
         )}
@@ -547,7 +545,7 @@ export function ChatScreen({
                 .catch((e) => setError(e instanceof Error ? e.message : String(e)));
             }}
           >
-            Retry response
+            重试回复
           </Button>
         )}
       </ScrollView>
@@ -562,7 +560,7 @@ export function ChatScreen({
             list.current?.scrollToEnd({ animated: true });
           }}
         >
-          Latest messages
+          最新消息
         </Button>
       )}
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined}>
@@ -575,13 +573,13 @@ export function ChatScreen({
               void saveHistory().catch((e) => setSaveError(String(e)));
             }}
           >
-            Retry saving conversation
+            重试保存对话
           </Button>
         )}
         {!!outbox.pending.length && (
           <View style={{ padding: 12, gap: 6 }}>
             <Text style={s.small}>
-              {outbox.paused ? "排队中的消息" : "Up next"} · Keep the app open until sent
+              {outbox.paused ? "排队中的消息" : "接下来发送"} · 发送前请保持应用在前台
             </Text>
             {outbox.pending.map((message) => (
               <View key={message.id} style={[s.row, { gap: 8 }]}>
@@ -590,7 +588,7 @@ export function ChatScreen({
                 </Text>
                 <Pressable
                   accessibilityRole="button"
-                  accessibilityLabel={`Remove queued message: ${message.text}`}
+                  accessibilityLabel={`移除排队消息：${message.text}`}
                   hitSlop={10}
                   onPress={() => queue.remove(message.id)}
                   style={{ padding: 8 }}
@@ -608,14 +606,14 @@ export function ChatScreen({
                   flush();
                 }}
               >
-                Send queued messages
+                发送排队消息
               </Button>
             )}
           </View>
         )}
         {picking && (
           <Card style={{ marginBottom: 12, padding: 15 }}>
-            <Text style={s.heading}>Add a document</Text>
+            <Text style={s.heading}>添加文档</Text>
             <ScrollView style={{ maxHeight: 230 }} keyboardShouldPersistTaps="handled">
               {w.files.length ? (
                 w.files.map((f) => (
@@ -633,7 +631,7 @@ export function ChatScreen({
                   />
                 ))
               ) : (
-                <Text style={s.muted}>Import a PDF in Files to use it in a conversation.</Text>
+                <Text style={s.muted}>先在「文件」中导入 PDF，即可在对话中使用。</Text>
               )}
             </ScrollView>
             <Button
@@ -641,7 +639,7 @@ export function ChatScreen({
               onPress={() => setPicking(false)}
               style={{ alignSelf: "flex-end", marginTop: 8 }}
             >
-              Done
+              完成
             </Button>
           </Card>
         )}
@@ -667,7 +665,7 @@ export function ChatScreen({
                   <Pressable
                     key={f.id}
                     accessibilityRole="button"
-                    accessibilityLabel={`Remove attachment: ${f.name}`}
+                    accessibilityLabel={`移除附件：${f.name}`}
                     onPress={() => setAttachments((ids) => ids.filter((id) => id !== f.id))}
                     style={[
                       s.row,

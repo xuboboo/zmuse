@@ -337,7 +337,7 @@ export function Sheet({
               <Text style={s.title}>{title}</Text>
               {!!subtitle && <Text style={s.muted}>{subtitle}</Text>}
             </View>
-            <IconButton icon={X} label="Close details" onPress={onClose} />
+            <IconButton icon={X} label="关闭详情" onPress={onClose} />
           </View>
           <ScrollView
             keyboardShouldPersistTaps="handled"
@@ -478,27 +478,51 @@ export function dateLabel(value: string, options?: Intl.DateTimeFormatOptions) {
   const date = new Date(value);
   return Number.isNaN(date.getTime())
     ? value
-    : date.toLocaleDateString("en-US", options || { month: "short", day: "numeric" });
+    : date.toLocaleDateString("zh-CN", options || { month: "short", day: "numeric" });
 }
 export function timeLabel(value: string, timeZone?: string) {
   const date = new Date(value);
   return Number.isNaN(date.getTime())
     ? value
-    : date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZone });
+    : date.toLocaleTimeString("zh-CN", { hour: "numeric", minute: "2-digit", timeZone });
 }
 export function relativeDate(value: string) {
   const diff = Date.now() - new Date(value).getTime();
   return diff < 60_000
-    ? "Just now"
+    ? "刚刚"
     : diff < 3600_000
-      ? `${Math.floor(diff / 60_000)}m ago`
+      ? `${Math.floor(diff / 60_000)} 分钟前`
       : diff < 86400_000
-        ? `${Math.floor(diff / 3600_000)}h ago`
+        ? `${Math.floor(diff / 3600_000)} 小时前`
         : dateLabel(value);
 }
 
 export function resultSummary(value: string) {
   return /^Saved to (?:sample|local) sent mail(?: · .+)?$/.test(value)
-    ? "Reply saved in your local Sent mail."
+    ? "回复已保存到你本地的已发邮件。"
     : value;
+}
+
+export const actionStatusLabels: Record<string, string> = {
+  awaiting_review: "待审阅",
+  executing: "执行中",
+  succeeded: "已完成",
+  failed: "失败",
+  outcome_unknown: "结果未知",
+  denied: "已拒绝",
+  cancelled: "已取消",
+  expired: "已过期",
+};
+export function actionStatusLabel(value: string) {
+  return actionStatusLabels[value] ?? value.replace(/_/g, " ");
+}
+
+export const browserStatusLabels: Record<string, string> = {
+  idle: "空闲",
+  active: "使用中",
+  closed: "已关闭",
+  error: "异常",
+};
+export function browserStatusLabel(value: string) {
+  return browserStatusLabels[value] ?? value;
 }

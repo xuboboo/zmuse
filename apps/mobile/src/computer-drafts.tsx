@@ -33,7 +33,7 @@ export function ComputerDraftProvider({ children }: { children: ReactNode }) {
 }
 export function useComputerDraft<K extends keyof ComputerDrafts>(key: K) {
   const context = useContext(DraftContext);
-  if (!context) throw new Error("Computer drafts are unavailable");
+  if (!context) throw new Error("电脑草稿暂不可用");
   const { setDrafts } = context;
   const set = useCallback(
     (value: SetStateAction<ComputerDrafts[K]>) => {

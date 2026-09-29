@@ -179,7 +179,7 @@ export function ZSidebar({
     <View
       style={{
         width: 232,
-        backgroundColor: "#EBEBEE",
+        backgroundColor: "#F5F5F7",
         borderRightWidth: 1,
         borderRightColor: "rgba(0,0,0,0.06)",
         paddingHorizontal: 10,

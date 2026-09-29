@@ -8,17 +8,17 @@ export function browserAddress(value: string): string {
       url.password ||
       /\s/.test(input)
     )
-      throw new Error("Invalid address");
+      throw new Error("无效地址");
     return url.href;
   } catch {
-    throw new Error("Enter a website address, like copilotkit.ai or https://news.ycombinator.com.");
+    throw new Error("请输入网站地址，例如 copilotkit.ai 或 https://news.ycombinator.com。");
   }
 }
 
 export function browserSite(value: string): string {
   try {
-    return new URL(value).hostname.replace(/^www\./, "") || "Browser";
+    return new URL(value).hostname.replace(/^www\./, "") || "浏览器";
   } catch {
-    return "Browser";
+    return "浏览器";
   }
 }

@@ -24,7 +24,7 @@ export default function PdfReader({ url, token, pageCount }: PdfReaderProps) {
             disabled={page <= 1}
             onPress={() => ref.current?.setPage(page - 1)}
           >
-            Previous
+            上一页
           </Button>
           <Text style={s.small}>
             {page} / {pages}
@@ -35,7 +35,7 @@ export default function PdfReader({ url, token, pageCount }: PdfReaderProps) {
             disabled={page >= pages}
             onPress={() => ref.current?.setPage(page + 1)}
           >
-            Next
+            下一页
           </Button>
         </View>
         <View style={[s.row, { gap: 8 }]}>
@@ -45,7 +45,7 @@ export default function PdfReader({ url, token, pageCount }: PdfReaderProps) {
             disabled={scale <= 1}
             onPress={() => setScale(Math.max(1, scale - 0.25))}
           >
-            Zoom out
+            缩小
           </Button>
           <Button
             small
@@ -53,7 +53,7 @@ export default function PdfReader({ url, token, pageCount }: PdfReaderProps) {
             disabled={scale >= 3}
             onPress={() => setScale(Math.min(3, scale + 0.25))}
           >
-            Zoom in
+            放大
           </Button>
         </View>
       </View>

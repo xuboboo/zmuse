@@ -21,7 +21,7 @@ export class MuseApi {
     const payload = await response.json();
     if (!response.ok)
       throw new Error(
-        typeof payload.error === "string" ? payload.error : `Request failed (${response.status})`,
+        typeof payload.error === "string" ? payload.error : `请求失败（${response.status}）`,
       );
     return payload;
   }
@@ -39,6 +39,6 @@ export async function createSession(
     body: JSON.stringify({ accessKey }),
   });
   const payload = await response.json();
-  if (!response.ok) throw new Error(payload.error || "Could not open your workspace.");
+  if (!response.ok) throw new Error(payload.error || "无法打开你的工作区。");
   return payload;
 }
