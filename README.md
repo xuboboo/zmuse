@@ -78,6 +78,29 @@ docker build -t openmuse-desktop:local  apps/desktop
 - 关窗缩到托盘，后台任务继续；子进程崩溃 3 秒自愈
 - 托盘退出走优雅关停，不伤数据
 
+### 模型接入预设（国内中转即插即用）
+
+`.env` 里三个变量切换任意中转，无需改代码：
+
+```dotenv
+AGENT_BACKEND=model
+MODEL=openai/你的模型id
+OPENAI_API_KEY=sk-xxx
+OPENAI_BASE_URL=https://你的中转/v1
+```
+
+| 中转/平台 | OPENAI_BASE_URL | 备注 |
+| --- | --- | --- |
+| [AgentRouter](https://agentrouter.org) | `https://agentrouter.org/v1` | GitHub 登录注册，开发者免费额度 |
+| OpenRouter | `https://openrouter.ai/api/v1` | 全球聚合，模型最全 |
+| 自建/其他中转 | `https://你的中转/v1` | 任意 OpenAI 兼容网关 |
+
+### 全天候自主运行
+
+- 开机自动启动：开始菜单「启动」文件夹放入 `StartOpenMuse.cmd` 快捷方式
+- 关窗缩到托盘：API 与后台任务持续运行，浏览器 worker 自动重启（自愈守护）
+- 智能体可自主操控图形化云桌面完成任务（见界面一览）
+
 ### 方式 B：开发三件套
 
 ```sh
