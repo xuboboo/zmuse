@@ -20,7 +20,10 @@ test("invalid calendar dates and out-of-range times do not normalize silently", 
   assert.throws(() => zonedInstant("2026-09-15", "25:00", "UTC"));
 });
 test("a daylight-saving gap cannot become a different appointment time", () => {
-  assert.throws(() => zonedInstant("2026-03-08", "02:30", "America/Los_Angeles"), /does not exist/);
+  assert.throws(
+    () => zonedInstant("2026-03-08", "02:30", "America/Los_Angeles"),
+    /所选时区中不存在这个时间/,
+  );
   assert.equal(
     zonedInstant("2026-03-08", "03:30", "America/Los_Angeles"),
     "2026-03-08T10:30:00.000Z",
