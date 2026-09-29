@@ -15,6 +15,7 @@ RUN apt-get update \
         novnc \
         fonts-noto-cjk \
         fonts-noto-color-emoji \
+        xclip \
         ca-certificates \
         procps \
         python3 \

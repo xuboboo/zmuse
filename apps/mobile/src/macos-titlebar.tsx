@@ -6,6 +6,7 @@ interface WindowControls {
   minimize: () => void;
   toggleMaximize: () => void;
   hideToTray: () => void;
+  resizeDesktop: (width: number, height: number) => Promise<{ ok: boolean }>;
 }
 declare global {
   interface Window {

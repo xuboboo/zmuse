@@ -5,4 +5,5 @@ contextBridge.exposeInMainWorld("zmuseWindow", {
   minimize: () => ipcRenderer.send("win:minimize"),
   toggleMaximize: () => ipcRenderer.send("win:toggle-maximize"),
   hideToTray: () => ipcRenderer.send("win:hide"),
+  resizeDesktop: (width, height) => ipcRenderer.invoke("desktop:resize", { width, height }),
 });

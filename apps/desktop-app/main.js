@@ -39,6 +39,29 @@ let tray = null;
 let mainWindow = null;
 let quitting = false;
 
+// 以 argv 数组运行 docker（无 shell、无拼接）；非零退出码作为正常结果返回。
+function runDocker(args, timeoutMs = 8000, input) {
+  return new Promise((resolve) => {
+    const child = spawn("docker", args, { windowsHide: true, input });
+    let out = "";
+    let err = "";
+    const timer = setTimeout(() => {
+      child.kill();
+      resolve({ code: -1, out, err: "timeout" });
+    }, timeoutMs);
+    child.stdout.on("data", (c) => (out += c));
+    child.stderr.on("data", (c) => (err += c));
+    child.on("error", () => {
+      clearTimeout(timer);
+      resolve({ code: -1, out, err: "docker spawn failed" });
+    });
+    child.on("close", (code) => {
+      clearTimeout(timer);
+      resolve({ code: code ?? -1, out, err });
+    });
+  });
+}
+
 async function log(line) {
   try {
     await mkdir(LOG_DIR, { recursive: true });
@@ -281,6 +304,19 @@ if (!gotLock) {
     else mainWindow.maximize();
   });
   ipcMain.on("win:hide", () => mainWindow?.hide());
+
+  // 云桌面分辨率自适应 + 剪贴板双向桥（详细逻辑见 desktop-bridge.js）。
+  const bridge = require("./desktop-bridge");
+  const { clipboard } = require("electron");
+  bridge.init({
+    log: (line) => log(line),
+    exec: (args, timeoutMs, input) => runDocker(args, timeoutMs, input),
+    readHostClipboard: () => clipboard.readText(),
+    writeHostClipboard: (text) => clipboard.writeText(text),
+    intervalMs: 1500,
+  });
+  ipcMain.handle("desktop:resize", (_event, payload) => bridge.resizeDesktop(payload));
+
   app.on("second-instance", () => mainWindow?.show());
   app.whenReady().then(async () => {
     try {

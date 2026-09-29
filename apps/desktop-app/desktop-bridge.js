@@ -17,9 +17,7 @@ let pollTimer = null;
 
 // 白名单校验：容器名只允许 Docker 名称字符且不以 - 开头（杜绝选项注入）。
 function safeContainerName(name) {
-  return typeof name === "string" && /^[A-Za-z0-9][A-Za-z0-9_.-]{0,120}$/.test(name)
-    ? name
-    : null;
+  return typeof name === "string" && /^[A-Za-z0-9][A-Za-z0-9_.-]{0,120}$/.test(name) ? name : null;
 }
 
 // 白名单校验：分辨率只能是「数字 x 数字」形态（640x480 ~ 3840x2160）。
@@ -81,7 +79,10 @@ async function findContainer() {
   );
   if (r.code !== 0) return null;
   containerName = safeContainerName(
-    r.out.split("\n").map((s) => s.trim()).filter((n) => n.endsWith("-desktop"))[0],
+    r.out
+      .split("\n")
+      .map((s) => s.trim())
+      .filter((n) => n.endsWith("-desktop"))[0],
   );
   return containerName;
 }
@@ -110,7 +111,10 @@ async function tick() {
   if (!(await desktopRunning())) return;
 
   // 桌面 → 宿主：X 剪贴板有新内容时写入宿主剪贴板
-  const out = await runDocker(["exec", containerName, "xclip", "-selection", "clipboard", "-o"], 4000);
+  const out = await runDocker(
+    ["exec", containerName, "xclip", "-selection", "clipboard", "-o"],
+    4000,
+  );
   if (out.code === 0 && out.out && out.out !== lastPulled && out.out !== lastPushed) {
     lastPulled = out.out;
     deps.writeHostClipboard(out.out);
