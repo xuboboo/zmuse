@@ -230,6 +230,7 @@ function WorkspaceShell({
     selection,
     visited,
     mainId,
+    start: startThread,
     loading: threadsLoading,
     error: threadsError,
     retry: retryThreads,
@@ -271,6 +272,10 @@ function WorkspaceShell({
             pending={pending}
             computer={section === "chat" ? <ComputerEntry /> : null}
             manageThreads={() => setThreadsOpen(true)}
+            newChat={() => {
+              startThread();
+              navigate("chat");
+            }}
           />
           <View style={{ flex: 1, minWidth: 0 }}>
             <View

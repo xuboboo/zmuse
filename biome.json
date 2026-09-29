@@ -11,7 +11,8 @@
       "!**/android",
       "!**/.openmuse",
       "!**/artifacts",
-      "!**/.mimosa"
+      "!**/.mimosa",
+      "!**/.zcode"
     ]
   },
   "formatter": { "enabled": true, "indentStyle": "space", "lineWidth": 100 },

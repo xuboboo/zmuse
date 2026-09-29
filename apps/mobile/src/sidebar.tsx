@@ -98,12 +98,14 @@ export function ZSidebar({
   pending,
   computer,
   manageThreads,
+  newChat,
 }: {
   section: string;
   navigate: (s: string) => void;
   pending: number;
   computer: ReactNode;
   manageThreads: () => void;
+  newChat: () => void;
 }) {
   const nav: Item[] = [
     {
@@ -208,7 +210,7 @@ export function ZSidebar({
       <Pressable
         accessibilityRole="button"
         accessibilityLabel="新建对话"
-        onPress={() => navigate("chat")}
+        onPress={newChat}
         style={{
           flexDirection: "row",
           alignItems: "center",
