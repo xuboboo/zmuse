@@ -37,10 +37,10 @@ import { ChatScreen, WorkspaceTools } from "./src/chat";
 import { ComputerEntry } from "./src/computer";
 import { ComputerDraftProvider } from "./src/computer-drafts";
 import { Details } from "./src/details";
-import { MacTitlebar } from "./src/macos-titlebar";
 import { BrowserScreen, CalendarScreen, FilesScreen, MailScreen } from "./src/screens";
 import { ThreadsProvider, ThreadsSheet, useMuseThread } from "./src/threads";
 import { Button, Card, colors, ErrorNotice, Field, IconButton, Mascot, s } from "./src/ui";
+import { WindowTitlebar } from "./src/window-titlebar";
 import { type Detail, useWorkspace, WorkspaceContext } from "./src/workspace";
 
 const nav: { id: Section; label: string; icon: LucideIcon }[] = [
@@ -294,7 +294,7 @@ function WorkspaceShell({
     <>
       <WorkspaceTools />
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.canvas }} edges={["top", "bottom"]}>
-        <MacTitlebar title="ZMuse" />
+        <WindowTitlebar title="ZMuse" />
         <View style={{ flex: 1, width: "100%", maxWidth: 760, alignSelf: "center" }}>
           <View
             style={{
