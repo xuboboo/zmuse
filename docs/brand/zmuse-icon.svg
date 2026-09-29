@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4E6BF5"/>
+      <stop offset="1" stop-color="#2A3EB1"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.16"/>
+      <stop offset="0.55" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="tile">
+      <rect x="16" y="16" width="480" height="480" rx="118" ry="118"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#tile)">
+    <rect x="16" y="16" width="480" height="480" fill="url(#bg)"/>
+    <rect x="16" y="16" width="480" height="480" fill="url(#sheen)"/>
+    <!-- Z 字标：三段几何笔画，圆角端点 -->
+    <g fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M168 172 H344" stroke-width="56"/>
+      <path d="M336 168 L184 344" stroke-width="56"/>
+      <path d="M168 340 H344" stroke-width="56"/>
+    </g>
+    <!-- 对话气泡尾巴：表示这是会话入口 -->
+    <path d="M150 372 h96 l-30 52 z" fill="#FFFFFF" opacity="0.92"/>
+    <!-- 灵感火花：muse 之星 -->
+    <g fill="#FFD34D">
+      <path d="M368 96 l12 34 34 12 -34 12 -12 34 -12 -34 -34 -12 34 -12 z"/>
+      <circle cx="418" cy="76" r="8"/>
+    </g>
+  </g>
+</svg>

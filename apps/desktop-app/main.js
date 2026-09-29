@@ -1,4 +1,4 @@
-// OpenMuse Windows 桌面壳：
+// ZMuse Windows 桌面壳：
 // 1. 启动并守护 API(8787) 与浏览器 worker(8790) 子进程
 // 2. 本地静态服务中文 Web 界面(8081)，与 API 的 CORS 白名单一致
 // 3. 健康检查通过后开窗；窗口关闭缩到托盘（后台任务继续），托盘退出才真正停止
@@ -28,7 +28,7 @@ function fail(message) {
   app.whenReady().then(() => {
     const win = new BrowserWindow({ show: false });
     const { dialog } = require("electron");
-    dialog.showErrorBox("OpenMuse 桌面版启动失败", message);
+    dialog.showErrorBox("ZMuse 桌面版启动失败", message);
     win.destroy();
     app.exit(1);
   });
@@ -223,7 +223,7 @@ function createWindow() {
     width: 1440,
     height: 900,
     backgroundColor: "#F6F7F9",
-    title: "OpenMuse",
+    title: "ZMuse",
     autoHideMenuBar: true,
     webPreferences: { contextIsolation: true, nodeIntegration: false },
   });
@@ -247,10 +247,10 @@ function createTray() {
       ? nativeImage.createFromPath(path.join(assetsDir, png)).resize({ width: 16, height: 16 })
       : nativeImage.createEmpty();
     tray = new Tray(icon);
-    tray.setToolTip("OpenMuse — 后台任务运行中");
+    tray.setToolTip("ZMuse — 后台任务运行中");
     tray.setContextMenu(
       Menu.buildFromTemplate([
-        { label: "打开 OpenMuse", click: () => mainWindow?.show() },
+        { label: "打开 ZMuse", click: () => mainWindow?.show() },
         { type: "separator" },
         {
           label: "退出（停止后台任务）",
@@ -273,12 +273,12 @@ if (!gotLock) {
   app.on("second-instance", () => mainWindow?.show());
   app.whenReady().then(async () => {
     try {
-      await log("=== OpenMuse desktop starting ===");
+      await log("=== ZMuse desktop starting ===");
       try {
         await serveWeb();
       } catch {
         return fail(
-          `端口 ${WEB_PORT} 已被占用（可能是开发用的 Metro 还在运行）。\n关闭它之后重新启动 OpenMuse。`,
+          `端口 ${WEB_PORT} 已被占用（可能是开发用的 Metro 还在运行）。\n关闭它之后重新启动 ZMuse。`,
         );
       }
       log("web server ready on 8081");

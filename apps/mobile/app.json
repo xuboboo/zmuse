@@ -1,15 +1,23 @@
 {
   "expo": {
-    "name": "OpenMuse",
+    "name": "ZMuse",
     "slug": "openmuse",
     "scheme": "openmuse",
     "version": "0.1.0",
     "orientation": "default",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
-    "ios": { "supportsTablet": true, "bundleIdentifier": "app.openmuse.mobile" },
-    "android": { "package": "app.openmuse.mobile" },
-    "web": { "bundler": "metro", "name": "OpenMuse — a little room for everything" },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "app.openmuse.mobile"
+    },
+    "android": {
+      "package": "app.openmuse.mobile"
+    },
+    "web": {
+      "bundler": "metro",
+      "name": "ZMuse — 少操点心，多留点时间给生活。"
+    },
     "plugins": [
       "expo-document-picker",
       "@config-plugins/react-native-blob-util",

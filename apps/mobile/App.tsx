@@ -111,7 +111,7 @@ export default function App() {
             <Text
               style={{ fontSize: 32, color: colors.text, letterSpacing: -1, fontWeight: "500" }}
             >
-              Welcome to OpenMuse.
+              Welcome to ZMuse.
             </Text>
             <Text style={[s.muted, { textAlign: "center" }]}>A little room for your day.</Text>
             {busy ? (
@@ -130,7 +130,7 @@ export default function App() {
                   Open workspace
                 </Button>
                 <Text style={[s.small, { marginTop: 15 }]}>
-                  Local workspaces open without a key. Make sure your OpenMuse server is running at{" "}
+                  Local workspaces open without a key. Make sure your ZMuse server is running at{" "}
                   {API_URL}.
                 </Text>
               </Card>
@@ -261,7 +261,7 @@ function WorkspaceShell({
     data?.tasks.find(
       (task) => task.status === "waiting_approval" || task.status === "waiting_input",
     ) || data?.tasks.find((task) => task.status === "running");
-  const agentName = data?.identity.name || "OpenMuse";
+  const agentName = data?.identity.name || "ZMuse";
   const status = activeTask
     ? activeTask.status === "waiting_approval"
       ? `待你审阅 · ${activeTask.title}`

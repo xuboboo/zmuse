@@ -913,11 +913,7 @@ export function DelegateSheet() {
     }
   }
   return (
-    <Sheet
-      title="交办一件事"
-      subtitle="OpenMuse 会保存计划，并在服务器上持续推进。"
-      onClose={close}
-    >
+    <Sheet title="交办一件事" subtitle="ZMuse 会保存计划，并在服务器上持续推进。" onClose={close}>
       <View style={[s.row, { flexWrap: "wrap", gap: 8, marginBottom: 20 }]}>
         {(["plan", "document", "finance", "agent"] as const).map((item) => (
           <Button small primary={kind === item} key={item} onPress={() => setKind(item)}>
@@ -1119,12 +1115,7 @@ function IdeaCard({ idea }: { idea: Idea }) {
         <View style={{ gap: 15, marginTop: 18, paddingLeft: 48 }}>
           <EvidenceList items={idea.evidence} />
           {editing && (
-            <Field
-              label="想让 OpenMuse 做什么？"
-              value={prompt}
-              onChangeText={setPrompt}
-              multiline
-            />
+            <Field label="想让 ZMuse 做什么？" value={prompt} onChangeText={setPrompt} multiline />
           )}
           <ErrorNotice error={error} />
           <View style={[s.row, { gap: 8, flexWrap: "wrap" }]}>
@@ -1514,7 +1505,7 @@ function MonitorForm({ onDone }: { onDone: () => void }) {
       <Text style={[s.small, { marginBottom: 14 }]}>
         {sample
           ? "对内置页面的修改仅保存在你的工作区内。"
-          : "OpenMuse checks this public page on the server and saves meaningful changes in Notifications."}
+          : "ZMuse checks this public page on the server and saves meaningful changes in Notifications."}
       </Text>
       <ErrorNotice error={error} />
       <Button
@@ -1662,7 +1653,7 @@ export function AppsScreen() {
   const { data, mutate } = useAgentWorkspace();
   const [query, setQuery] = useState("");
   const [settings, setSettings] = useState(false);
-  const [name, setName] = useState(data?.identity.name || "OpenMuse");
+  const [name, setName] = useState(data?.identity.name || "ZMuse");
   const [tone, setTone] = useState(data?.identity.tone || "warm");
   const [avatar, setAvatar] = useState(data?.identity.avatar || "sky");
   const [showChatUpdates, setShowChatUpdates] = useState(data?.identity.showChatUpdates !== false);

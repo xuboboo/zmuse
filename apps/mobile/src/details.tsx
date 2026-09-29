@@ -257,7 +257,7 @@ function EmailEditor({ draft }: { draft?: Partial<EmailDraft> & { id?: string } 
           ...(draft?.id ? { id: draft.id } : {}),
         });
         await refresh();
-        notify("草稿已保存在 OpenMuse。");
+        notify("草稿已保存在 ZMuse。");
         close();
       }
     } catch (e) {
@@ -269,7 +269,7 @@ function EmailEditor({ draft }: { draft?: Partial<EmailDraft> & { id?: string } 
   return (
     <Sheet
       title={draft?.threadId ? "写回复" : "新邮件"}
-      subtitle={`From ${w.profile.email} · saved privately in OpenMuse`}
+      subtitle={`From ${w.profile.email} · saved privately in ZMuse`}
       onClose={close}
     >
       <Field
