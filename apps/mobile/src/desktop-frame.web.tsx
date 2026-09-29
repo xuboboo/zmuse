@@ -27,7 +27,7 @@ export function DesktopFrame({ url }: { url: string }) {
         src={src}
         title="图形化桌面"
         style={{ display: "block", width: "100%", aspectRatio: "16 / 10", border: "none" }}
-        allow="clipboard-read; clipboard-write"
+        allow="clipboard-read; clipboard-write; fullscreen"
       />
     </View>
   );
