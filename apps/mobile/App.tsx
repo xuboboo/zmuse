@@ -1,17 +1,6 @@
 import { CopilotKitProvider } from "@copilotkit/react-native/headless";
 import { StatusBar } from "expo-status-bar";
-import {
-  Bell,
-  Check,
-  Lightbulb,
-  type LucideIcon,
-  Menu,
-  MessageCircle,
-  PanelsTopLeft,
-  Shapes,
-  SquareCheck,
-  X,
-} from "lucide-react-native";
+import { Bell, Check, X } from "lucide-react-native";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator,
@@ -39,17 +28,11 @@ import { ComputerDraftProvider } from "./src/computer-drafts";
 import { Details } from "./src/details";
 import { AppToolbar } from "./src/macos-titlebar";
 import { BrowserScreen, CalendarScreen, FilesScreen, MailScreen } from "./src/screens";
+import { ZSidebar } from "./src/sidebar";
 import { ThreadsProvider, ThreadsSheet, useMuseThread } from "./src/threads";
 import { Button, Card, colors, ErrorNotice, Field, IconButton, Mascot, s } from "./src/ui";
 import { type Detail, useWorkspace, WorkspaceContext } from "./src/workspace";
 
-const nav: { id: Section; label: string; icon: LucideIcon }[] = [
-  { id: "chat", label: "对话", icon: MessageCircle },
-  { id: "activity", label: "动态", icon: PanelsTopLeft },
-  { id: "ideas", label: "想法", icon: Lightbulb },
-  { id: "goals", label: "目标", icon: SquareCheck },
-  { id: "apps", label: "应用", icon: Shapes },
-];
 const titles: Partial<Record<Section, { title: string; subtitle: string }>> = {
   activity: { title: "动态", subtitle: "计划、进度、决定与结果。" },
   ideas: { title: "想法", subtitle: "基于你的世界，给出有用的下一步。" },
@@ -280,145 +263,110 @@ function WorkspaceShell({
     <>
       <WorkspaceTools />
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.canvas }} edges={["top", "bottom"]}>
-        <AppToolbar
-          title="ZMuse"
-          left={
-            <IconButton icon={Menu} label="打开会话与菜单" onPress={() => setThreadsOpen(true)} />
-          }
-          right={
-            <>
-              {section === "chat" && <ComputerEntry />}
-              <IconButton
-                icon={Bell}
-                label={`通知，${pending} 条未读或待处理`}
-                onPress={() => open({ type: "notifications" })}
-              />
-              {pending > 0 && (
-                <View
-                  pointerEvents="none"
-                  style={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: 4,
-                    position: "absolute",
-                    top: 7,
-                    right: 9,
-                    backgroundColor: colors.blueDark,
-                  }}
-                />
-              )}
-            </>
-          }
-        />
-        <View style={{ flex: 1, width: "100%", maxWidth: 760, alignSelf: "center" }}>
-          <View style={{ flex: 1, minHeight: 0 }}>
-            {section !== "chat" && (
-              <ScrollView
-                key={section}
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ paddingHorizontal: desktop ? 42 : 22, paddingBottom: 28 }}
-                keyboardShouldPersistTaps="handled"
-              >
-                {utility && (
-                  <Button
-                    small
-                    style={{ alignSelf: "flex-start", marginBottom: 18 }}
-                    onPress={() => navigate("apps")}
-                  >
-                    Back to Apps
-                  </Button>
-                )}
-                <Text style={[s.title, { fontSize: 25, marginBottom: 22 }]}>{title?.title}</Text>
-                <ErrorNotice error={error} />
-                <Screen />
-              </ScrollView>
-            )}
+        <AppToolbar title="ZMuse" />
+        <View style={{ flex: 1, flexDirection: "row" }}>
+          <ZSidebar
+            section={section}
+            navigate={(s) => navigate(s as Section)}
+            pending={pending}
+            computer={section === "chat" ? <ComputerEntry /> : null}
+            manageThreads={() => setThreadsOpen(true)}
+          />
+          <View style={{ flex: 1, maxWidth: 760, alignSelf: "center" }}>
             <View
               style={{
-                display: section === "chat" ? "flex" : "none",
-                flex: 1,
-                paddingHorizontal: desktop ? 42 : 17,
-              }}
-            >
-              <AgentStatus />
-              {richThreads ? (
-                <>
-                  <ErrorNotice error={threadsError} />
-                  {threadsError ? (
-                    <Button onPress={retryThreads}>Retry main chat</Button>
-                  ) : threadsLoading ? (
-                    <ActivityIndicator color={colors.blueDark} />
-                  ) : null}
-                  {!threadsLoading && selection.id !== mainId && (
-                    <Text style={[s.small, { textAlign: "center", marginBottom: 8 }]}>
-                      Side chat
-                    </Text>
-                  )}
-                  {visited.map((thread) => (
-                    <View
-                      key={thread.id}
-                      style={{ display: selection.id === thread.id ? "flex" : "none", flex: 1 }}
-                    >
-                      <ChatScreen
-                        thread={thread}
-                        active={section === "chat" && selection.id === thread.id}
-                        prompt={selection.id === thread.id ? prompt : undefined}
-                      />
-                    </View>
-                  ))}
-                </>
-              ) : (
-                <ChatScreen prompt={prompt} active={section === "chat"} />
-              )}
-            </View>
-          </View>
-          <View
-            style={{
-              paddingHorizontal: 22,
-              paddingTop: 10,
-              paddingBottom: desktop ? 22 : 7,
-              alignItems: "center",
-            }}
-          >
-            <View
-              style={{
+                height: 46,
                 flexDirection: "row",
-                width: "100%",
-                maxWidth: 370,
-                padding: 5,
-                backgroundColor: "#FFF",
-                borderRadius: 40,
-                shadowColor: "#132631",
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.07,
-                shadowRadius: 18,
-                elevation: 3,
-                borderWidth: 1,
-                borderColor: "#F8F8F8",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                paddingRight: 16,
               }}
             >
-              {nav.map((item) => {
-                const active = section === item.id || (item.id === "apps" && utility);
-                return (
-                  <Pressable
-                    key={item.id}
-                    accessibilityRole="tab"
-                    accessibilityLabel={item.label}
-                    accessibilityState={{ selected: active }}
-                    onPress={() => navigate(item.id)}
+              <View>
+                <IconButton
+                  icon={Bell}
+                  label={`通知，${pending} 条未读或待处理`}
+                  onPress={() => open({ type: "notifications" })}
+                />
+                {pending > 0 && (
+                  <View
+                    pointerEvents="none"
                     style={{
-                      flex: 1,
-                      height: 47,
-                      alignItems: "center",
-                      justifyContent: "center",
-                      backgroundColor: active ? "#F0F1F2" : "transparent",
-                      borderRadius: 28,
+                      width: 6,
+                      height: 6,
+                      borderRadius: 4,
+                      position: "absolute",
+                      top: 7,
+                      right: 9,
+                      backgroundColor: colors.blueDark,
                     }}
-                  >
-                    <item.icon size={23} strokeWidth={1.8} color={colors.text} />
-                  </Pressable>
-                );
-              })}
+                  />
+                )}
+              </View>
+            </View>
+            <View style={{ flex: 1, minHeight: 0 }}>
+              {section !== "chat" && (
+                <ScrollView
+                  key={section}
+                  showsVerticalScrollIndicator={false}
+                  contentContainerStyle={{
+                    paddingHorizontal: desktop ? 42 : 22,
+                    paddingBottom: 28,
+                  }}
+                  keyboardShouldPersistTaps="handled"
+                >
+                  {utility && (
+                    <Button
+                      small
+                      style={{ alignSelf: "flex-start", marginBottom: 18 }}
+                      onPress={() => navigate("apps")}
+                    >
+                      Back to Apps
+                    </Button>
+                  )}
+                  <Text style={[s.title, { fontSize: 25, marginBottom: 22 }]}>{title?.title}</Text>
+                  <ErrorNotice error={error} />
+                  <Screen />
+                </ScrollView>
+              )}
+              <View
+                style={{
+                  display: section === "chat" ? "flex" : "none",
+                  flex: 1,
+                  paddingHorizontal: desktop ? 42 : 17,
+                }}
+              >
+                <AgentStatus />
+                {richThreads ? (
+                  <>
+                    <ErrorNotice error={threadsError} />
+                    {threadsError ? (
+                      <Button onPress={retryThreads}>Retry main chat</Button>
+                    ) : threadsLoading ? (
+                      <ActivityIndicator color={colors.blueDark} />
+                    ) : null}
+                    {!threadsLoading && selection.id !== mainId && (
+                      <Text style={[s.small, { textAlign: "center", marginBottom: 8 }]}>
+                        Side chat
+                      </Text>
+                    )}
+                    {visited.map((thread) => (
+                      <View
+                        key={thread.id}
+                        style={{ display: selection.id === thread.id ? "flex" : "none", flex: 1 }}
+                      >
+                        <ChatScreen
+                          thread={thread}
+                          active={section === "chat" && selection.id === thread.id}
+                          prompt={selection.id === thread.id ? prompt : undefined}
+                        />
+                      </View>
+                    ))}
+                  </>
+                ) : (
+                  <ChatScreen prompt={prompt} active={section === "chat"} />
+                )}
+              </View>
             </View>
           </View>
         </View>
