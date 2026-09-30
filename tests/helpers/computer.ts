@@ -9,7 +9,8 @@ export const config: Config = {
   port: 8787,
   host: "127.0.0.1",
   publicUrl: "http://localhost:8787",
-  dataDir: "/unused",
+  // 相对路径：ubuntu runner 的 "/" 只读，createAuth 会 mkdir dataDir
+  dataDir: "unused",
   agentBackend: "sample",
   intelligenceApiKey: "test-project-key-never-sent",
   googleRedirectUri: "http://localhost/callback",

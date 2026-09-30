@@ -1,0 +1,578 @@
+﻿2026-09-30T02:15:49.8796386Z Current runner version: '2.337.0'
+2026-09-30T02:15:49.8822140Z ##[group]Runner Image Provisioner
+2026-09-30T02:15:49.8823101Z Hosted Compute Agent
+2026-09-30T02:15:49.8823747Z Version: 20260828.587
+2026-09-30T02:15:49.8824471Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+2026-09-30T02:15:49.8825308Z Build Date: 2026-08-28T16:44:25Z
+2026-09-30T02:15:49.8826002Z Worker ID: {a7604cfd-5723-4d73-90cf-fc5743fb1fac}
+2026-09-30T02:15:49.8826802Z Azure Region: westus
+2026-09-30T02:15:49.8827413Z ##[endgroup]
+2026-09-30T02:15:49.8829082Z ##[group]Operating System
+2026-09-30T02:15:49.8829841Z Ubuntu
+2026-09-30T02:15:49.8830394Z 24.04.5
+2026-09-30T02:15:49.8830913Z LTS
+2026-09-30T02:15:49.8831713Z ##[endgroup]
+2026-09-30T02:15:49.8832390Z ##[group]Runner Image
+2026-09-30T02:15:49.8833112Z Image: ubuntu-24.04
+2026-09-30T02:15:49.8833704Z Version: 20260920.314.1
+2026-09-30T02:15:49.8835053Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260920.314/images/ubuntu/Ubuntu2404-Readme.md
+2026-09-30T02:15:49.8836654Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260920.314
+2026-09-30T02:15:49.8837706Z ##[endgroup]
+2026-09-30T02:15:49.8838867Z ##[group]GITHUB_TOKEN Permissions
+2026-09-30T02:15:49.8840859Z Contents: read
+2026-09-30T02:15:49.8841881Z Metadata: read
+2026-09-30T02:15:49.8842525Z ##[endgroup]
+2026-09-30T02:15:49.8845407Z Secret source: Actions
+2026-09-30T02:15:49.8846444Z Cache mode: write
+2026-09-30T02:15:49.8847526Z Prepare workflow directory
+2026-09-30T02:15:49.9181793Z Prepare all required actions
+2026-09-30T02:15:49.9229948Z Getting action download info
+2026-09-30T02:15:50.3126418Z Download action repository 'actions/checkout@11d5960a326750d5838078e36cf38b85af677262' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-09-30T02:15:50.4203994Z Download action repository 'actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-09-30T02:15:50.5139881Z Download action repository 'pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa' (SHA:f40ffcd9367d9f12939873eb1018b921a783ffaa)
+2026-09-30T02:15:51.0570687Z Complete job name: quality
+2026-09-30T02:15:51.1379481Z ##[group]Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-09-30T02:15:51.1380555Z with:
+2026-09-30T02:15:51.1381015Z   persist-credentials: false
+2026-09-30T02:15:51.1381770Z   repository: xuboboo/zmuse
+2026-09-30T02:15:51.1385617Z   token: ***
+2026-09-30T02:15:51.1386062Z   ssh-strict: true
+2026-09-30T02:15:51.1386506Z   ssh-user: git
+2026-09-30T02:15:51.1386936Z   clean: true
+2026-09-30T02:15:51.1387389Z   sparse-checkout-cone-mode: true
+2026-09-30T02:15:51.1387921Z   fetch-depth: 1
+2026-09-30T02:15:51.1388357Z   fetch-tags: false
+2026-09-30T02:15:51.1388811Z   show-progress: true
+2026-09-30T02:15:51.1389280Z   lfs: false
+2026-09-30T02:15:51.1389707Z   submodules: false
+2026-09-30T02:15:51.1390163Z   set-safe-directory: true
+2026-09-30T02:15:51.1390679Z   allow-unsafe-pr-checkout: false
+2026-09-30T02:15:51.1391472Z ##[endgroup]
+2026-09-30T02:15:51.2405458Z Syncing repository: xuboboo/zmuse
+2026-09-30T02:15:51.2408037Z ##[group]Getting Git version info
+2026-09-30T02:15:51.2409199Z Working directory is '/home/runner/work/zmuse/zmuse'
+2026-09-30T02:15:51.2410821Z [command]/usr/bin/git version
+2026-09-30T02:15:51.2482818Z git version 2.55.0
+2026-09-30T02:15:51.2548857Z ##[endgroup]
+2026-09-30T02:15:51.2557741Z Temporarily overriding HOME='/home/runner/work/_temp/b26c1d64-37de-4cec-8218-eb0aff2bba6e' before making global git config changes
+2026-09-30T02:15:51.2560040Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-30T02:15:51.2562077Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/zmuse/zmuse
+2026-09-30T02:15:51.2622264Z Deleting the contents of '/home/runner/work/zmuse/zmuse'
+2026-09-30T02:15:51.2626963Z ##[group]Initializing the repository
+2026-09-30T02:15:51.2630733Z [command]/usr/bin/git init /home/runner/work/zmuse/zmuse
+2026-09-30T02:15:51.2758128Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-09-30T02:15:51.2760941Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-09-30T02:15:51.2763142Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-09-30T02:15:51.2764581Z hint: call:
+2026-09-30T02:15:51.2765411Z hint:
+2026-09-30T02:15:51.2766535Z hint: 	git config --global init.defaultBranch <name>
+2026-09-30T02:15:51.2767735Z hint:
+2026-09-30T02:15:51.2768822Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-09-30T02:15:51.2770591Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-09-30T02:15:51.2772382Z hint:
+2026-09-30T02:15:51.2773664Z hint: 	git branch -m <name>
+2026-09-30T02:15:51.2774757Z hint:
+2026-09-30T02:15:51.2776421Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-09-30T02:15:51.2778381Z Initialized empty Git repository in /home/runner/work/zmuse/zmuse/.git/
+2026-09-30T02:15:51.2782547Z [command]/usr/bin/git remote add origin https://github.com/xuboboo/zmuse
+2026-09-30T02:15:51.2849296Z ##[endgroup]
+2026-09-30T02:15:51.2850604Z ##[group]Disabling automatic garbage collection
+2026-09-30T02:15:51.2854112Z [command]/usr/bin/git config --local gc.auto 0
+2026-09-30T02:15:51.2889422Z ##[endgroup]
+2026-09-30T02:15:51.2890820Z ##[group]Setting up auth
+2026-09-30T02:15:51.2897229Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-30T02:15:51.2930605Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-30T02:15:51.3353074Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-30T02:15:51.3392551Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-30T02:15:51.3624605Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-30T02:15:51.3663704Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-30T02:15:51.3891826Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-09-30T02:15:51.3934396Z ##[endgroup]
+2026-09-30T02:15:51.3935242Z ##[group]Fetching the repository
+2026-09-30T02:15:51.3944304Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +71970714146916207e000460bd33049f31b94f62:refs/remotes/origin/main
+2026-09-30T02:15:52.3392964Z From https://github.com/xuboboo/zmuse
+2026-09-30T02:15:52.3395621Z  * [new ref]         71970714146916207e000460bd33049f31b94f62 -> origin/main
+2026-09-30T02:15:52.3401929Z ##[endgroup]
+2026-09-30T02:15:52.3404340Z ##[group]Determining the checkout info
+2026-09-30T02:15:52.3406939Z ##[endgroup]
+2026-09-30T02:15:52.3409666Z [command]/usr/bin/git sparse-checkout disable
+2026-09-30T02:15:52.3529481Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-09-30T02:15:52.3564467Z ##[group]Checking out the ref
+2026-09-30T02:15:52.3583972Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-09-30T02:15:52.4170830Z Switched to a new branch 'main'
+2026-09-30T02:15:52.4176128Z branch 'main' set up to track 'origin/main'.
+2026-09-30T02:15:52.4187841Z ##[endgroup]
+2026-09-30T02:15:52.4236503Z [command]/usr/bin/git log -1 --format=%H
+2026-09-30T02:15:52.4265384Z 71970714146916207e000460bd33049f31b94f62
+2026-09-30T02:15:52.4276042Z ##[group]Removing auth
+2026-09-30T02:15:52.4280555Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-30T02:15:52.4316598Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-30T02:15:52.4544687Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-30T02:15:52.4574475Z http.https://github.com/.extraheader
+2026-09-30T02:15:52.4582711Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-09-30T02:15:52.4618939Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-30T02:15:52.4845884Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-30T02:15:52.4884313Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-30T02:15:52.5129494Z ##[endgroup]
+2026-09-30T02:15:52.5469209Z ##[group]Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+2026-09-30T02:15:52.5469996Z with:
+2026-09-30T02:15:52.5470457Z   node-version: 24
+2026-09-30T02:15:52.5470906Z   always-auth: false
+2026-09-30T02:15:52.5471367Z   check-latest: false
+2026-09-30T02:15:52.5474675Z   token: ***
+2026-09-30T02:15:52.5475161Z ##[endgroup]
+2026-09-30T02:15:52.6928206Z Found in cache @ /opt/hostedtoolcache/node/24.21.0/x64
+2026-09-30T02:15:52.6931415Z (node:2351) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-30T02:15:52.6933652Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-30T02:15:52.6935613Z ##[group]Environment details
+2026-09-30T02:15:53.1252270Z node: v24.21.0
+2026-09-30T02:15:53.1252875Z npm: 11.19.0
+2026-09-30T02:15:53.1253273Z yarn: 1.22.22
+2026-09-30T02:15:53.1254421Z ##[endgroup]
+2026-09-30T02:15:53.1418736Z ##[group]Run pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa
+2026-09-30T02:15:53.1419373Z with:
+2026-09-30T02:15:53.1419752Z   dest: ~/setup-pnpm
+2026-09-30T02:15:53.1420153Z   run_install: null
+2026-09-30T02:15:53.1420689Z   cache: false
+2026-09-30T02:15:53.1421096Z   cache_dependency_path: pnpm-lock.yaml
+2026-09-30T02:15:53.1421893Z   package_json_file: package.json
+2026-09-30T02:15:53.1422379Z   standalone: false
+2026-09-30T02:15:53.1422770Z ##[endgroup]
+2026-09-30T02:15:53.2931289Z ##[group]Running self-installer...
+2026-09-30T02:15:53.7448084Z (node:2394) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-09-30T02:15:53.7450644Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-30T02:15:53.8918389Z Progress: resolved 1, reused 0, downloaded 0, added 0
+2026-09-30T02:15:53.9005791Z Packages: +1
+2026-09-30T02:15:53.9006909Z +
+2026-09-30T02:15:54.4180904Z Progress: resolved 1, reused 0, downloaded 1, added 1, done
+2026-09-30T02:15:54.4473276Z 
+2026-09-30T02:15:54.4473812Z dependencies:
+2026-09-30T02:15:54.4474373Z + pnpm 11.19.0 (12.8.1 is available)
+2026-09-30T02:15:54.4474622Z 
+2026-09-30T02:15:54.4497465Z Done in 943ms
+2026-09-30T02:15:54.5588614Z ##[endgroup]
+2026-09-30T02:15:54.5589396Z Installation Completed!
+2026-09-30T02:15:54.5724989Z ##[group]Run pnpm install --frozen-lockfile
+2026-09-30T02:15:54.5725472Z [36;1mpnpm install --frozen-lockfile[0m
+2026-09-30T02:15:54.6039714Z shell: /usr/bin/bash -e {0}
+2026-09-30T02:15:54.6040107Z env:
+2026-09-30T02:15:54.6040469Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+2026-09-30T02:15:54.6040934Z ##[endgroup]
+2026-09-30T02:15:55.2893208Z Scope: all 3 workspace projects
+2026-09-30T02:15:55.4427082Z ? Verifying lockfile against supply-chain policies (1438 entries)...
+2026-09-30T02:15:55.4562844Z Lockfile is up to date, resolution step is skipped
+2026-09-30T02:15:55.6094875Z Progress: resolved 1, reused 0, downloaded 0, added 0
+2026-09-30T02:15:55.7569257Z Packages: +1396
+2026-09-30T02:15:55.7569981Z ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-09-30T02:15:56.6125518Z Progress: resolved 1396, reused 0, downloaded 0, added 0
+2026-09-30T02:15:59.0433783Z Progress: resolved 1396, reused 0, downloaded 1, added 0
+2026-09-30T02:16:00.0813490Z Progress: resolved 1396, reused 0, downloaded 55, added 0
+2026-09-30T02:16:00.7032816Z Packages are hard linked from the content-addressable store to the virtual store.
+2026-09-30T02:16:00.7035598Z   Content-addressable store is at: /home/runner/setup-pnpm/node_modules/.bin/store/v11
+2026-09-30T02:16:00.7037179Z   Virtual store is at:             node_modules/.pnpm
+2026-09-30T02:16:01.1133835Z Progress: resolved 1396, reused 0, downloaded 77, added 4
+2026-09-30T02:16:02.1674016Z ✓ Lockfile passes supply-chain policies (1438 entries in 6.7s)
+2026-09-30T02:16:02.1813383Z Progress: resolved 1396, reused 0, downloaded 126, added 8
+2026-09-30T02:16:03.1845524Z Progress: resolved 1396, reused 0, downloaded 323, added 20
+2026-09-30T02:16:04.1903085Z Progress: resolved 1396, reused 0, downloaded 553, added 38
+2026-09-30T02:16:05.1887024Z Progress: resolved 1396, reused 0, downloaded 728, added 51
+2026-09-30T02:16:06.1891941Z Progress: resolved 1396, reused 0, downloaded 970, added 67
+2026-09-30T02:16:07.1913581Z Progress: resolved 1396, reused 0, downloaded 1260, added 88
+2026-09-30T02:16:08.1900404Z Progress: resolved 1396, reused 0, downloaded 1394, added 233
+2026-09-30T02:16:09.1899247Z Progress: resolved 1396, reused 0, downloaded 1394, added 1232
+2026-09-30T02:16:09.3586256Z Progress: resolved 1396, reused 0, downloaded 1394, added 1396, done
+2026-09-30T02:16:09.9856189Z .../esbuild@0.28.2/node_modules/esbuild postinstall$ node install.js
+2026-09-30T02:16:10.0540639Z .../esbuild@0.28.2/node_modules/esbuild postinstall: Done
+2026-09-30T02:16:10.3051134Z 
+2026-09-30T02:16:10.3051921Z dependencies:
+2026-09-30T02:16:10.3052406Z + @ag-ui/client 0.0.59
+2026-09-30T02:16:10.3052827Z + @ag-ui/core 0.0.59
+2026-09-30T02:16:10.3053301Z + @copilotkit/runtime 1.70.1
+2026-09-30T02:16:10.3053766Z + @electric-sql/pglite 0.3.16
+2026-09-30T02:16:10.3054217Z + @hono/node-server 1.19.17
+2026-09-30T02:16:10.3054733Z + @tanstack/ai 0.59.0
+2026-09-30T02:16:10.3055238Z + @tanstack/ai-anthropic 0.18.13
+2026-09-30T02:16:10.3055695Z + @tanstack/ai-gemini 0.32.1
+2026-09-30T02:16:10.3056003Z + @tanstack/ai-openai 0.23.2
+2026-09-30T02:16:10.3056262Z + hono 4.13.7
+2026-09-30T02:16:10.3056478Z + parse5 7.3.0
+2026-09-30T02:16:10.3056708Z + pdf-lib 1.17.1
+2026-09-30T02:16:10.3056928Z + pg 8.23.0
+2026-09-30T02:16:10.3057128Z + rxjs 7.8.1
+2026-09-30T02:16:10.3057331Z + zod 4.6.5
+2026-09-30T02:16:10.3057565Z 
+2026-09-30T02:16:10.3057725Z devDependencies:
+2026-09-30T02:16:10.3058144Z + @biomejs/biome 2.5.13
+2026-09-30T02:16:10.3058591Z + @copilotkit/aimock 1.42.0
+2026-09-30T02:16:10.3058965Z + @copilotkit/core 1.70.1
+2026-09-30T02:16:10.3059463Z + @types/node 24.13.4
+2026-09-30T02:16:10.3059947Z + @types/pg 8.23.1
+2026-09-30T02:16:10.3060360Z + tsx 4.23.13
+2026-09-30T02:16:10.3060747Z + typescript 5.9.3
+2026-09-30T02:16:10.3060973Z 
+2026-09-30T02:16:10.3583351Z Done in 15.7s using pnpm v11.19.0
+2026-09-30T02:16:10.4791406Z ##[group]Run pnpm lint
+2026-09-30T02:16:10.4792997Z [36;1mpnpm lint[0m
+2026-09-30T02:16:10.4859766Z shell: /usr/bin/bash -e {0}
+2026-09-30T02:16:10.4860044Z env:
+2026-09-30T02:16:10.4860318Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+2026-09-30T02:16:10.4860671Z ##[endgroup]
+2026-09-30T02:16:10.9572246Z $ biome check .
+2026-09-30T02:16:11.3072500Z Checked 139 files in 302ms. No fixes applied.
+2026-09-30T02:16:11.3407246Z ##[group]Run pnpm typecheck
+2026-09-30T02:16:11.3407580Z [36;1mpnpm typecheck[0m
+2026-09-30T02:16:11.3473235Z shell: /usr/bin/bash -e {0}
+2026-09-30T02:16:11.3473530Z env:
+2026-09-30T02:16:11.3473820Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+2026-09-30T02:16:11.3474196Z ##[endgroup]
+2026-09-30T02:16:11.8093066Z $ tsc --noEmit && pnpm --dir apps/mobile typecheck
+2026-09-30T02:16:17.3810140Z $ tsc --noEmit
+2026-09-30T02:16:21.3577464Z ##[group]Run pnpm --dir apps/worker typecheck
+2026-09-30T02:16:21.3577864Z [36;1mpnpm --dir apps/worker typecheck[0m
+2026-09-30T02:16:21.3643742Z shell: /usr/bin/bash -e {0}
+2026-09-30T02:16:21.3644028Z env:
+2026-09-30T02:16:21.3644307Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+2026-09-30T02:16:21.3644662Z ##[endgroup]
+2026-09-30T02:16:21.8203012Z $ tsc --noEmit
+2026-09-30T02:16:23.1770144Z ##[group]Run pnpm test
+2026-09-30T02:16:23.1770436Z [36;1mpnpm test[0m
+2026-09-30T02:16:23.1834114Z shell: /usr/bin/bash -e {0}
+2026-09-30T02:16:23.1834404Z env:
+2026-09-30T02:16:23.1834681Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+2026-09-30T02:16:23.1835030Z ##[endgroup]
+2026-09-30T02:16:23.6480521Z $ tsx --test tests/*.test.ts apps/mobile/test/*.test.ts
+2026-09-30T02:16:24.1432135Z ✔ assistant Markdown structures the reported response (18.865607ms)
+2026-09-30T02:16:24.1465264Z ✔ incomplete Markdown and raw HTML stay harmless (0.879342ms)
+2026-09-30T02:16:24.1493143Z ✔ only absolute HTTP(S) links can open (0.429982ms)
+2026-09-30T02:16:24.1813385Z ✔ the browser address bar accepts domains and keeps explicit web URLs (1.466658ms)
+2026-09-30T02:16:24.1814942Z ✔ the address bar rejects unsupported schemes, credentials, and malformed inputs (0.729321ms)
+2026-09-30T02:16:24.1853775Z ✔ follow-ups sent during a reply run once, in order, after persistence finishes (2.598061ms)
+2026-09-30T02:16:24.1896896Z ✔ stop pauses queued work and a failed reply never silently retries (0.864253ms)
+2026-09-30T02:16:24.1933003Z ✔ a stop while a reply is running leaves later messages available to resume (0.327401ms)
+2026-09-30T02:16:24.4010556Z ✔ calendar time is rendered and entered in the selected named zone (21.028192ms)
+2026-09-30T02:16:24.4036592Z ✔ a zone crossing the UTC date boundary preserves the selected day (0.559905ms)
+2026-09-30T02:16:24.4059081Z ✔ invalid calendar dates and out-of-range times do not normalize silently (0.436896ms)
+2026-09-30T02:16:24.4060768Z ✔ a daylight-saving gap cannot become a different appointment time (1.64427ms)
+2026-09-30T02:16:24.4065932Z ✔ partial native date edits never normalize from Date.parse (0.426476ms)
+2026-09-30T02:16:27.1123746Z ✔ denying a persisted proposal never calls its adapter (1988.823179ms)
+2026-09-30T02:16:27.1125640Z ✔ concurrent approval consumes the proposal only once (16.176527ms)
+2026-09-30T02:16:27.1127139Z ✔ wrong owner and stale hash cannot approve (14.98452ms)
+2026-09-30T02:16:27.1128646Z ✔ expired and disconnected proposals never reach the provider (14.859637ms)
+2026-09-30T02:16:27.1130501Z ✔ uncertain writes retain uncertainty and cannot be retried (20.504448ms)
+2026-09-30T02:16:27.1132245Z ✔ another service instance sees persisted proposals (13.35662ms)
+2026-09-30T02:16:27.1133822Z ✔ event validation preserves all-day semantics and rejects missing offsets (25.9518ms)
+2026-09-30T02:16:27.1135466Z ✔ account switching and reconnecting invalidate a prepared action (4.888528ms)
+2026-09-30T02:16:27.1153417Z ✔ review stores authoritative calendar details and binds execution to their version (11.711469ms)
+2026-09-30T02:16:27.1155168Z ✔ idempotent proposal replay returns a completed action before another provider preparation (12.992752ms)
+2026-09-30T02:16:27.1156782Z ✔ concurrent idempotent proposals retain a single persisted review and activity entry (9.250604ms)
+2026-09-30T02:16:27.1158285Z ✔ an expired stale review cannot overwrite a concurrently executing action (12.311259ms)
+2026-09-30T02:16:31.9873585Z ✔ agent API requires a session and reports the actual worker state (3140.693492ms)
+2026-09-30T02:16:31.9903152Z ✔ the main Rich Thread survives reopening and concurrent initialization (26.421637ms)
+2026-09-30T02:16:31.9933137Z ✔ task detail and controls stay scoped to the authenticated owner (88.254651ms)
+2026-09-30T02:16:31.9949758Z ✔ agent request validation rejects malformed input with useful JSON errors (62.128242ms)
+2026-09-30T02:16:31.9962953Z ✔ goal updates validate milestones and pausing a goal pauses its task (68.537881ms)
+2026-09-30T02:16:31.9979555Z ✔ memories can be edited and forgotten while identity changes persist (67.624104ms)
+2026-09-30T02:16:31.9984973Z ✔ idea dismissal survives refresh and concurrent acceptance creates one goal and task (202.687937ms)
+2026-09-30T02:16:31.9991467Z ✔ sample monitor saves its baseline and deduplicates notifications for repeated changes (285.217344ms)
+2026-09-30T02:16:32.0022014Z ✔ live mode rejects sample sources and hides the fixture mutation endpoint (11.747917ms)
+2026-09-30T02:16:32.1383573Z ✔ API protects private data and rejects unrelated web origins (2618.700886ms)
+2026-09-30T02:16:32.1385452Z ✔ sample workspace serves a real PDF and filling creates a new version (59.161583ms)
+2026-09-30T02:16:32.1387000Z ✔ reviewed sample email persists a receipt, then revocation blocks another proposal (51.847686ms)
+2026-09-30T02:16:32.1388499Z ✔ missing browser setup is explicit rather than a fictional browser session (8.142806ms)
+2026-09-30T02:16:32.1389966Z ✔ calendar ranges and complete sample mail threads survive navigation (19.476819ms)
+2026-09-30T02:16:32.1391213Z { status: 401, path: '/api/entitlements/runtime' } Runtime entitlement request failed
+2026-09-30T02:16:32.1392817Z ✔ sample agent streams actual AG-UI events without a model key (199.105624ms)
+2026-09-30T02:16:32.1394192Z ✔ guided document delegation streams a rich tool result bound to its saved task (39.177349ms)
+2026-09-30T02:16:33.5664131Z ✔ browser API reopens an owned profile at the edited address and renews console access (2288.394287ms)
+2026-09-30T02:16:34.9713557Z ✔ server reopens the same worker UUID regardless of stale local session status (1406.708695ms)
+2026-09-30T02:16:36.5644519Z ✔ console input persists the worker's current page title and URL (1589.770237ms)
+2026-09-30T02:16:38.0551789Z ✔ failed creation remains app-visible and can be retried with its original UUID (1494.005835ms)
+2026-09-30T02:16:39.1974168Z ✔ browser observations reuse an owned profile and reject unowned reads (1143.316361ms)
+2026-09-30T02:16:40.4049187Z ✔ chat browser reads reuse a persisted owned profile across turns and service restarts (1208.174108ms)
+2026-09-30T02:16:41.5842184Z ✔ chat browser retries failed navigation using the reserved profile (1178.058406ms)
+2026-09-30T02:16:43.0138559Z ✔ concurrent chat reads keep each navigation paired with its page read (1430.630758ms)
+2026-09-30T02:16:43.9251158Z ✔ cancelled chat browser requests do not start navigation or a follow-up read (911.2388ms)
+2026-09-30T02:16:45.0552870Z ✔ browser read fails on missing page text instead of inventing observation content (1129.522226ms)
+2026-09-30T02:16:46.1657427Z ✔ browser imports return rejected downloads even when no PDF was accepted (1109.727105ms)
+2026-09-30T02:16:46.2009671Z ✔ worker persists unsupported, oversized and interrupted download outcomes (33.683884ms)
+2026-09-30T02:16:46.2015991Z ✔ browser rejects private, special-use and encoded IP addresses (1.981928ms)
+2026-09-30T02:16:46.2023939Z ✔ browser rejects DNS answers containing any private address and pins public resolution (0.353669ms)
+2026-09-30T02:16:46.2336849Z ✔ worker protects all controls, validates before launch, and health reveals no sessions (30.659122ms)
+2026-09-30T02:16:46.2376965Z ✔ egress proxy blocks HTTP and CONNECT traffic to local network destinations (5.940804ms)
+2026-09-30T02:16:47.3443650Z ✔ the browser counts as connected only while its worker answers (1103.723399ms)
+2026-09-30T02:16:49.8058965Z ✔ the workspace reports the browser offline while its worker's health check fails (2464.173358ms)
+2026-09-30T02:16:49.9694170Z ✔ computer REST endpoints require session ownership and return persisted receipts (2360.41524ms)
+2026-09-30T02:16:49.9733297Z ✔ Docker subprocess uses literal argv, strips provider credentials, caps output and bounds hangs (387.067947ms)
+2026-09-30T02:16:49.9746408Z ✔ disabled computer reports setup without invoking Docker (2233.227543ms)
+2026-09-30T02:16:49.9763183Z ✔ commands execute solely as Docker argv and persist failed exit/output receipts (41.759316ms)
+2026-09-30T02:16:49.9765648Z ✔ a running command holds an atomic lease across service instances (29.594243ms)
+2026-09-30T02:16:49.9767291Z ✔ timeouts and interruptions remain durable and idempotent commands never replay (62.725841ms)
+2026-09-30T02:16:49.9769178Z ✔ attaching an existing container fails closed on unsafe isolation or owner labels (126.977139ms)
+2026-09-30T02:16:49.9771166Z ✔ paths cannot escape the workspace and file contents travel on stdin (20.097423ms)
+2026-09-30T02:16:49.9774802Z ✔ Stop interrupts an active command and its final output cannot overwrite the interrupted receipt (76.269718ms)
+2026-09-30T02:16:49.9776467Z ✔ exit 137 without a recorded stop remains a failed command (77.630308ms)
+2026-09-30T02:16:49.9778058Z ✔ restart waits until a delayed pre-stop Docker execution acknowledges completion (114.455961ms)
+2026-09-30T02:16:49.9779780Z ✔ failed Stop keeps commands quarantined and can be retried before the lease expires (81.443909ms)
+2026-09-30T02:16:49.9781766Z ✔ a timeout with unconfirmed Docker cleanup stays quarantined until Stop succeeds (61.62195ms)
+2026-09-30T02:16:49.9796762Z ✔ an expired lease from a dead executor recovers as interrupted without replay (69.965026ms)
+2026-09-30T02:16:49.9798211Z ✔ every API mode rejects a missing or blank Intelligence key (1.759554ms)
+2026-09-30T02:16:49.9799574Z ✔ every API mode accepts a non-empty Intelligence key (0.236712ms)
+2026-09-30T02:16:49.9801125Z ✔ environment variables that override a different .env value are reported by name (0.610721ms)
+2026-09-30T02:16:49.9803507Z ✔ chat browse_web emits real SDK tool events and returns observed source content immediately (2376.140881ms)
+2026-09-30T02:16:49.9805367Z ✔ chat browse_web emits an honest completed error result when navigation fails (1175.716939ms)
+2026-09-30T02:16:49.9807124Z ✔ unsubscribing from chat stops queued browser navigation and further model steps (1446.762839ms)
+2026-09-30T02:16:49.9822555Z ✔ chat searches and reads actual owner mail without creating a task or sending (1693.248555ms)
+2026-09-30T02:16:49.9824149Z ✔ chat mail tools report disconnected mail and refuse another owner's thread (1595.930008ms)
+2026-09-30T02:16:49.9825180Z Agent execution failed: Error: Connection interrupted
+2026-09-30T02:16:49.9826145Z     at <anonymous> (/home/runner/work/zmuse/zmuse/tests/conversation-sdk.test.ts:14:31)
+2026-09-30T02:16:49.9827747Z     at Observable.init (/home/runner/work/zmuse/zmuse/node_modules/.pnpm/rxjs@7.8.1/node_modules/rxjs/src/internal/observable/throwError.ts:123:68)
+2026-09-30T02:16:49.9829755Z     at Observable.Observable._trySubscribe (/home/runner/work/zmuse/zmuse/node_modules/.pnpm/rxjs@7.8.1/node_modules/rxjs/src/internal/Observable.ts:244:19)
+2026-09-30T02:16:49.9831843Z     at <anonymous> (/home/runner/work/zmuse/zmuse/node_modules/.pnpm/rxjs@7.8.1/node_modules/rxjs/src/internal/Observable.ts:234:18)
+2026-09-30T02:16:49.9833683Z     at Object.errorContext (/home/runner/work/zmuse/zmuse/node_modules/.pnpm/rxjs@7.8.1/node_modules/rxjs/src/internal/util/errorContext.ts:29:5)
+2026-09-30T02:16:49.9835663Z     at Observable.Observable.subscribe (/home/runner/work/zmuse/zmuse/node_modules/.pnpm/rxjs@7.8.1/node_modules/rxjs/src/internal/Observable.ts:220:5)
+2026-09-30T02:16:49.9837707Z     at Object.mergeInternals (/home/runner/work/zmuse/zmuse/node_modules/.pnpm/rxjs@7.8.1/node_modules/rxjs/src/internal/operators/mergeInternals.ts:136:10)
+2026-09-30T02:16:49.9839615Z     at <anonymous> (/home/runner/work/zmuse/zmuse/node_modules/.pnpm/rxjs@7.8.1/node_modules/rxjs/src/internal/operators/mergeMap.ts:95:42)
+2026-09-30T02:16:49.9841722Z     at OperatorSubscriber.<anonymous> (/home/runner/work/zmuse/zmuse/node_modules/.pnpm/rxjs@7.8.1/node_modules/rxjs/src/internal/util/lift.ts:24:18)
+2026-09-30T02:16:49.9843645Z     at <anonymous> (/home/runner/work/zmuse/zmuse/node_modules/.pnpm/rxjs@7.8.1/node_modules/rxjs/src/internal/Observable.ts:226:22)
+2026-09-30T02:16:49.9845474Z ✔ an emitted CopilotKit run error stops the queue even when runAgent resolves (17.406137ms)
+2026-09-30T02:16:49.9847594Z ✔ aquarium research distinguishes exhibit entries from navigation and only quotes observed descriptions (5.410442ms)
+2026-09-30T02:16:49.9849500Z ✔ the email demo reads the thread returned by search and quotes its actual details (5.448102ms)
+2026-09-30T02:16:49.9851068Z ✔ the email demo handles no matches and disconnected mail without inventing details (1.236629ms)
+2026-09-30T02:16:49.9853315Z ✔ demo only summarizes browser evidence belonging to the current user turn (0.392813ms)
+2026-09-30T02:16:49.9854855Z ✔ demo reports missing or failed browser evidence without inventing a summary (0.348421ms)
+2026-09-30T02:16:49.9856394Z ✔ AI Mock drives the real TanStack BuiltInAgent through two browser tool rounds (331.397282ms)
+2026-09-30T02:16:49.9857519Z ✖ desktop routes require a session (2398.008771ms)
+2026-09-30T02:16:49.9858492Z ✖ desktop snapshot reports the configured deployment (10.534915ms)
+2026-09-30T02:16:49.9859602Z ✖ docker failures surface as error snapshot and 503 on start (3.34995ms)
+2026-09-30T02:16:49.9860548Z ✖ shutdown route requires a session (0.113642ms)
+2026-09-30T02:16:49.9861828Z ✔ disabled desktop reports setup without invoking Docker (1.815507ms)
+2026-09-30T02:16:49.9863148Z ✔ fresh start creates the container with isolation flags and probes readiness (4.606334ms)
+2026-09-30T02:16:49.9864465Z ✔ starting a running desktop is idempotent and never recreates it (0.982854ms)
+2026-09-30T02:16:49.9865757Z ✔ stale image, foreign labels or a moved port each trigger recreation (1.834222ms)
+2026-09-30T02:16:49.9867017Z ✔ stop halts a running container and leaves a stopped one untouched (1.272204ms)
+2026-09-30T02:16:49.9868256Z ✔ docker failures surface their stderr hint through snapshot errors (0.562689ms)
+2026-09-30T02:16:50.0663642Z ✔ email drafts default cc, bcc, and attachmentIds to empty arrays (5.919875ms)
+2026-09-30T02:16:50.0701329Z ✔ email drafts reject a subject containing a line break (0.777991ms)
+2026-09-30T02:16:50.0732443Z ✔ email drafts enforce recipient, cc/bcc, and attachment limits (0.886905ms)
+2026-09-30T02:16:50.0733253Z ✔ email drafts reject malformed addresses (0.33731ms)
+2026-09-30T02:16:50.0739819Z ✔ timed events require an explicit UTC offset (24.2268ms)
+2026-09-30T02:16:50.0742011Z ✔ all-day events reject a full timestamp in place of a date (0.726776ms)
+2026-09-30T02:16:50.0743421Z ✔ events reject an end at or before the start (0.521072ms)
+2026-09-30T02:16:50.0744687Z ✔ events default calendarId, location, and description (0.354371ms)
+2026-09-30T02:16:50.0746004Z ✔ proposal schema discriminates on kind and validates nested data (1.432694ms)
+2026-09-30T02:16:52.2988351Z ✔ two workers claim one task only once (1882.890145ms)
+2026-09-30T02:16:53.3426650Z ✔ cancellation invalidates a stale worker before its next effect (1041.93557ms)
+2026-09-30T02:16:54.9159614Z ✔ expired leases recover saved checkpoints after the database restarts (1575.792186ms)
+2026-09-30T02:16:55.6676167Z ✔ scheduled tasks wait for due time and approvals wait for a recorded outcome (748.433763ms)
+2026-09-30T02:16:55.6678080Z ✔ finance artifacts compute cents exactly and reject ambiguous CSV (3.150311ms)
+2026-09-30T02:16:56.3964396Z ✔ pending reviews do not starve queued work (728.534022ms)
+2026-09-30T02:16:57.5568944Z ✔ run history keeps the time the run started (1154.435087ms)
+2026-09-30T02:16:58.5925354Z ✔ a failed run record does not leave the task stuck in the worker (1041.782099ms)
+2026-09-30T02:16:59.1623843Z ✔ mail reads nested plain text and attachment references over authenticated Gmail paths (70.525648ms)
+2026-09-30T02:16:59.1663691Z ✔ HTML-only messages expose complete plain text while removing active and non-content elements (79.322302ms)
+2026-09-30T02:16:59.1665899Z ✔ Gmail attachments decode actual bytes and enforce declared and actual size limits (9.80261ms)
+2026-09-30T02:16:59.1693077Z ✔ mail sends correctly encoded CRLF MIME and the exact attachment bytes (11.390163ms)
+2026-09-30T02:16:59.1702604Z ✔ header injection and oversized outgoing attachments fail before credential access (6.369518ms)
+2026-09-30T02:16:59.1704997Z ✔ replies resolve source metadata and preserve thread and message references (4.756806ms)
+2026-09-30T02:16:59.1706371Z ✔ reply metadata cannot inject headers (1.023385ms)
+2026-09-30T02:16:59.1707640Z ✔ calendar reads expanded primary events and maps all-day boundaries (4.90422ms)
+2026-09-30T02:16:59.1709484Z ✔ calendar writes use calendar IDs, preserve unrelated fields via PATCH, and notify guests (31.157051ms)
+2026-09-30T02:16:59.1711122Z ✔ calendar review captures authoritative details and requires a usable version (7.489213ms)
+2026-09-30T02:16:59.1712900Z ✔ calendar writes refuse targets changed since review before dispatch (1.444329ms)
+2026-09-30T02:16:59.1714428Z ✔ calendar review resolves the selected calendar zone when Google omits an event zone (1.185127ms)
+2026-09-30T02:16:59.1716001Z ✔ calendar writes pass the reviewed version to Google's final conditional write (2.838123ms)
+2026-09-30T02:16:59.1717540Z ✔ all-day writes use exclusive date-only end and invalid dates never call Google (1.745009ms)
+2026-09-30T02:16:59.1719223Z ✔ event updates explicitly clear the opposite time representation when switching all-day mode (1.934201ms)
+2026-09-30T02:16:59.1720687Z ✔ scope errors remain visible and do not look like empty inboxes (1.753364ms)
+2026-09-30T02:16:59.1722356Z ✔ network failures and 5xx write responses produce outcome_unknown without retrying (9.915641ms)
+2026-09-30T02:16:59.1724020Z ✔ credential failures before dispatch and explicit 4xx writes remain definite failures (1.701297ms)
+2026-09-30T02:16:59.1725545Z ✔ an interrupted error response body cannot erase uncertainty about a write (1.818606ms)
+2026-09-30T02:16:59.1726942Z ✔ thread detail reads sent and archived messages outside the inbox list (1.808287ms)
+2026-09-30T02:16:59.1728412Z ✔ thread detail retrieves complete text bodies stored behind Gmail attachment IDs (2.27754ms)
+2026-09-30T02:16:59.1729972Z ✔ event reads include earlier today and support selected calendars and bounded ranges (5.86552ms)
+2026-09-30T02:16:59.1731823Z ✔ calendar discovery follows pagination and retains names, zones, and access roles (7.169287ms)
+2026-09-30T02:16:59.1733575Z ✔ recurring masters and occurrences are rejected from fresh Google data before updates or deletes (8.029078ms)
+2026-09-30T02:16:59.1735302Z ✔ single-event validation is repeated at execution and read failures never dispatch writes (1.91748ms)
+2026-09-30T02:16:59.1736819Z ✔ background failures retain safe error codes without logging messages (3.308119ms)
+2026-09-30T02:16:59.1738012Z ✔ background failures omit unsafe code strings (0.342207ms)
+2026-09-30T02:16:59.1739288Z ✔ an unknown provider suggests the openai/ prefix only when a gateway is set (1.664949ms)
+2026-09-30T02:16:59.1740675Z ✔ the unknown provider hint reads OPENAI_BASE_URL by default (0.296232ms)
+2026-09-30T02:16:59.1742458Z ✔ a transient provider failure is retried and the run completes (569.864407ms)
+2026-09-30T02:16:59.1743926Z ✔ a non-retryable provider failure fails fast without a retry (19.918882ms)
+2026-09-30T02:16:59.1745200Z ✔ retries give up after the configured attempts (1470.378269ms)
+2026-09-30T02:16:59.1746309Z ❌ [tanstack-ai:errors] ❌ openai.processStreamChunks fatal
+2026-09-30T02:16:59.1747052Z {
+2026-09-30T02:16:59.1748143Z   error: { message: [32m'terminated'[39m, code: [90mundefined[39m },
+2026-09-30T02:16:59.1764346Z   source: [32m'openai.processStreamChunks'[39m
+2026-09-30T02:16:59.1765106Z }
+2026-09-30T02:16:59.1766106Z ✔ a connection drop after the stream starts is not retried (134.328445ms)
+2026-09-30T02:16:59.1767480Z ✔ a provider error part after the stream starts is not retried (10.919197ms)
+2026-09-30T02:16:59.1768945Z ✔ a committed tool result is not re-executed when the next model call fails (521.663257ms)
+2026-09-30T02:16:59.1770225Z ❌ [tanstack-ai:errors] ❌ openai.processStreamChunks fatal
+2026-09-30T02:16:59.1770959Z {
+2026-09-30T02:16:59.1772132Z   error: { message: [32m'terminated'[39m, code: [90mundefined[39m },
+2026-09-30T02:16:59.1773506Z   source: [32m'openai.processStreamChunks'[39m
+2026-09-30T02:16:59.1774193Z }
+2026-09-30T02:16:59.1775203Z ✔ assistant output already delivered is never replayed by a retry (146.639073ms)
+2026-09-30T02:16:59.4793810Z ✔ CopilotKit model worker executes server tools and persists the confirmed outcome (2177.792477ms)
+2026-09-30T02:16:59.4797530Z ✔ the model worker keeps the text a model replies with when it calls no tool (997.405252ms)
+2026-09-30T02:17:01.0766546Z ✔ replaying a completed prepared action returns its receipt without reopening approval (1598.900072ms)
+2026-09-30T02:17:02.6913793Z ✔ browser reads keep observation identity distinct while reusing one session (1613.535898ms)
+2026-09-30T02:17:05.2429754Z ✔ a page change stays alertable when the task outcome is lost after the baseline moves (3188.896977ms)
+2026-09-30T02:17:05.2435739Z ✔ resuming a monitor fails without activating it when the task transition does not commit (74.060839ms)
+2026-09-30T02:17:05.2442517Z ✔ the paused alert is delivered when the final failure outcome is lost (277.045184ms)
+2026-09-30T02:17:05.2474262Z ✔ maintenance finishes a resume that stopped after the monitor was activated (96.786887ms)
+2026-09-30T02:17:05.2475944Z ✔ checking a watch retries once when its run finishes during the request (51.038994ms)
+2026-09-30T02:17:05.2477732Z ✔ a resume during outcome publication is not paused again by the failure reconcile (64.841457ms)
+2026-09-30T02:17:05.2479236Z ✔ a resume finished by maintenance during the request still succeeds (81.239526ms)
+2026-09-30T02:17:05.2480651Z ✔ two overlapping resume requests both leave the watch active (76.680418ms)
+2026-09-30T02:17:05.2482333Z ✔ a leftover resume marker does not keep a failing watch running (168.210297ms)
+2026-09-30T02:17:05.2483642Z ✔ a leftover resume marker does not undo a later task pause (84.712388ms)
+2026-09-30T02:17:05.2484799Z ✔ a stop during a resume keeps the watch stopped (89.621099ms)
+2026-09-30T02:17:05.2486113Z ✔ a resume from the task screen is not paused again by a stale failure reconcile (187.63539ms)
+2026-09-30T02:17:05.2487368Z ✔ a stop during a check keeps the watch stopped (51.087853ms)
+2026-09-30T02:17:05.2488550Z ✔ a check does not revive a task cancelled from the task screen (46.295207ms)
+2026-09-30T02:17:05.2489882Z ✔ a check keeps the baseline from a run that finishes during the request (58.92359ms)
+2026-09-30T02:17:05.8690784Z ✔ old refresh cannot overwrite a newly connected Google account (2369.513236ms)
+2026-09-30T02:17:05.8695654Z ✔ OAuth callbacks require a known, single-use state (1338.146074ms)
+2026-09-30T02:17:05.8697181Z ✔ disconnect invalidates an OAuth callback suspended during token (1212.204055ms)
+2026-09-30T02:17:05.8698723Z ✔ disconnect invalidates an OAuth callback suspended during profile (1074.393493ms)
+2026-09-30T02:17:07.2277488Z ✔ disconnect invalidates pending OAuth state before a callback contacts Google (1357.092387ms)
+2026-09-30T02:17:08.2479758Z ✔ a newer connect attempt invalidates an older callback already exchanging its code (1020.664925ms)
+2026-09-30T02:17:09.3053811Z ✔ an in-flight refresh cannot restore credentials after disconnect (1056.945823ms)
+2026-09-30T02:17:09.4253719Z ✔ OpenBot is disabled by default and cannot call a supplied transport (3.318805ms)
+2026-09-30T02:17:09.4263097Z ✔ enabled configuration requires an authenticated transport and an agent for runtime (0.240429ms)
+2026-09-30T02:17:09.4287445Z ✔ runtime is an Intelligence descriptor and reports unsupported capabilities without a connection claim (0.190455ms)
+2026-09-30T02:17:09.4313319Z ✔ probe verifies user identity before reporting authenticated Intelligence capabilities (28.735529ms)
+2026-09-30T02:17:09.4336126Z ✔ probe does not treat anonymous runtime discovery as authentication (1.136682ms)
+2026-09-30T02:17:09.4337709Z ✔ probe rejects incompatible capability responses and exposes transport failure (0.913065ms)
+2026-09-30T02:17:09.4339329Z ✔ channel creation preserves separate channel, thread and agent identities (2.039437ms)
+2026-09-30T02:17:09.4340952Z ✔ computer status uses a Bot ID and rejects unknown lifecycle states or mismatched identity (1.964529ms)
+2026-09-30T02:17:09.4347515Z ✔ snapshot is a read that retains server-owned references (5.830972ms)
+2026-09-30T02:17:09.4349204Z ✔ navigation uses the policy gateway, preserves cancellation and never creates a direct computer URL (2.428964ms)
+2026-09-30T02:17:09.4350843Z ✔ human control reads and transitions use the exact audited gateway routes (1.99275ms)
+2026-09-30T02:17:09.4352903Z ✔ policy refusals preserve status and rule and are never retried (0.453115ms)
+2026-09-30T02:17:09.4373721Z ✔ uncertain mutations require reconciliation after transport, server or invalid-response failure (3.555174ms)
+2026-09-30T02:17:09.4392823Z ✔ sample is an actual two-page PDF with blank fillable fields (122.377774ms)
+2026-09-30T02:17:09.4422881Z ✔ filling changes only the new PDF and round-trips text and checkbox values (97.372542ms)
+2026-09-30T02:17:09.4424467Z ✔ PDF operations reject invalid bytes, encrypted input, unknown names, and wrong field types (39.725922ms)
+2026-09-30T02:17:09.4425888Z ✔ unsupported fields are disclosed and cannot be silently filled (13.905677ms)
+2026-09-30T02:17:09.4427122Z ✔ PDF output removes active actions before returning a filled document (73.199307ms)
+2026-09-30T02:17:09.4428344Z ✔ XFA forms fail explicitly instead of silently losing their fields (26.163578ms)
+2026-09-30T02:17:09.4429709Z ✔ PDF failures expose safe typed 422 errors including malformed field and font errors (31.095396ms)
+2026-09-30T02:17:09.4431028Z ✔ fresh nested data directory starts and survives a database restart (2714.642907ms)
+2026-09-30T02:17:09.4432513Z ✔ idle Postgres client errors are logged instead of crashing the process (2.012697ms)
+2026-09-30T02:17:11.0858006Z ✔ main chat is provisioned for the authenticated owner before the first run (2290.342635ms)
+2026-09-30T02:17:11.0984573Z {
+2026-09-30T02:17:11.0985332Z   err: Error: Platform unavailable
+2026-09-30T02:17:11.0986550Z       at CopilotKitIntelligence.<anonymous> (/home/runner/work/zmuse/zmuse/tests/rich-threads.test.ts:187:11)
+2026-09-30T02:17:11.0991300Z       at Object.apply (node:internal/test_runner/mock/mock:805:20)
+2026-09-30T02:17:11.0994573Z       at handleListThreads (/home/runner/work/zmuse/zmuse/node_modules/.pnpm/@copilotkit+runtime@1.70.1_@anthropic-ai+sdk@0.97.1_zod@4.6.5__@cfworker+json-schema@4._109c03b485543a26404f2509b2b156d3/node_modules/@copilotkit/runtime/src/v2/runtime/handlers/intelligence/threads.ts:93:47)
+2026-09-30T02:17:11.0997494Z       at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+2026-09-30T02:17:11.1000335Z       at async handler (/home/runner/work/zmuse/zmuse/node_modules/.pnpm/@copilotkit+runtime@1.70.1_@anthropic-ai+sdk@0.97.1_zod@4.6.5__@cfworker+json-schema@4._109c03b485543a26404f2509b2b156d3/node_modules/@copilotkit/runtime/src/v2/runtime/core/fetch-handler.ts:456:20)
+2026-09-30T02:17:11.1003302Z       at async <anonymous> (/home/runner/work/zmuse/zmuse/apps/server/src/app.ts:339:22)
+2026-09-30T02:17:11.1005097Z       at async dispatch (file:///home/runner/work/zmuse/zmuse/node_modules/.pnpm/hono@4.13.7/node_modules/hono/dist/compose.js:22:17)
+2026-09-30T02:17:11.1006824Z       at async <anonymous> (/home/runner/work/zmuse/zmuse/apps/server/src/app.ts:139:5)
+2026-09-30T02:17:11.1010049Z       at async dispatch (file:///home/runner/work/zmuse/zmuse/node_modules/.pnpm/hono@4.13.7/node_modules/hono/dist/compose.js:22:17)
+2026-09-30T02:17:11.1012421Z       at async dispatch (file:///home/runner/work/zmuse/zmuse/node_modules/.pnpm/hono@4.13.7/node_modules/hono/dist/compose.js:22:17)
+2026-09-30T02:17:11.1013813Z } Error listing threads
+2026-09-30T02:17:11.1083733Z ✔ a failed main-thread connection remains an error and does not create another id (5.682607ms)
+2026-09-30T02:17:11.1094320Z ✔ Rich Threads lists through CopilotKit, scopes by authenticated owner and preserves pagination (11.090712ms)
+2026-09-30T02:17:11.1113799Z ✔ native and web thread rename reaches the SDK without accepting a forged owner (4.689544ms)
+2026-09-30T02:17:11.1115938Z ✔ archive is authenticated and routed to CopilotKit (3.25201ms)
+2026-09-30T02:17:11.1117638Z ✔ history retains rich tool messages and provider failures remain errors (9.499371ms)
+2026-09-30T02:17:11.1119429Z ✔ workspace reports Rich Threads configuration without disclosing the project key (6.698273ms)
+2026-09-30T02:17:11.1847737Z ✔ a run cut off by the step limit ends with a note before RUN_FINISHED (8.775259ms)
+2026-09-30T02:17:11.1849904Z ✔ runs the model finished itself get no note (1.512463ms)
+2026-09-30T02:17:11.1851421Z ✔ vault encrypts with a fresh nonce and authenticates the entire envelope (10.135719ms)
+2026-09-30T02:17:11.1853384Z ✔ vault rejects malformed keys and envelopes without echoing secrets (6.747524ms)
+2026-09-30T02:17:14.1764640Z ✔ document job runs without a client, waits for review, and resumes from its receipt (1708.541735ms)
+2026-09-30T02:17:14.2594561Z ✔ ideas ignore sent replies while retaining unfinished incoming requests (50.203317ms)
+2026-09-30T02:17:14.5788917Z ✔ cancelling a task denies its pending action (94.083746ms)
+2026-09-30T02:17:14.5790485Z ✔ failed page checks back off, expose the error, and pause after repeated failures (82.47932ms)
+2026-09-30T02:17:14.5793327Z ✔ each failure streak of a watch raises its own alerts after it is resumed (165.816453ms)
+2026-09-30T02:17:14.5795794Z ✔ dismissal racing acceptance never creates work for a dismissed idea (19.27476ms)
+2026-09-30T02:17:14.6703322Z ℹ tests 216
+2026-09-30T02:17:14.6703697Z ℹ suites 0
+2026-09-30T02:17:14.6703974Z ℹ pass 212
+2026-09-30T02:17:14.6704246Z ℹ fail 4
+2026-09-30T02:17:14.6704516Z ℹ cancelled 0
+2026-09-30T02:17:14.6704806Z ℹ skipped 0
+2026-09-30T02:17:14.6705072Z ℹ todo 0
+2026-09-30T02:17:14.6705393Z ℹ duration_ms 50911.170072
+2026-09-30T02:17:14.6720503Z 
+2026-09-30T02:17:14.6720995Z ✖ failing tests:
+2026-09-30T02:17:14.6721224Z 
+2026-09-30T02:17:14.6721754Z test at tests/desktop-routes.test.ts:57:1
+2026-09-30T02:17:14.6722415Z ✖ desktop routes require a session (2398.008771ms)
+2026-09-30T02:17:14.6722951Z   Error: EACCES: permission denied, mkdir '/unused'
+2026-09-30T02:17:14.6723479Z       at async mkdir (node:internal/fs/promises:1564:10)
+2026-09-30T02:17:14.6724237Z       at async createAuth (/home/runner/work/zmuse/zmuse/apps/server/src/auth.ts:69:3)
+2026-09-30T02:17:14.6725460Z       at async createApp (/home/runner/work/zmuse/zmuse/apps/server/src/app.ts:32:16)
+2026-09-30T02:17:14.6726450Z       at async TestContext.<anonymous> (/home/runner/work/zmuse/zmuse/tests/desktop-routes.test.ts:43:14)
+2026-09-30T02:17:14.6727290Z       at async TestHook.run (node:internal/test_runner/test:1409:7) {
+2026-09-30T02:17:14.6727795Z     errno: -13,
+2026-09-30T02:17:14.6728066Z     code: 'EACCES',
+2026-09-30T02:17:14.6728344Z     syscall: 'mkdir',
+2026-09-30T02:17:14.6728634Z     path: '/unused'
+2026-09-30T02:17:14.6728889Z   }
+2026-09-30T02:17:14.6729016Z 
+2026-09-30T02:17:14.6729242Z test at tests/desktop-routes.test.ts:63:1
+2026-09-30T02:17:14.6729946Z ✖ desktop snapshot reports the configured deployment (10.534915ms)
+2026-09-30T02:17:14.6730532Z   Error: EACCES: permission denied, mkdir '/unused'
+2026-09-30T02:17:14.6731091Z       at async mkdir (node:internal/fs/promises:1564:10)
+2026-09-30T02:17:14.6732181Z       at async createAuth (/home/runner/work/zmuse/zmuse/apps/server/src/auth.ts:69:3)
+2026-09-30T02:17:14.6733465Z       at async createApp (/home/runner/work/zmuse/zmuse/apps/server/src/app.ts:32:16)
+2026-09-30T02:17:14.6734995Z       at async TestContext.<anonymous> (/home/runner/work/zmuse/zmuse/tests/desktop-routes.test.ts:43:14)
+2026-09-30T02:17:14.6736403Z       at async TestHook.run (node:internal/test_runner/test:1409:7) {
+2026-09-30T02:17:14.6737242Z     errno: -13,
+2026-09-30T02:17:14.6737732Z     code: 'EACCES',
+2026-09-30T02:17:14.6738114Z     syscall: 'mkdir',
+2026-09-30T02:17:14.6738537Z     path: '/unused'
+2026-09-30T02:17:14.6738840Z   }
+2026-09-30T02:17:14.6738957Z 
+2026-09-30T02:17:14.6739138Z test at tests/desktop-routes.test.ts:77:1
+2026-09-30T02:17:14.6739750Z ✖ docker failures surface as error snapshot and 503 on start (3.34995ms)
+2026-09-30T02:17:14.6741266Z   Error: EACCES: permission denied, mkdir '/unused'
+2026-09-30T02:17:14.6742182Z       at async mkdir (node:internal/fs/promises:1564:10)
+2026-09-30T02:17:14.6742723Z       at async createAuth (/home/runner/work/zmuse/zmuse/apps/server/src/auth.ts:69:3)
+2026-09-30T02:17:14.6743538Z       at async createApp (/home/runner/work/zmuse/zmuse/apps/server/src/app.ts:32:16)
+2026-09-30T02:17:14.6744467Z       at async TestContext.<anonymous> (/home/runner/work/zmuse/zmuse/tests/desktop-routes.test.ts:43:14)
+2026-09-30T02:17:14.6745624Z       at async TestHook.run (node:internal/test_runner/test:1409:7) {
+2026-09-30T02:17:14.6746259Z     errno: -13,
+2026-09-30T02:17:14.6746628Z     code: 'EACCES',
+2026-09-30T02:17:14.6747011Z     syscall: 'mkdir',
+2026-09-30T02:17:14.6747403Z     path: '/unused'
+2026-09-30T02:17:14.6747768Z   }
+2026-09-30T02:17:14.6747941Z 
+2026-09-30T02:17:14.6748252Z test at tests/desktop-routes.test.ts:90:1
+2026-09-30T02:17:14.6749105Z ✖ shutdown route requires a session (0.113642ms)
+2026-09-30T02:17:14.6749828Z   Error: EACCES: permission denied, mkdir '/unused'
+2026-09-30T02:17:14.6750249Z       at async mkdir (node:internal/fs/promises:1564:10)
+2026-09-30T02:17:14.6750772Z       at async createAuth (/home/runner/work/zmuse/zmuse/apps/server/src/auth.ts:69:3)
+2026-09-30T02:17:14.6751463Z       at async createApp (/home/runner/work/zmuse/zmuse/apps/server/src/app.ts:32:16)
+2026-09-30T02:17:14.6752690Z       at async TestContext.<anonymous> (/home/runner/work/zmuse/zmuse/tests/desktop-routes.test.ts:43:14)
+2026-09-30T02:17:14.6753385Z       at async TestHook.run (node:internal/test_runner/test:1409:7) {
+2026-09-30T02:17:14.6753790Z     errno: -13,
+2026-09-30T02:17:14.6754020Z     code: 'EACCES',
+2026-09-30T02:17:14.6754237Z     syscall: 'mkdir',
+2026-09-30T02:17:14.6754485Z     path: '/unused'
+2026-09-30T02:17:14.6754690Z   }
+2026-09-30T02:17:14.7038108Z [ELIFECYCLE] Test failed. See above for more details.
+2026-09-30T02:17:14.7309330Z ##[error]Process completed with exit code 1.
+2026-09-30T02:17:14.7415586Z Post job cleanup.
+2026-09-30T02:17:14.8914719Z Pruning is unnecessary.
+2026-09-30T02:17:14.9149519Z Post job cleanup.
+2026-09-30T02:17:15.0064035Z [command]/usr/bin/git version
+2026-09-30T02:17:15.0109069Z git version 2.55.0
+2026-09-30T02:17:15.0154602Z Temporarily overriding HOME='/home/runner/work/_temp/6735842e-b14c-4404-b120-3f31110c2de2' before making global git config changes
+2026-09-30T02:17:15.0156364Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-30T02:17:15.0159880Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/zmuse/zmuse
+2026-09-30T02:17:15.0204258Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-30T02:17:15.0242970Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-30T02:17:15.0500464Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-30T02:17:15.0541881Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-30T02:17:15.0806645Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-30T02:17:15.0848882Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-30T02:17:15.1267338Z Cleaning up orphan processes
+2026-09-30T02:17:15.1582023Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262, actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020, pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
