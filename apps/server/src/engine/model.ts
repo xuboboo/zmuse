@@ -67,7 +67,7 @@ export async function executeModelTask(
             return await execute(parameters.parse(args));
           } catch (error) {
             const message = error instanceof Error ? error.message : "Tool failed";
-            await ctx.event("error", `${name} failed`, message);
+            await ctx.event("error", `「${name}」执行失败`, message);
             return { error: message };
           }
         }),

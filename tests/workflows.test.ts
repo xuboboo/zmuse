@@ -180,7 +180,7 @@ test("each failure streak of a watch raises its own alerts after it is resumed",
   };
   const alerts = async () =>
     (await db.list<AgentNotification>(owner, "notifications")).filter(
-      (n) => n.taskId === monitor.taskId && n.title === "Watch needs attention",
+      (n) => n.taskId === monitor.taskId && n.title === "监控需要关注",
     );
   await failUntilPaused();
   assert.equal((await alerts()).length, 2, "one retry alert and one paused alert");

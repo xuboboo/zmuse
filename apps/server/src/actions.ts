@@ -96,7 +96,7 @@ export class ActionService {
       if (!existing) throw new AppError("Prepared action could not be loaded", 409);
       return existing;
     }
-    await this.record(owner, saved, "Ready for your review");
+    await this.record(owner, saved, "待你审阅");
     return saved;
   }
   async decide(

@@ -211,8 +211,8 @@ export class TaskWorker {
           { status: "queued", leaseId: null, leaseUntil: null },
         );
       } else {
-        const detail = error instanceof Error ? error.message : "Task execution failed";
-        await event("error", "Task needs attention", detail).catch((error) =>
+        const detail = error instanceof Error ? error.message : "任务执行失败";
+        await event("error", "任务需要关注", detail).catch((error) =>
           backgroundFailure("record task error", error),
         );
         await this.db.compareAndSwap(

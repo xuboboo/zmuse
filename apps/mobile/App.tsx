@@ -269,7 +269,9 @@ function WorkspaceShell({
             section === "chat"
               ? selection.id === mainId
                 ? "主对话"
-                : "侧聊"
+                : selection.existing
+                  ? "侧聊"
+                  : "新对话"
               : (title?.title ?? "ZMuse")
           }
         />
@@ -337,7 +339,7 @@ function WorkspaceShell({
                       style={{ alignSelf: "flex-start", marginBottom: 18 }}
                       onPress={() => navigate("apps")}
                     >
-                      Back to Apps
+                      返回应用
                     </Button>
                   )}
                   <Text style={[s.title, { fontSize: 25, marginBottom: 22 }]}>{title?.title}</Text>

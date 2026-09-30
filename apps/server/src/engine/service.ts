@@ -91,8 +91,8 @@ export class AgentService {
             backgroundFailure("recover accepted idea", error);
             await this.notify(
               owner,
-              "Accepted idea needs attention",
-              "Open the idea again after making room for another task.",
+              "想法接纳需要处理",
+              "先腾出任务空间，再重新打开这个想法。",
               undefined,
               `idea-recovery:${value.id}`,
             );
@@ -105,8 +105,8 @@ export class AgentService {
           await this.refreshIdeas(owner).catch(async () => {
             await this.notify(
               owner,
-              "Source refresh needs attention",
-              "Reconnect the source or refresh Ideas to see the error.",
+              "来源刷新需要处理",
+              "重新连接来源，或刷新「想法」查看错误。",
               undefined,
               `source-error:${Math.floor(Date.now() / 3600000)}`,
             );
@@ -194,17 +194,17 @@ export class AgentService {
     const titles =
       input.kind === "document"
         ? [
-            "Find the source document",
-            "Fill a new copy",
-            "Prepare a reply",
-            "Wait for your decision",
-            "Record the outcome",
+            "找到来源文档",
+            "填写新副本",
+            "准备回复",
+            "等你决定",
+            "记录结果",
           ]
         : input.kind === "monitor"
-          ? ["Check the source", "Compare with the last observation", "Report a meaningful change"]
+          ? ["检查来源", "与上次观察对比", "汇报有意义的变化"]
           : input.kind === "finance"
-            ? ["Validate transactions", "Calculate the summary", "Save your tracker"]
-            : ["Understand the outcome", "Plan the work", "Use connected tools", "Return a result"];
+            ? ["校验流水", "汇总统计", "保存到你的记账本"]
+            : ["理解目标", "规划步骤", "使用已连接的工具", "返回结果"];
     const task: AgentTask = {
       id,
       title: input.title ?? input.prompt.slice(0, 90),
@@ -742,7 +742,7 @@ export class AgentService {
       const action = await this.db.get<ActionProposal>(owner, "actions", task.actionId);
       if (!action) throw new Error("The linked review could not be found");
       if (action.status === "succeeded") {
-        await context.event("result", "Approved action completed", action.result);
+        await context.event("result", "已批准的操作已完成", action.result);
         if (task.kind === "document")
           return this.finish(task, context, action.result ?? "Reply completed");
         task = await context.checkpoint({
@@ -791,7 +791,7 @@ export class AgentService {
             resumingMonitor: false,
             failureStreak,
             notice: {
-              title: "Watch needs attention",
+              title: "监控需要关注",
               body: detail,
               key: `watch-error:${task.id}:${failureStreak}:${failures >= 5 ? "paused" : "retry"}`,
             },
@@ -828,7 +828,7 @@ export class AgentService {
   }
   async finish(task: AgentTask, context: TaskContext, result: string) {
     await context.guard();
-    await context.event("result", "Work completed", result);
+    await context.event("result", "任务已完成", result);
     return {
       status: "succeeded" as const,
       result,
@@ -841,7 +841,7 @@ export class AgentService {
       await this.notify(
         owner,
         task.title,
-        task.result ?? "Work completed",
+        task.result ?? "任务已完成",
         task.id,
         `task-done:${task.id}`,
       );
@@ -866,7 +866,7 @@ export class AgentService {
     } else if (task.status === "failed") {
       await this.notify(
         owner,
-        "Task needs attention",
+        "任务需要关注",
         task.error ?? task.title,
         task.id,
         `task-error:${task.id}:${task.attempts}`,
@@ -874,7 +874,7 @@ export class AgentService {
     } else if (task.status === "waiting_input") {
       await this.notify(
         owner,
-        "Your details are needed",
+        "需要你补充信息",
         task.question ?? task.title,
         task.id,
         `input:${task.id}:${hash(task.question ?? "")}`,
@@ -882,7 +882,7 @@ export class AgentService {
     } else if (task.status === "waiting_approval") {
       await this.notify(
         owner,
-        "Ready for your review",
+        "待你审阅",
         task.title,
         task.id,
         `review:${task.actionId}`,
@@ -1058,14 +1058,14 @@ export class AgentService {
     );
     if (shouldNotify) {
       await ctx.guard();
-      await ctx.event("result", "A meaningful change was found", text.slice(0, 500));
+      await ctx.event("result", "检测到有意义的变化", text.slice(0, 500));
     }
     return {
       status: "scheduled",
       nextRunAt: nextCheckAt,
       result: shouldNotify
-        ? "Change found. A notification is ready."
-        : "Watching. I'll check again on schedule.",
+        ? "发现变化，通知已就绪。"
+        : "监控中，将按计划再次检查。",
       state: {
         ...task.state,
         sessionId: observation.sessionId,
