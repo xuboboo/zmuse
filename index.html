@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZMuse — 让 AI 拥有一台自己的电脑</title>
+<meta name="description" content="ZMuse：一个拥有图形化云桌面、真实浏览器和 Linux 终端的中文个人智能体。图形化云桌面 · 真实浏览委托 · 全天候自主运行。开源 MIT。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfbfd">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0b12">
+<meta property="og:title" content="ZMuse — 让 AI 拥有一台自己的电脑">
+<meta property="og:description" content="图形化云桌面 · 真实浏览委托 · 全天候自主运行。一个拥有图形化云桌面、真实浏览器和 Linux 终端的中文个人智能体。">
+<meta property="og:type" content="website">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #fbfbfd;
+    --bg-tint: #f4f4f9;
+    --surface: #ffffff;
+    --fg: #1d1d1f;
+    --fg-2: #55555e;
+    --fg-3: #86868b;
+    --border: rgba(0, 0, 0, 0.09);
+    --border-strong: rgba(0, 0, 0, 0.14);
+    --indigo: #4338CA;
+    --blue: #0071E3;
+    --accent: #4338CA;
+    --icon: #4f46e5;
+    --grad: linear-gradient(120deg, #4338CA 10%, #0071E3 90%);
+    --nav-bg: rgba(251, 251, 253, 0.78);
+    --glow-1: rgba(67, 56, 202, 0.14);
+    --glow-2: rgba(0, 113, 227, 0.10);
+    --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 12px 32px -16px rgba(29, 29, 31, 0.12);
+    --shot-shadow: 0 2px 6px rgba(0, 0, 0, 0.05), 0 32px 64px -24px rgba(29, 29, 31, 0.22);
+    --code-bg: #16161f;
+    --code-fg: #e6e6ee;
+    --code-dim: #8a8a9e;
+    --code-str: #7cc4ff;
+    --code-cmt: #6b7a5e;
+    --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", "Segoe UI", Roboto, "Noto Sans SC", "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Consolas, Menlo, "Courier New", monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0b0b12;
+      --bg-tint: #101019;
+      --surface: #15151f;
+      --fg: #f5f5f7;
+      --fg-2: #b9b9c3;
+      --fg-3: #85858f;
+      --border: rgba(255, 255, 255, 0.10);
+      --border-strong: rgba(255, 255, 255, 0.18);
+      --accent: #8f88ff;
+      --icon: #a5a0ff;
+      --nav-bg: rgba(11, 11, 18, 0.72);
+      --glow-1: rgba(103, 88, 255, 0.16);
+      --glow-2: rgba(0, 113, 227, 0.13);
+      --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px -16px rgba(0, 0, 0, 0.5);
+      --shot-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), 0 32px 64px -24px rgba(0, 0, 0, 0.6);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 84px;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  html, body { overflow-x: clip; }
+  @supports not (overflow-x: clip) { html, body { overflow-x: hidden; } }
+  ::selection { background: rgba(67, 56, 202, 0.22); }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  img { max-width: 100%; height: auto; display: block; }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- 导航 ---------- */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--nav-bg);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--fg);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+  }
+  .brand:hover { text-decoration: none; }
+  .brand svg { display: block; filter: drop-shadow(0 2px 6px rgba(67, 56, 202, 0.35)); }
+  .nav-links { display: flex; align-items: center; gap: 28px; }
+  .nav-links a {
+    color: var(--fg-2);
+    font-size: 14.5px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--fg); text-decoration: none; }
+  .nav-links a.github-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--fg);
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    padding: 7px 16px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .nav-links a.github-link:hover { border-color: var(--accent); transform: translateY(-1px); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    padding: 108px 0 96px;
+    text-align: center;
+  }
+  .halo, .orb {
+    position: absolute;
+    pointer-events: none;
+    z-index: -1;
+    border-radius: 50%;
+  }
+  .halo {
+    top: -220px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1100px;
+    height: 640px;
+    background: radial-gradient(closest-side, var(--glow-1), transparent 70%);
+  }
+  .orb-1 {
+    top: 40px; left: 6%;
+    width: 380px; height: 380px;
+    background: radial-gradient(closest-side, var(--glow-2), transparent 70%);
+    filter: blur(10px);
+  }
+  .orb-2 {
+    top: 220px; right: 4%;
+    width: 440px; height: 440px;
+    background: radial-gradient(closest-side, var(--glow-1), transparent 70%);
+    filter: blur(12px);
+  }
+  .hero-icon {
+    width: 84px;
+    height: 84px;
+    margin: 0 auto 30px;
+    filter: drop-shadow(0 10px 30px rgba(67, 56, 202, 0.4));
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--fg-2);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 7px 18px;
+    margin-bottom: 26px;
+  }
+  .badge .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #34c759;
+    box-shadow: 0 0 0 4px rgba(52, 199, 89, 0.18);
+  }
+  .hero h1 {
+    margin: 0 0 22px;
+    font-size: clamp(64px, 12vw, 118px);
+    line-height: 1.02;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .hero .sub {
+    max-width: 760px;
+    margin: 0 auto 40px;
+    font-size: clamp(18px, 2.4vw, 22px);
+    line-height: 1.65;
+    color: var(--fg-2);
+  }
+  .hero .sub strong { color: var(--fg); font-weight: 600; }
+  .hero-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 999px;
+    padding: 14px 30px;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, filter 0.2s;
+  }
+  .btn:hover { text-decoration: none; transform: translateY(-2px); }
+  .btn-primary {
+    color: #fff;
+    background: var(--grad);
+    box-shadow: 0 8px 24px -8px rgba(67, 56, 202, 0.55);
+  }
+  .btn-primary:hover { filter: brightness(1.08); box-shadow: 0 12px 32px -8px rgba(67, 56, 202, 0.65); }
+  .btn-ghost {
+    color: var(--fg);
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+  }
+  .btn-ghost:hover { border-color: var(--accent); }
+
+  /* ---------- 区块通用 ---------- */
+  section { padding: 110px 0; }
+  .section-tint { background: var(--bg-tint); }
+  .section-head { max-width: 680px; margin: 0 auto 60px; text-align: center; }
+  .eyebrow {
+    display: inline-block;
+    font-size: 13.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    margin-bottom: 14px;
+  }
+  .section-head h2 {
+    margin: 0 0 16px;
+    font-size: clamp(30px, 4.4vw, 44px);
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: -0.022em;
+  }
+  .section-head .lede {
+    margin: 0;
+    font-size: 17.5px;
+    color: var(--fg-2);
+  }
+
+  /* ---------- 特性卡片 ---------- */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 34px 32px 30px;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(67, 56, 202, 0.35);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04), 0 24px 48px -20px rgba(29, 29, 31, 0.22);
+  }
+  .card-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(67, 56, 202, 0.12), rgba(0, 113, 227, 0.12));
+    color: var(--icon);
+    margin-bottom: 20px;
+  }
+  .card h3 {
+    margin: 0 0 10px;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .card p { margin: 0; font-size: 15.5px; line-height: 1.75; color: var(--fg-2); }
+
+  /* ---------- 截图 ---------- */
+  .shot { margin: 0 0 64px; }
+  .shot:last-child { margin-bottom: 0; }
+  .shot-frame {
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: var(--shot-shadow);
+    background: var(--surface);
+  }
+  .shot-frame img { width: 100%; }
+  .shot figcaption { margin-top: 22px; text-align: center; }
+  .shot figcaption h3 {
+    margin: 0 0 8px;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .shot figcaption p {
+    margin: 0 auto;
+    max-width: 640px;
+    font-size: 15.5px;
+    color: var(--fg-2);
+  }
+
+  /* ---------- 快速开始 ---------- */
+  .prereq {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: -26px 0 52px;
+  }
+  .prereq span {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--fg-2);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 15px;
+  }
+  .steps { max-width: 820px; margin: 0 auto; }
+  .step { margin-bottom: 44px; }
+  .step:last-child { margin-bottom: 0; }
+  .step-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0 0 16px;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .step-num {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--grad);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .step p.note { margin: 14px 0 0; font-size: 15px; color: var(--fg-2); }
+  .terminal {
+    background: var(--code-bg);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 16px 40px -16px rgba(0, 0, 0, 0.35);
+  }
+  @media (prefers-color-scheme: dark) {
+    .terminal { box-shadow: none; }
+  }
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  .terminal-bar i {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .terminal-bar i:nth-child(1) { background: #ff5f57; }
+  .terminal-bar i:nth-child(2) { background: #febc2e; }
+  .terminal-bar i:nth-child(3) { background: #28c840; }
+  .terminal-bar em {
+    font-style: normal;
+    margin-left: 10px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--code-dim);
+  }
+  .terminal pre {
+    margin: 0;
+    padding: 18px 20px;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--code-fg);
+  }
+  .terminal .c { color: var(--code-cmt); }
+  .terminal .s { color: var(--code-str); }
+  .terminal .p { color: var(--code-dim); user-select: none; }
+  .relay-note {
+    max-width: 820px;
+    margin: 36px auto 0;
+    padding: 18px 22px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--indigo);
+    border-radius: 12px;
+    font-size: 14.5px;
+    color: var(--fg-2);
+  }
+  #quickstart .relay-note strong { color: var(--fg); font-weight: 600; }
+  .relay-note code {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    background: var(--bg-tint);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 1px 6px;
+  }
+
+  /* ---------- 页脚 ---------- */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 56px 0 64px;
+    text-align: center;
+  }
+  .footer-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .footer-tag { margin: 0 0 22px; font-size: 14.5px; color: var(--fg-3); }
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px 28px;
+    margin-bottom: 24px;
+  }
+  .footer-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14.5px;
+    font-weight: 500;
+  }
+  .footer-legal { font-size: 13px; color: var(--fg-3); line-height: 1.9; }
+
+  /* ---------- 响应式 ---------- */
+  @media (max-width: 860px) {
+    section { padding: 80px 0; }
+    .hero { padding: 72px 0 68px; }
+    .features-grid { grid-template-columns: 1fr; }
+    .card { padding: 28px 24px 26px; }
+    .br-d { display: none; }
+  }
+  @media (max-width: 640px) {
+    .nav-links a:not(.github-link) { display: none; }
+    body { font-size: 16px; }
+    .badge { font-size: 12.5px; }
+    .shot { margin-bottom: 48px; }
+    .terminal pre { font-size: 12.5px; padding: 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .nav-links a, .nav-links a.github-link, .btn, .card { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ======== 导航 ======== -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="#top" aria-label="ZMuse 首页">
+      <svg width="30" height="30" viewBox="0 0 512 512" aria-hidden="true">
+        <defs>
+          <linearGradient id="nav-bubble" x1="0" y1="0" x2="0" y2="1" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#7C5CF6"/><stop offset="1" stop-color="#4338CA"/>
+          </linearGradient>
+          <linearGradient id="nav-tail" x1="0" y1="0" x2="0" y2="1" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#5B48D6"/><stop offset="1" stop-color="#4338CA"/>
+          </linearGradient>
+        </defs>
+        <rect x="56" y="72" width="400" height="312" rx="146" fill="url(#nav-bubble)"/>
+        <path d="M132 356 L232 368 L156 464 Z" fill="url(#nav-tail)"/>
+        <path d="M256 128 C 264 176, 280 192, 328 200 C 280 208, 264 224, 256 272 C 248 224, 232 208, 184 200 C 232 192, 248 176, 256 128 Z" fill="#FFFFFF"/>
+        <path d="M376 140 C 380 160, 388 168, 408 172 C 388 176, 380 184, 376 204 C 372 184, 364 176, 344 172 C 364 168, 372 160, 376 140 Z" fill="#FFD34D"/>
+        <circle cx="196" cy="322" r="14" fill="#FFFFFF" opacity="0.95"/>
+        <circle cx="250" cy="322" r="14" fill="#FFFFFF" opacity="0.75"/>
+        <circle cx="304" cy="322" r="14" fill="#FFFFFF" opacity="0.55"/>
+      </svg>
+      ZMuse
+    </a>
+    <div class="nav-links">
+      <a href="#features">特性</a>
+      <a href="#screenshots">界面</a>
+      <a href="#quickstart">快速开始</a>
+      <a class="github-link" href="https://github.com/xuboboo/zmuse" target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- ======== Hero ======== -->
+<header class="hero" id="top">
+  <div class="halo" aria-hidden="true"></div>
+  <div class="orb orb-1" aria-hidden="true"></div>
+  <div class="orb orb-2" aria-hidden="true"></div>
+  <div class="container">
+    <svg class="hero-icon" viewBox="0 0 512 512" role="img" aria-label="ZMuse 图标">
+      <defs>
+        <linearGradient id="hero-bubble" x1="0" y1="0" x2="0" y2="1" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#7C5CF6"/><stop offset="1" stop-color="#4338CA"/>
+        </linearGradient>
+        <linearGradient id="hero-tail" x1="0" y1="0" x2="0" y2="1" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#5B48D6"/><stop offset="1" stop-color="#4338CA"/>
+        </linearGradient>
+      </defs>
+      <rect x="56" y="72" width="400" height="312" rx="146" fill="url(#hero-bubble)"/>
+      <path d="M132 356 L232 368 L156 464 Z" fill="url(#hero-tail)"/>
+      <path d="M256 128 C 264 176, 280 192, 328 200 C 280 208, 264 224, 256 272 C 248 224, 232 208, 184 200 C 232 192, 248 176, 256 128 Z" fill="#FFFFFF"/>
+      <path d="M376 140 C 380 160, 388 168, 408 172 C 388 176, 380 184, 376 204 C 372 184, 364 176, 344 172 C 364 168, 372 160, 376 140 Z" fill="#FFD34D"/>
+      <circle cx="196" cy="322" r="14" fill="#FFFFFF" opacity="0.95"/>
+      <circle cx="250" cy="322" r="14" fill="#FFFFFF" opacity="0.75"/>
+      <circle cx="304" cy="322" r="14" fill="#FFFFFF" opacity="0.55"/>
+    </svg>
+    <div class="badge"><span class="dot" aria-hidden="true"></span>开源 · MIT · v1.0 单用户版 · Windows</div>
+    <h1>ZMuse</h1>
+    <p class="sub"><strong>让 AI 拥有一台自己的电脑</strong>——图形化云桌面 · 真实浏览委托 · 全天候自主运行</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="https://github.com/xuboboo/zmuse" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub 仓库
+      </a>
+      <a class="btn btn-ghost" href="#quickstart">快速开始</a>
+    </div>
+  </div>
+</header>
+
+<!-- ======== 特性 ======== -->
+<section id="features">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">核心特性</span>
+      <h2>把「AI 聊天框」<br class="br-d">升级成「会干活的电脑」</h2>
+      <p class="lede">一个拥有图形化云桌面、真实浏览器和 Linux 终端的中文个人智能体。你说目标，它规划并执行。</p>
+    </div>
+    <div class="features-grid">
+      <div class="card">
+        <span class="card-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </span>
+        <h3>图形化云桌面</h3>
+        <p>应用内直接操作完整 Linux 桌面：Xfce + Firefox，中文环境，可上网。画面实时呈现，你随时可以亲手接管。</p>
+      </div>
+      <div class="card">
+        <span class="card-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.7-3.8-9S9.5 5.6 12 3z"/></svg>
+        </span>
+        <h3>真实浏览委托</h3>
+        <p>智能体用真实 Chromium 打开网页搜集信息，浏览过程内嵌对话流、实时可见，看不对就随时接管。</p>
+      </div>
+      <div class="card">
+        <span class="card-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+        </span>
+        <h3>持久任务引擎</h3>
+        <p>任务后台持久执行：计划、断点、租约、崩溃恢复。关窗缩到托盘继续跑，子进程崩溃 3 秒自愈。</p>
+      </div>
+      <div class="card">
+        <span class="card-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 11.5l2 2 4-4.5"/></svg>
+        </span>
+        <h3>人工审批</h3>
+        <p>发邮件、改日历等敏感动作零自动执行，必须逐条人工确认后才执行，敏感操作始终在你手里。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== 截图 ======== -->
+<section id="screenshots" class="section-tint">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">界面一览</span>
+      <h2>真机实拍，所见即所得</h2>
+      <p class="lede">以下均为实机运行画面。</p>
+    </div>
+    <figure class="shot">
+      <div class="shot-frame">
+        <img src="screenshots/02-browse-delegation.png" alt="ZMuse 界面：真实浏览委托，智能体读取 Hacker News 并用中文总结" width="1800" height="1125" loading="lazy">
+      </div>
+      <figcaption>
+        <h3>真实浏览委托 · Hacker News 实测</h3>
+        <p>一句「帮我看看 Hacker News 首页有什么有趣的」——真实浏览器立即出动，过程内嵌对话流实时可见，随时可接管，结果用中文娓娓道来。</p>
+      </figcaption>
+    </figure>
+    <figure class="shot">
+      <div class="shot-frame">
+        <img src="screenshots/03-cloud-desktop.png" alt="ZMuse 界面：图形化云桌面面板，实时呈现 Linux 桌面" width="1800" height="1125" loading="lazy">
+      </div>
+      <figcaption>
+        <h3>图形化云桌面 · 应用内实时操作</h3>
+        <p>完整的 Linux 桌面环境：内置 Firefox 浏览器（可上网）、中文环境与 fcitx5 拼音输入，画面实时呈现，你随时可以亲手接管。</p>
+      </figcaption>
+    </figure>
+    <figure class="shot">
+      <div class="shot-frame">
+        <img src="screenshots/01-home.png" alt="ZMuse 中文首页：欢迎使用界面与建议提示词" width="1800" height="1125" loading="lazy">
+      </div>
+      <figcaption>
+        <h3>中文首页 · 一句话开始</h3>
+        <p>侧栏对话、动态、目标、应用一应俱全；顶部 Windows 原生窗口控制，关窗缩到托盘后台继续跑。</p>
+      </figcaption>
+    </figure>
+    <figure class="shot">
+      <div class="shot-frame">
+        <img src="screenshots/04-browser-tool.png" alt="ZMuse 界面：浏览器工具页，管理浏览会话" width="1800" height="1125" loading="lazy">
+      </div>
+      <figcaption>
+        <h3>浏览器工具页 · 会话随开随用</h3>
+        <p>输入网址立即打开专属浏览会话，与智能体共享同一套持久浏览器，看过什么、用到哪里，全都留得住。</p>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ======== 快速开始 ======== -->
+<section id="quickstart">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">快速开始</span>
+      <h2>三步，在你的 Windows 上跑起来</h2>
+      <p class="lede">克隆、配置、双击启动——桌面窗口与全部后端服务一键拉起。</p>
+    </div>
+    <div class="prereq">
+      <span>Windows 10 / 11</span>
+      <span>Node.js 22+</span>
+      <span>pnpm 10+</span>
+      <span>Docker Desktop</span>
+      <span>CopilotKit Intelligence 项目密钥</span>
+      <span>任意 OpenAI 兼容模型密钥</span>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <h3 class="step-title"><span class="step-num">1</span>克隆并构建</h3>
+        <div class="terminal">
+          <div class="terminal-bar"><i></i><i></i><i></i><em>Windows 终端</em></div>
+          <pre><span class="c"># 获取代码并构建（需 Docker Desktop 已启动）</span>
+git clone <span class="s">https://github.com/xuboboo/zmuse.git</span>
+cd zmuse
+pnpm install --frozen-lockfile
+pnpm build:server &amp; pnpm build:web
+docker build -t openmuse-computer:local apps/computer
+docker build -t openmuse-desktop:local  apps/desktop</pre>
+        </div>
+      </div>
+      <div class="step">
+        <h3 class="step-title"><span class="step-num">2</span>配置 <code style="font-family:var(--font-mono);font-size:0.9em;">.env</code></h3>
+        <p class="note" style="margin:0 0 16px;">复制 <code style="font-family:var(--font-mono);font-size:0.9em;">.env.example</code> 为 <code style="font-family:var(--font-mono);font-size:0.9em;">.env</code> 并填入密钥。三个变量即可切换任意国内中转，无需改代码：</p>
+        <div class="terminal">
+          <div class="terminal-bar"><i></i><i></i><i></i><em>.env</em></div>
+          <pre><span class="c"># 国内中转即插即用（OpenAI 兼容协议）</span>
+AGENT_BACKEND=model
+MODEL=openai/你的模型id
+OPENAI_API_KEY=sk-xxx
+OPENAI_BASE_URL=<span class="s">https://你的中转/v1</span></pre>
+        </div>
+      </div>
+      <div class="step">
+        <h3 class="step-title"><span class="step-num">3</span>双击 <code style="font-family:var(--font-mono);font-size:0.9em;">StartOpenMuse.cmd</code> 一键启动</h3>
+        <p class="note">自动拉起 API、浏览器 worker 与中文界面；关窗缩到托盘，后台任务继续；子进程崩溃 3 秒自愈，托盘退出走优雅关停，不伤数据。</p>
+      </div>
+    </div>
+    <div class="relay-note">
+      <strong>国内中转预设：</strong><code>AgentRouter</code> → <code>https://agentrouter.org/v1</code>（GitHub 登录注册，开发者免费额度）、<code>OpenRouter</code> → <code>https://openrouter.ai/api/v1</code>（全球聚合，模型最全），或任意 OpenAI 兼容网关，填其 /v1 地址即可。
+    </div>
+  </div>
+</section>
+
+<!-- ======== 页脚 ======== -->
+<footer>
+  <div class="container">
+    <div class="footer-brand">
+      <svg width="26" height="26" viewBox="0 0 512 512" aria-hidden="true">
+        <defs>
+          <linearGradient id="ft-bubble" x1="0" y1="0" x2="0" y2="1" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#7C5CF6"/><stop offset="1" stop-color="#4338CA"/>
+          </linearGradient>
+        </defs>
+        <rect x="56" y="72" width="400" height="312" rx="146" fill="url(#ft-bubble)"/>
+        <path d="M132 356 L232 368 L156 464 Z" fill="#4C3FD0"/>
+        <path d="M256 128 C 264 176, 280 192, 328 200 C 280 208, 264 224, 256 272 C 248 224, 232 208, 184 200 C 232 192, 248 176, 256 128 Z" fill="#FFFFFF"/>
+        <path d="M376 140 C 380 160, 388 168, 408 172 C 388 176, 380 184, 376 204 C 372 184, 364 176, 344 172 C 364 168, 372 160, 376 140 Z" fill="#FFD34D"/>
+        <circle cx="196" cy="322" r="14" fill="#FFFFFF" opacity="0.95"/>
+        <circle cx="250" cy="322" r="14" fill="#FFFFFF" opacity="0.75"/>
+        <circle cx="304" cy="322" r="14" fill="#FFFFFF" opacity="0.55"/>
+      </svg>
+      ZMuse
+    </div>
+    <p class="footer-tag">让 AI 拥有一台自己的电脑</p>
+    <div class="footer-links">
+      <a href="https://github.com/xuboboo/zmuse" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+      <a href="https://github.com/CopilotKit/OpenMuse" target="_blank" rel="noopener">上游项目 OpenMuse</a>
+      <a href="https://github.com/xuboboo/zmuse/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+    </div>
+    <p class="footer-legal">
+      MIT © OpenMuse contributors · ZMuse 改造部分同样以 MIT 发布<br>
+      基于 <a href="https://github.com/CopilotKit/OpenMuse" target="_blank" rel="noopener">CopilotKit/OpenMuse</a> 构建，感谢上游与 CopilotKit、noVNC、Xfce 等开源项目
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
