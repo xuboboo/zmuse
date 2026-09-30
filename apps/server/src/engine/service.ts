@@ -193,13 +193,7 @@ export class AgentService {
       throw new AppError("Finish or cancel some tasks before adding more", 409);
     const titles =
       input.kind === "document"
-        ? [
-            "找到来源文档",
-            "填写新副本",
-            "准备回复",
-            "等你决定",
-            "记录结果",
-          ]
+        ? ["找到来源文档", "填写新副本", "准备回复", "等你决定", "记录结果"]
         : input.kind === "monitor"
           ? ["检查来源", "与上次观察对比", "汇报有意义的变化"]
           : input.kind === "finance"
@@ -880,13 +874,7 @@ export class AgentService {
         `input:${task.id}:${hash(task.question ?? "")}`,
       );
     } else if (task.status === "waiting_approval") {
-      await this.notify(
-        owner,
-        "待你审阅",
-        task.title,
-        task.id,
-        `review:${task.actionId}`,
-      );
+      await this.notify(owner, "待你审阅", task.title, task.id, `review:${task.actionId}`);
     }
     const notice = z
       .object({ title: z.string(), body: z.string(), key: z.string() })
@@ -1063,9 +1051,7 @@ export class AgentService {
     return {
       status: "scheduled",
       nextRunAt: nextCheckAt,
-      result: shouldNotify
-        ? "发现变化，通知已就绪。"
-        : "监控中，将按计划再次检查。",
+      result: shouldNotify ? "发现变化，通知已就绪。" : "监控中，将按计划再次检查。",
       state: {
         ...task.state,
         sessionId: observation.sessionId,

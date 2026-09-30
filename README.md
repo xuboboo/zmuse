@@ -5,7 +5,7 @@
 **一个拥有图形化云桌面、真实浏览器和 Linux 终端的中文个人智能体。**
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-![Status](https://img.shields.io/badge/status-v1.0%20%E5%8D%95%E7%94%A8%E6%88%B7%E7%89%88-0071E3.svg)
+![Status](https://img.shields.io/badge/status-v1.0.0--beta%20%E5%85%AC%E6%B5%8B%E7%89%88-0071E3.svg)
 ![Platform](https://img.shields.io/badge/platform-Windows-0078D4.svg)
 ![Built on](https://img.shields.io/badge/built%20on-OpenMuse-8A63F4.svg)
 
@@ -80,7 +80,7 @@ docker build -t openmuse-desktop:local  apps/desktop
 
 ### 模型接入预设（国内中转即插即用）
 
-`.env` 里三个变量切换任意中转，无需改代码：
+`.env` 里四个变量切换任意中转，无需改代码：
 
 ```dotenv
 AGENT_BACKEND=model
@@ -109,6 +109,8 @@ pnpm dev:browser    # 浏览器 worker 8790
 pnpm dev:web        # Web 8081
 ```
 
+[❓ FAQ 常见问题](docs/FAQ.md) · [📣 公测公告](docs/PUBLIC-BETA.md)
+
 ## 🏗️ 架构
 
 ```text
@@ -134,7 +136,7 @@ Windows 桌面程序（Electron：进程编排 + 托盘 + 自愈守护）
 | 能力 | 上游 | ZMuse |
 | --- | --- | --- |
 | 图形化云桌面 | ROADMAP 未实现 | ✅ 应用内实时操作（Xfce + noVNC） |
-| 中文界面与中文桌面环境 | 无 | ✅ 全站中文化 + Noto CJK + zh_CN |
+| 中文界面与中文桌面环境 | 无 | ✅ 全站中文化 + Noto CJK + zh_CN + fcitx5 拼音输入法 |
 | 模型接入 | 海外直连为主 | ✅ OpenAI 兼容中转开箱即用 |
 | Windows 一键启动 | 无 | ✅ Electron 壳：托管后端 + 托盘 + 自愈 |
 | 优雅退出 | — | ✅ 全链路 HTTP 优雅关停，杜绝数据库损坏 |
@@ -146,7 +148,7 @@ Windows 桌面程序（Electron：进程编排 + 托盘 + 自愈守护）
 - [ ] 会话持久化本地化：用本地 thread store 替换对 CopilotKit 云的唯一外部依赖
 - [ ] 多用户 VM 编排与配额
 - [ ] 国产模型直连预设（通义 / 智谱 / DeepSeek）
-- [ ] 桌面内输入法、分辨率自适应、音频
+- [ ] 桌面内音频（拼音输入法与分辨率自适应已随 v1.0 交付）
 
 ## 🙏 致谢
 
