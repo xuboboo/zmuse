@@ -14,8 +14,8 @@
  */
 
 import { spawnSync } from "node:child_process";
-import net from "node:net";
 import fs from "node:fs";
+import net from "node:net";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -28,12 +28,7 @@ const envPath = path.join(repoRoot, ".env");
 // ── 检查项常量（依据 README「快速开始」与 apps/server/src/config.ts、infra/compose.yaml）──
 
 // .env 中必须出现的键名（只核对键名是否出现，与值无关）
-const REQUIRED_ENV_KEYS = [
-  "CPK_INTELLIGENCE_API_KEY",
-  "AGENT_BACKEND",
-  "MODEL",
-  "OPENAI_API_KEY",
-];
+const REQUIRED_ENV_KEYS = ["CPK_INTELLIGENCE_API_KEY", "AGENT_BACKEND", "MODEL", "OPENAI_API_KEY"];
 
 // OpenMuse 各服务需要的本地端口：8081 网页界面、8787 API（config.ts 默认 PORT）、8790 浏览器 worker（compose.yaml）
 const REQUIRED_PORTS = [8081, 8787, 8790];
@@ -155,7 +150,11 @@ function checkDocker(results) {
   results.push({
     name: "Docker 可用",
     ok,
-    lines: [ok ? "docker info 正常，Docker 守护进程已在运行" : "docker info 执行失败：Docker 未安装，或守护进程未运行"],
+    lines: [
+      ok
+        ? "docker info 正常，Docker 守护进程已在运行"
+        : "docker info 执行失败：Docker 未安装，或守护进程未运行",
+    ],
     hints: ok
       ? []
       : [
@@ -174,7 +173,11 @@ async function checkPorts(results) {
   for (const port of REQUIRED_PORTS) {
     const { free, code } = await probePort(port);
     allFree = allFree && free;
-    lines.push(free ? `端口 ${port}：空闲` : `端口 ${port}：被占用${code && code !== "EADDRINUSE" ? `（错误码 ${code}）` : ""}`);
+    lines.push(
+      free
+        ? `端口 ${port}：空闲`
+        : `端口 ${port}：被占用${code && code !== "EADDRINUSE" ? `（错误码 ${code}）` : ""}`,
+    );
     if (!free) {
       hints.push(
         `端口 ${port} 被占用时的排查三步：` +
@@ -207,7 +210,7 @@ function checkEnvFile(results) {
       lines: [`没有找到 ${envPath}`],
       hints: [
         "在仓库根目录执行：copy .env.example .env",
-        "然后用记事本/编辑器打开 .env，填入下列 4 个键的值：" + REQUIRED_ENV_KEYS.join("、"),
+        `然后用记事本/编辑器打开 .env，填入下列 4 个键的值：${REQUIRED_ENV_KEYS.join("、")}`,
         "（.env 含密钥，不要截图外发、不要提交进 git）",
       ],
     });
@@ -279,10 +282,17 @@ function checkDockerImages(results, dockerOk) {
     return;
   }
 
-  const existing = new Set(r.output.split(/\r?\n/).map((s) => s.trim()).filter(Boolean));
+  const existing = new Set(
+    r.output
+      .split(/\r?\n/)
+      .map((s) => s.trim())
+      .filter(Boolean),
+  );
   const missing = REQUIRED_IMAGES.filter((it) => !existing.has(it.image));
   const ok = missing.length === 0;
-  const lines = [ok ? "本地镜像齐全" : `缺少 ${missing.length}/${REQUIRED_IMAGES.length} 个本地镜像`];
+  const lines = [
+    ok ? "本地镜像齐全" : `缺少 ${missing.length}/${REQUIRED_IMAGES.length} 个本地镜像`,
+  ];
   for (const it of REQUIRED_IMAGES) {
     lines.push(`· ${it.image}：${existing.has(it.image) ? "存在" : "缺失"}`);
   }
@@ -290,9 +300,7 @@ function checkDockerImages(results, dockerOk) {
     name: "Docker 镜像 openmuse-desktop:local / openmuse-computer:local",
     ok,
     lines,
-    hints: ok
-      ? []
-      : missing.map((it) => `在仓库根目录执行：${it.build}`),
+    hints: ok ? [] : missing.map((it) => `在仓库根目录执行：${it.build}`),
   });
 }
 
@@ -326,12 +334,18 @@ async function main() {
   console.log(" OpenMuse 新用户环境自检");
   console.log("==============================================");
   console.log("");
-  results.forEach((item, i) => printCheck(i + 1, total, item));
+  results.forEach((item, i) => {
+    printCheck(i + 1, total, item);
+  });
 
   console.log("----------------------------------------------");
-  console.log(`自检完成：共 ${total} 项，通过 ${total - failed.length} 项，未通过 ${failed.length} 项。`);
+  console.log(
+    `自检完成：共 ${total} 项，通过 ${total - failed.length} 项，未通过 ${failed.length} 项。`,
+  );
   if (failed.length === 0) {
-    console.log("✓ 全部通过！可以按 README 继续：pnpm install --frozen-lockfile，然后双击 StartOpenMuse.cmd");
+    console.log(
+      "✓ 全部通过！可以按 README 继续：pnpm install --frozen-lockfile，然后双击 StartOpenMuse.cmd",
+    );
     process.exitCode = 0;
   } else {
     console.log(`✗ 有 ${failed.length} 项未通过：请按上面各项的「对策」处理后，重新运行本脚本。`);

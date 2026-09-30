@@ -179,6 +179,8 @@ export async function createBrowserManager(options: {
           PATH: process.env.PATH ?? "/usr/bin:/bin",
           LANG: "C.UTF-8",
         },
+        // example.com 等站点按语言内容协商，固定英文保证自动化断言与抓取稳定
+        locale: "en-US",
         headless: true,
         viewport: { width: 1280, height: 800 },
         proxy: { server: proxy.url, bypass: "<-loopback>" },
