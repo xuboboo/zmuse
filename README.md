@@ -47,7 +47,7 @@ ZMuse 把"AI 聊天框"升级成"**会干活的电脑**"。你说目标，它规
 <details>
 <summary><b>更多界面</b>（点击展开）</summary>
 
-| 中文首页 | Windows 桌面程序全窗 |
+| 中文首页 | 浏览器工具页（Windows 原生窗口） |
 | --- | --- |
 | <img src="docs/screenshots/01-home.png" width="400"> | <img src="docs/screenshots/02-windows-app.png" width="400"> |
 
